@@ -24,11 +24,15 @@ class _APPBARState extends State<APPBAR> {
           ),
           const SizedBox(width: 10),
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Row(
+              children: [
+                LABEL(text: '${widget.user['ariary']}', size: 15, isBold: true),
+                LABEL(text: ' ariary'),
+                LABEL(text: ' (sold délivrable)', color: Colors.grey),
+              ],
+            ),
             LABEL(
-                text: '\$${widget.user['ariary'].toString()}',
                 size: 15,
-                isBold: true),
-            LABEL(
                 text:
                     'Niv. ${widget.user['level']} / ${widget.user['fullname']}'),
             LABEL(text: '${widget.user['exp']} exp ', color: Colors.grey),

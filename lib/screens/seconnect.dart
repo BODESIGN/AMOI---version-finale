@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:amoi/componantes/button.dart';
 import 'package:amoi/componantes/input.dart';
 import 'package:amoi/componantes/label.dart';
+import 'package:amoi/functions/boitePlein.dart';
 import 'package:amoi/functions/login.dart';
 import 'package:amoi/main.dart';
 import 'package:flutter/material.dart';
@@ -96,6 +97,8 @@ class _SECONNECTState extends State<SECONNECT> {
     // -- get ADMINISTRATOR
     base.select(table['setting']!, table['admin']!, (result, value) {
       administrator = value.data() as Map<String, Object?>;
+      cote = administrator['cote'];
+      bonusSortant = administrator['bonusSortant'];
     });
   }
 

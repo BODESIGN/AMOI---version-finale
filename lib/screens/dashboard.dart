@@ -264,7 +264,7 @@ class _DASHBOARDState extends State<DASHBOARD> {
     panel = PANEL(
         tabs: const [
           {'Dashboard': Icons.dashboard},
-          {'Profile': Icons.badge},
+          {'Profile': Icons.photo_camera_front_sharp},
           {'Porte feuille': Icons.wallet},
           {'Mes tickets': Icons.receipt_rounded},
           {'Aide': Icons.help_center},
@@ -394,7 +394,7 @@ class _DASHBOARDState extends State<DASHBOARD> {
                   ])),
 
           // AIDE
-          const SingleChildScrollView(
+          SingleChildScrollView(
               scrollDirection: Axis.vertical, child: MANUEL()),
 
           // DECONNXION

@@ -119,7 +119,7 @@ class BOITE {
                   text: "Mon code : ${map['code']}-${userActif['login']}",
                   color: Colors.grey),
               Row(children: [
-                BUTTON(text: 'Copier code', action: () => copieCodeToClip()),
+                BUTTON(text: 'Copier code', action: () => copieCodeToClip('${map['code']}-${userActif['login']}')),
                 const SizedBox(width: 10),
                 BUTTON(
                     text: 'Créer',
@@ -158,7 +158,7 @@ class BOITE {
                         child: Row(children: [
                           BUTTON(
                               text: 'Copier code',
-                              action: () => copieCodeToClip()),
+                              action: () => copieCodeToClip('${map['code']}-${userActif['login']}')),
                           if (!checIamInBoite(map)) const SizedBox(width: 10),
                           if (!checIamInBoite(map))
                             BUTTON(
@@ -206,7 +206,7 @@ class BOITE {
                               Row(children: [
                                 BUTTON(
                                     text: 'Copier code',
-                                    action: () => copieCodeToClip()),
+                                    action: () => copieCodeToClip('${map['code']}-${userActif['login']}')),
                                 const SizedBox(width: 10),
                                 BUTTON(
                                     text: 'Voir les membres',
@@ -327,11 +327,6 @@ class BOITE {
   }
 
   // ===================================================
-  copieCodeToClip() async {
-    toast.show('Code de parainage copiée');
-    await Clipboard.setData(
-        ClipboardData(text: '${map['code']}-${userActif['login']}'));
-  }
 
   updatePlaceJoin() {
     //  ETAGE
@@ -538,7 +533,10 @@ class BOITE {
     if (map['informations'][userActif['login']]['childNbr'] > 1) {
       meProgression += bonusSortant;
     }
-    meProgression -= fraisSecu;
+
+    if (map['informations'][userActif['login']]['etage'] > 2) {
+      meProgression -= fraisSecu;
+    }
 
     // ticket['informations']['cote child'] * ticket['informations']['nb child']
     // + ticket['informations']['cote etage'] * ticket['informations']['etage']

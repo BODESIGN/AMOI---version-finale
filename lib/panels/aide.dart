@@ -1,7 +1,16 @@
+import 'package:amoi/componantes/button.dart';
+import 'package:amoi/componantes/label.dart';
+import 'package:amoi/functions/boitePlein.dart';
+import 'package:amoi/main.dart';
 import 'package:flutter/material.dart';
 
 class MANUEL extends StatelessWidget {
-  const MANUEL({super.key});
+  MANUEL({super.key});
+
+  TextStyle h1 = const TextStyle(fontSize: 15, fontWeight: FontWeight.bold);
+  TextStyle p = const TextStyle(fontSize: 13);
+  TextStyle pG = const TextStyle(fontSize: 13, color: Colors.grey);
+  TextStyle pB = const TextStyle(fontSize: 13, fontWeight: FontWeight.bold);
 
   @override
   Widget build(BuildContext context) {
@@ -25,129 +34,205 @@ class MANUEL extends StatelessWidget {
                       child: Image.asset("assets/logo/logowhite.png"),
                     )),
                 const SizedBox(width: 5),
-                const Text('AMOI GROUPE')
+                Text('AMOI GROUPE', style: h1)
               ])),
           const SizedBox(height: 10),
           // Text('HELP explain niv max > ACTIONNAIRE'),
-          Text("Bienvenue sur l'application AMOI ☺️ "),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(children: [
+              Text("Bienvenue sur l'application", style: p),
+              Text(" AMOI ☺️ ", style: pB)
+            ]),
+          ),
 
           const SizedBox(height: 10),
           Text(
-              "📱 L'application est une application de parinage direct, qui consiste a recomonssé chaque personne de son effort dans un goupe (Boite)."),
+              "📱C'est une application de parrainage direct qui consiste à récompenser chaque personne de son effort dans un groupe (Boîte).",
+              style: p),
 
           const SizedBox(height: 10),
           Text(
-              "🚹 Chaque utilisateur a son propre compte est a le pouvoir d'augementé son sold par grace aux actions."),
-          Text("Les actions : Boite, Revenue actionnaire, etc..."),
+              "🚹 Chacun à son propre compte est a le pouvoir d'augmenter son plancher à travers des actions.",
+              style: p),
+          Text("(Exemple des actions : Boîte, revenue actionnaire, etc...)",
+              style: p),
 
           const SizedBox(height: 10),
+          Text('📦 Une Boîte', style: pB),
           Text(
-              "📦 Boite :  C'est une page qui contient une groupe de personne affins de donnée une pouvoir de parainnage au sortnat."),
-          Text("C'est une de la base de cette application."),
+              "C'est une page qui contient un groupe de gens, elle consiste à donner une puissance de parainnage au sortant.",
+              style: p),
+          Text("C'est une de la base de cette application.", style: p),
           Text(
-              "Chaque boite est composer par : des places qui sont éparpiée dans des etages "),
+              "Chaque boîte est composée par : des places qui sont éparpillées dans des étages.",
+              style: p),
           const SizedBox(height: 10),
-          Text("[Image 1]"),
+          SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Container(
+                    color: Colors.black12,
+                  width: 200,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Image.asset("assets/pic1.jpg"),
+                  ))),
           const SizedBox(height: 10),
+          Text('📈 Les etages', style: pB),
           Text(
-              "📈 Les etages porte chaqui un numéro de 1 vers la hauteur de la boite, comme dans l'image si-dessus. Chaque etage possède au mois 2 places (pour la dernière etage) et se multupli par 2 vers la 1er etage"),
+              "Elle porte chacun un numéro de 1 vers la hauteur de la boîte, comme dans l'image ci-dessus.",
+              style: p),
+          Text(
+              "Chaque étage possède au mois 2 places et se multiple par 2 vers le 1er étage",
+              style: p),
           const SizedBox(height: 10),
+          Text('⏺️ Les places', style: pB),
           Text(
-              "⏺️ Les places sont les points definnie dans chaque etage, chaque place peuve ètre occupé par une personne."),
+              "Ce sont des points définis dans chaque étage, chaque place peut être occupée par une personne.",
+              style: p),
           const SizedBox(height: 10),
-          Text("Fonctionnement d'une boites "),
+          Text("Fonctionnement d'une Boîtes", style: pB),
           Text(
-              "Une personne peuvent créer ou rejoindre une boite, si il possède assez de fond pour payé le montant d'investisement (MI) de la boite ;"),
+              "Une personne peut créer ou rejoindre une boîte, s'il possède assez de fond pour payer le montant d'investissement (MI) de la boîte.",
+              style: p),
           Text(
-              "Chaque personne qui rejoind une boite prend une place dans la 1er etage de la boite;"),
+              "Chaque personne qui rejoint une Boîte prend une place dans le 1er étage de la boîte.",
+              style: p),
           Text(
-              "Si les places dans la 1er etage sont plein la personne entre et declanche la monté d'etage (Explication dans l'image ci-dessous)"),
+              "Si les places dans le 1er étage sont pleines la personne entre et déclenchent la montée d'étage (Explication dans l'image ci-dessous)",
+              style: p),
           const SizedBox(height: 10),
-          Text("[Image 2 : new Boites > monté des personne]"),
-          const SizedBox(height: 10),
-          const SizedBox(height: 10),
-          Text("[Image 3 : boite plein > créer 2 boite]"),
-          const SizedBox(height: 10),
-          Text("💲 Ganger de l'argent dans une boite."),
+          Text("💵 Gagner de l'argent dans une Boîte.", style: pB),
           Text(
-              "Chaque boite possède un montant d'investissement (MI) definie par celui qui a créer la boite, dont chaque personne qui entre dans la boite doit payer afaint de le multipliée en sorntant de la boite."),
-          Text("Les Frais sont : "),
-          Text("Frais d'inscription : -4% de MI (deduit au moment de l'entré)"),
+              "Chaque boîte comporte un montant d'investissement (IM) défini par la personne qui a créé la boîte, que chaque personne qui entre la boîte doit payer.",
+              style: p),
+          Text("Récompense par child : +$cote%  de MI."),
+          Text("Récompense par étage : +$cote%  de MI."),
           Text(
-              "Entré d'un child : +55%  de MI par child (reçu au moment de l'entré de la child)"),
+              "Bonus : +$bonusSortant%  de MI. (si le sortant possède au moins 2 child)"),
+
+          const SizedBox(height: 10),
+          Text("👨‍👧‍👧 Child", style: pB),
           Text(
-              "Monté d'étage : +55% de MI /etage (reçu en dans la sorti en tant que sortant de la denière etage.)"),
+              "(exemple) votre child c'est une personne que vous avez invitée, est à rejoindre la Boîte ; une personne qui a rejoint la Boîte grâce à votre code de parrainage",
+              style: p),
+
+          const SizedBox(height: 10),
+          Text("🔖 Le niveau (Niv.)", style: pB),
+          Text(
+              "C'est l'ensemble des expériences et des progressions qu'une personne a faites.",
+              style: p),
+          Text(
+              "Les expériences sont gagnées graces à l'entrée dans une boîte et l'entrer d'un child dans une boîte.",
+              style: p),
+
+          const SizedBox(height: 10),
+          SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Container(
+                    color: Colors.black12,
+                  width: 200,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Image.asset("assets/pic2.jpg"),
+                  ))),
+          const SizedBox(height: 10),
+
+          Text("〽️ Privilège de chaque niveau", style: pB),
+          const SizedBox(height: 10),
+          Text("Niv. 1 : Membre junior ", style: pB),
+          Text(
+              "Boîte maximum : 5, Montant maximum dans le portefeuille : 100.000 ariary.",
+              style: p),
+          Text("Niv. 2 : Membre sénior ", style: pB),
+          Text(
+              "Boîte maximum : 10, Montant maximum dans le portefeuille : 500.000 ariary.",
+              style: p),
+          Text("Niv. 3 : Collaborateur junior ", style: pB),
+          Text(
+              "Boîte maximum : illimité, Montant maximum dans le portefeuille : 500.000 ariary.",
+              style: p),
+          Text("Niv. 4 : Collaborateur sénior ", style: pB),
+          Text(
+              "Boîte maximum : illimité, Montant maximum dans le portefeuille : illimité.",
+              style: p),
+          Text("Niv. 5 : Pré-actionnaire ", style: pB),
+          Text(
+              "Boîte maximum : illimité, Montant maximum dans le portefeuille : illimité, revenue actionnaire : 1% du sold de l'application.",
+              style: p),
+          Text("Niv. 6 : Actionnaire junior", style: pB),
+          Text(
+              "Boîte maximum : illimité, Montant maximum dans le portefeuille : illimité, revenue actionnaire : 3% du sold de l'application.",
+              style: p),
+          Text("Niv. 7 : Actionnaire sénior", style: pB),
+          Text(
+              "Boîte maximum : illimité, Montant maximum dans le portefeuille : illimité, revenue actionnaire : 7% du sold de l'application.",
+              style: p),
 
           const SizedBox(height: 10),
           const SizedBox(height: 10),
-          Text("👨‍👧‍👧 Child"),
-          Text(
-              "C'est une personne qui est entré dans la boite grace a votre code de parainage, Une personne que vous avez inveté a rejoindre la boite."),
-
-          const SizedBox(height: 10),
-          Text("🔖 Le niveau (Niv.)"),
-          Text(
-              "Vous pouvez voir votre niveau a coté de votre nom dans l'entète de l'application."),
-
-          const SizedBox(height: 10),
-          Text("[Image 4 / img de la header est encadre le niveau]"),
+          Text("À propos de nous", style: pG),
           const SizedBox(height: 10),
 
-          Text(
-              "Le niveau augement grace a votre éxerience (exp), Vous pouvez gagner des experiences en entrant dans une boite, en sortant (en tant que sortant) en invitant des childs, etc..."),
-
-          const SizedBox(height: 10),
-          Text("Chaque niveau a sont privilège, Comme : "),
-          Text("Niv. 1 : Membre junior "),
-          Text(
-              "   Boite maximum : 5, Monant  maximum dans la portefuille : 100.000 Ariary, Frais de retrait -5%."),
-          Text("Niv. 2 : Membre senior "),
-          Text(
-              "   Boite maximum : 10, Monant maximum dans la portefuille : 500.000 Ariary, Frais de retrait -2%."),
-          Text("Niv. 3 : Collaborateur junior "),
-          Text(
-              "   Boite maximum : illimité, Monant maximum dans la portefuille : 500.000 Ariary, Frais de retrait -1%."),
-          Text("Niv. 4 : Collaborateur senio "),
-          Text(
-              "   Boite maximum : illimité, Monant maximum dans la portefuille : illimité, Frais de retrait -1%."),
-          Text("Niv. 5 : pré-actionnaire "),
-          Text(
-              "   Boite maximum : illimité, Monant maximum dans la portefuille : illimité, Frais de retrait 0%."),
-          Text("Niv. 6 : actionnaire junior "),
-          Text(
-              "   Revenue actionnaire : 10% de la valeur nèt de l'application divisé par le nombre des actionnaires."),
-          Text("Niv. 7 : actionnaire senior "),
-          Text(
-              "   Revenue actionnaire : 17% de la valeur nèt de l'application divisé par le nombre des actionnaires."),
-
-          const SizedBox(height: 10),
-          const SizedBox(height: 10),
           SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(children: [
                 Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
-                    height: 30,
-                    width: 30,
+                    height: 40,
+                    width: 40,
                     child: Padding(
                       padding: const EdgeInsets.all(5),
-                      child: Image.asset("assets/logo/logowhite.png"),
+                      child: Image.asset("assets/logo/logo-bo.png"),
                     )),
                 const SizedBox(width: 5),
-                const Text('BO STUDIO')
+                Text('BO STUDIO mg', style: pB)
               ])),
           const SizedBox(height: 10),
-          // Text('HELP explain niv max > ACTIONNAIRE'),
-          Text("A propos de nous "),
-
-          const SizedBox(height: 10),
-          Text("Cette applicaiton a été dévéloppé par Bô Studio MG"),
-          Text("Equipe des jeunes developpeur réalisatuer de tout type d'application web, mobile et autre ..."),
-          Text("Vous pouvez nou cantacter si besoin sur bodesign1998@gmail.com on est overte tout proposition 😊😉"),
-          Text("a améliore est a corriget , a ajouter plus de contacte , ECT...")
+          Text(
+              "On est une équipe de jeunes entrepreneurs; le projet AMOI a été conçu par notre équipe et cette application a été dévéloppé par notre équipe de développeurs avec notre propre moyen ✌️😊.",
+              style: p),
+          Text(
+              "Nous sommes très ouverts aux suggestions, aux coopérations et aux commentaires 😊.",
+              style: p),
+          Text("On rest joignable sur : ", style: p),
+          SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(children: [
+                const Icon(Icons.mail),
+                BUTTON(
+                    text: "bodesign1998@gmail.com",
+                    action: () {
+                      copieCodeToClip("bodesign1998@gmail.com");
+                    },
+                    type: 'TEXT')
+              ])),
+          SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(children: [
+                const Icon(Icons.whatsapp),
+                BUTTON(
+                    text: "+260344974196",
+                    action: () {
+                      copieCodeToClip("+260344974196");
+                    },
+                    type: 'TEXT')
+              ])),
+          SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(children: [
+                const Icon(Icons.facebook),
+                BUTTON(
+                    text: "Bô design",
+                    action: () {
+                      // copieCodeToClip("https://www.facebook.com/bo.belle.32/");
+                      copieCodeToClip("Bô design");
+                    },
+                    type: 'TEXT')
+              ])),
         ],
       ),
     );

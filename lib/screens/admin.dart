@@ -58,6 +58,8 @@ class _ADMINState extends State<ADMIN> {
 
     base.select(table['setting']!, table['admin']!, (result, value) {
       administrator = value.data() as Map<String, Object?>;
+      cote = administrator['cote'];
+      bonusSortant = administrator['bonusSortant'];
       // -> INFO Gll
 
       setState(() {
@@ -99,9 +101,9 @@ class _ADMINState extends State<ADMIN> {
             text:
                 "Sold de ce mois : ${administrator['sold de ce mois']} ariary",
             isBold: true),
-        LABEL(text: "(100% pour les investisseurs)", color: Colors.grey),
+        LABEL(text: "(100% pour les actionnaires)", color: Colors.grey),
         const SizedBox(height: 10),
-        LABEL(text: "Investisseurs", isBold: true),
+        LABEL(text: "Actionnaires", isBold: true),
         Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: listInvestisseur),

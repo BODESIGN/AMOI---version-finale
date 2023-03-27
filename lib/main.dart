@@ -90,12 +90,19 @@ bool checIamInBoite(Map<String, dynamic> boite) {
 
 // ==================================================================
 bool checParentIsInBoite(String parent, List inBoite) {
-  bool iamIn = false;
+  bool isIn = false;
   for (var code in inBoite) {
-    if (code.toString() == parent) iamIn = true;
+    if (code.toString() == parent) isIn = true;
   }
-  return iamIn;
+  return isIn;
 }
+
+// ==================================================================
+  copieCodeToClip(String text) async {
+    toast.show('Copie dans le papier presse effectuée');
+    await Clipboard.setData(
+        ClipboardData(text: text));
+  }
 
 // ==================================================================
 String newCode() {
@@ -131,7 +138,7 @@ Widget pdp(String uri, Function clickOnpdp,
                   })))
           : Image.asset(uri, fit: BoxFit.cover, scale: 1.0)
       : Container(
-          color: Colors.white,
+          // color: Colors.white,
           child: InkWell(
               splashColor: Colors.transparent,
               hoverColor: Colors.transparent,
