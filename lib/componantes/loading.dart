@@ -23,6 +23,10 @@ class LOADING {
         status: message, maskType: EasyLoadingMaskType.black);
   }
 
+  showProgress(double val, String message) {
+    EasyLoading.showProgress(val, status: message);
+  }
+
   hide() async {
     await EasyLoading.dismiss();
   }

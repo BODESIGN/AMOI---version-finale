@@ -1,6 +1,7 @@
 // ignore_for_file: unused_element
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:amoi/componantes/button.dart';
 import 'package:amoi/componantes/label.dart';
@@ -8,9 +9,13 @@ import 'package:amoi/componantes/modale.dart';
 import 'package:amoi/functions/boitePlein.dart';
 import 'package:amoi/functions/transaction.dart';
 import 'package:amoi/main.dart';
+import 'package:app_installer/app_installer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 
 class ADMIN extends StatefulWidget {
   const ADMIN({super.key});
@@ -29,6 +34,8 @@ class _ADMINState extends State<ADMIN> {
 
   BUTTON btTraiterLaPeriode =
       BUTTON(text: 'Passer au période suivant', action: () {});
+
+  BUTTON btDownloadLastVersion = BUTTON(text: 'Télécharger', action: () {});
 
   String periodeDebut = '';
 
@@ -72,7 +79,7 @@ class _ADMINState extends State<ADMIN> {
           listOldMontant.add(LABEL(text: "$oldSold ariary"));
         }
         listInvestisseur = [];
-        administrator['investiseurs'].forEach((key, value) { 
+        administrator['investiseurs'].forEach((key, value) {
           listInvestisseur.add(LABEL(text: "$key : $value"));
         });
       });
@@ -90,7 +97,9 @@ class _ADMINState extends State<ADMIN> {
         LABEL(text: "Date debut appli : $periodeDebut", isBold: true),
         LABEL(text: "Entré : ${administrator['net-entre']} ariary"),
         LABEL(text: "Sortie : ${administrator['net-sortie']} ariary"),
-        LABEL(text: "Rest : ${administrator['net-entre'] - administrator['net-sortie']} ariary"),
+        LABEL(
+            text:
+                "Rest : ${administrator['net-entre'] - administrator['net-sortie']} ariary"),
         const SizedBox(height: 10),
         LABEL(text: "Sold des mois precédents ", isBold: true),
         Column(
@@ -109,6 +118,7 @@ class _ADMINState extends State<ADMIN> {
             children: listInvestisseur),
         const SizedBox(height: 10),
         btTraiterLaPeriode,
+        btDownloadLastVersion
       ],
     );
   }
@@ -325,6 +335,7 @@ class _ADMINState extends State<ADMIN> {
   // ===================================================
   @override
   Widget build(BuildContext context) {
+    toast.init(context);
     if (isConstruct) {
       _loadGenerale();
       setState(() => isConstruct = false);
@@ -386,6 +397,40 @@ class _ADMINState extends State<ADMIN> {
         await base.passerAuPeriodeSuivant();
         loading.hide();
         _loadGenerale();
+      };
+      btDownloadLastVersion.action = () async {
+        loading.show("Téléchargement ...");
+        final storageRef = FirebaseStorage.instance.ref();
+        final islandRef = storageRef.child("version/app.apk");
+        final PathProviderPlatform provider = PathProviderPlatform.instance;
+        final appDocDir = await provider.getExternalStoragePath();
+        final filePath = "$appDocDir/amoi.apk";
+        final File file = File(filePath);
+
+        final downloadTask = islandRef.writeToFile(file);
+
+        downloadTask.snapshotEvents.listen((taskSnapshot) async {
+          switch (taskSnapshot.state) {
+            case TaskState.running:
+              double percent =
+                  ((taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
+                          100);
+              loading.showProgress(percent,"téléchargement cours ...");
+              break;
+            case TaskState.paused:
+              break;
+            case TaskState.success:
+              loading.hide();
+              await AppInstaller.installApk(filePath);
+              break;
+            case TaskState.canceled:
+              loading.hide();
+              break;
+            case TaskState.error:
+              loading.hide();
+              break;
+          }
+        });
       };
     });
     return WillPopScope(

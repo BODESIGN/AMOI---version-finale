@@ -28,6 +28,8 @@ dependencies:
   video_player: ^2.5.1
   toast: ^0.3.0
   side_navigation: ^1.0.4
+  path_provider_android: ^2.0.24
+  app_installer: ^1.1.0
 
   
 flutter_native_splash:
