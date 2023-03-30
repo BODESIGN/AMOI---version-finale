@@ -4,6 +4,8 @@ import 'package:amoi/functions/exp.dart';
 import 'package:amoi/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
+
 import '../../firebase_options.dart';
 
 // ===============================================================================
@@ -48,7 +50,9 @@ class FIREBASE {
         .set(donner)
         .then((value) => {actionAfter('succes', value)})
         .catchError((error) {
-      print(error);
+      if (kDebugMode) {
+        print(error);
+      }
       actionAfter('error', error);
     });
   }
@@ -167,7 +171,7 @@ class FIREBASE {
 
   // ----------------------- > SELECT TRANSACTION
   void selectList(
-    String _table,
+    String table,
     Function actionAfter, {
     bool haveLimit = false,
     int limit = 3,
@@ -178,46 +182,46 @@ class FIREBASE {
     if (haveLimit == true && haveOrder == true) {
       // LIMITE
       firestore
-          .collection(_table)
+          .collection(table)
           .orderBy(order, descending: desc)
           .limit(limit)
           .get()
           .then((querySnapshot) {
         List<Map> liste = [];
-        querySnapshot.docs.forEach((result) {
+        for (var result in querySnapshot.docs) {
           liste.add(result.data());
-        });
+        }
         actionAfter(liste);
       }).onError((error, stackTrace) => actionAfter([]));
     } else if (haveLimit == false && haveOrder == true) {
       // LIMITE
       firestore
-          .collection(_table)
+          .collection(table)
           .orderBy(order, descending: desc)
           .get()
           .then((querySnapshot) {
         List<Map> liste = [];
-        querySnapshot.docs.forEach((result) {
+        for (var result in querySnapshot.docs) {
           liste.add(result.data());
-        });
+        }
         actionAfter(liste);
       }).onError((error, stackTrace) => actionAfter([]));
     } else if (haveLimit == true && haveOrder == false) {
       // LIMITE
-      firestore.collection(_table).limit(limit).get().then((querySnapshot) {
+      firestore.collection(table).limit(limit).get().then((querySnapshot) {
         List<Map> liste = [];
-        querySnapshot.docs.forEach((result) {
+        for (var result in querySnapshot.docs) {
           liste.add(result.data());
-        });
+        }
         actionAfter(liste);
       }).onError((error, stackTrace) => actionAfter([]));
     } else {
       // NO LIMIT - NO ORDER
-      firestore.collection(_table).get().then((querySnapshot) {
+      firestore.collection(table).get().then((querySnapshot) {
         List<Map> liste = [];
-        querySnapshot.docs.forEach((result) {
+        for (var result in querySnapshot.docs) {
           liste.add(result.data());
-        });
+        }
         actionAfter(liste);
       }).onError((error, stackTrace) => actionAfter([]));
     }
@@ -225,19 +229,19 @@ class FIREBASE {
 
   // ----------------------- > SELECT TRANSACTION
   void selectListTransaction(
-    String _table,
+    String table,
     Function actionAfter,
   ) {
     // LIMITE
     firestore
-        .collection(_table)
+        .collection(table)
         .where("traiter", isEqualTo: false)
         .get()
         .then((querySnapshot) {
       List<Map> liste = [];
-      querySnapshot.docs.forEach((result) {
+      for (var result in querySnapshot.docs) {
         liste.add(result.data());
-      });
+      }
       actionAfter(liste);
     }).onError((error, stackTrace) => actionAfter([]));
   }
@@ -247,13 +251,13 @@ class FIREBASE {
     firestore.collection(table['boite']!).get().then((querySnapshot) {
       List<Map> boites = [];
       List<Map> boitesImNotIn = [];
-      querySnapshot.docs.forEach((result) {
+      for (var result in querySnapshot.docs) {
         if (checIamInBoite(result.data())) {
           boites.add(result.data());
         } else {
           boitesImNotIn.add(result.data());
         }
-      });
+      }
       actionAfter(isIamNotIn ? boitesImNotIn : boites);
     }).onError((error, stackTrace) => actionAfter([]));
   }
@@ -270,11 +274,11 @@ class FIREBASE {
   void select_Boite_Plein(Function actionAfter) {
     firestore.collection(table['boite']!).get().then((querySnapshot) {
       List<Map> boites = [];
-      querySnapshot.docs.forEach((result) {
+      for (var result in querySnapshot.docs) {
         if (checkInCodePlein(result.data())) {
           boites.add(result.data());
         }
-      });
+      }
       actionAfter(boites);
     }).onError((error, stackTrace) => actionAfter([]));
   }
@@ -407,18 +411,22 @@ class FIREBASE {
 
   // ----------------------- > SELECT BOITES - LIST
   select_Tickets(Function actionAfter) {
-    print("${table['user']}/${userActif['login']}/${table['ticket']}");
+    if (kDebugMode) {
+      print("${table['user']}/${userActif['login']}/${table['ticket']}");
+    }
     firestore
         .collection("${table['user']}/${userActif['login']}/${table['ticket']}")
         .get()
         .then((querySnapshot) {
       List<Map> tickets = [];
-      querySnapshot.docs.forEach((result) {
+      for (var result in querySnapshot.docs) {
         tickets.add(result.data());
-      });
+      }
       actionAfter(tickets);
     }).onError((error, stackTrace) {
-      print('error : $error');
+      if (kDebugMode) {
+        print('error : $error');
+      }
       actionAfter([]);
     });
   }

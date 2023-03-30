@@ -3,9 +3,9 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:amoi/componantes/button.dart';
-import 'package:amoi/componantes/label.dart';
-import 'package:amoi/componantes/modale.dart';
+import 'package:amoi/component/button.dart';
+import 'package:amoi/component/label.dart';
+import 'package:amoi/component/modale.dart';
 import 'package:amoi/functions/boitePlein.dart';
 import 'package:amoi/functions/transaction.dart';
 import 'package:amoi/main.dart';
@@ -25,6 +25,8 @@ class ADMIN extends StatefulWidget {
 }
 
 class _ADMINState extends State<ADMIN> {
+  final int _currentIndex = 0;
+
   BUTTON btGeneral = BUTTON(text: 'General', action: () {}, type: 'BLEU');
   BUTTON btDemande =
       BUTTON(text: 'Gestion des demande', action: () {}, type: 'BLEU');
@@ -324,7 +326,7 @@ class _ADMINState extends State<ADMIN> {
       const Text("Traiter sortant des boites ",
           style: TextStyle(fontWeight: FontWeight.bold)),
       const SizedBox(height: 10),
-      Text(
+      const Text(
           "creation new BOITE , update all fiche in boite , update info boite "),
       Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -393,7 +395,7 @@ class _ADMINState extends State<ADMIN> {
         });
       };
       btTraiterLaPeriode.action = () async {
-        loading.show("Mise a jour de la solde ...");
+        loading.show("Mise à jour de la solde ...");
         await base.passerAuPeriodeSuivant();
         loading.hide();
         _loadGenerale();
@@ -438,40 +440,63 @@ class _ADMINState extends State<ADMIN> {
         Navigator.of(context).pushNamed('SECONNECT');
         return true;
       },
-      child: SafeArea(
-          child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("Amoi Groupe", style: TextStyle(fontSize: 20)),
-                      const Text("Administateur"),
-                      const SizedBox(height: 5),
-                      Container(
-                          height: 1,
-                          width: double.maxFinite,
-                          color: Colors.black12),
-                      SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            btGeneral,
-                            const SizedBox(width: 10),
-                            btDemande,
-                            const SizedBox(width: 10),
-                            btBoites,
-                          ],
-                        ),
-                      ),
-                      pageVu == 1
-                          ? panelDemande()
-                          : pageVu == 2
-                              ? panelBoite()
-                              : panelGeneral()
-                    ]),
-              ))),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SafeArea(
+              child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text("Amoi Groupe",
+                              style: TextStyle(fontSize: 20)),
+                          const Text("Administateur"),
+                          const SizedBox(height: 5),
+                          Container(
+                              height: 1,
+                              width: double.maxFinite,
+                              color: Colors.black12),
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                ButtonBar(
+                                  children: [btGeneral, btDemande, btBoites],
+                                ),
+                                // btGeneral,
+                                // const SizedBox(width: 10),
+                                // btDemande,
+                                // const SizedBox(width: 10),
+                                // btBoites,
+                              ],
+                            ),
+                          ),
+                          pageVu == 1
+                              ? panelDemande()
+                              : pageVu == 2
+                                  ? panelBoite()
+                                  : panelGeneral(),
+                        ]),
+                  ))),
+          BottomNavigationBar(
+              currentIndex: _currentIndex,
+              onTap: (value) => setState(() {
+                    // _currentIndex = value;
+                    if (value == 1) {
+                      Navigator.of(context).pushNamed('ADMIN_DASHBOARD');
+                    }
+                  }),
+              items: const [
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.dashboard), label: 'Dashboard'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.bar_chart), label: 'Statistic')
+              ])
+        ],
+      ),
     );
   }
 }

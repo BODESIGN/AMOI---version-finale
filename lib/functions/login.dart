@@ -10,30 +10,34 @@ class METHODE {
 
   // ---------------------------------------------------------------
   void checUserExist(String login, Function pass) {
+    login = login.trim();
     if (login == '') toast.show('Login obligatoire !');
     if (login == '') return;
 
-    if (login == 'vide') toast.show('Login non valide !');
-    if (login == 'vide') return;
-    if (login == 'AMOI') toast.show('Login non valide !');
-    if (login == 'AMOI') return;
-    if (login == 'AMOI GROUPE') toast.show('Login non valide !');
-    if (login == 'AMOI GROUPE') return;
+    if (login == 'vide' || login == 'amoi' || login == 'amoi groupe') {
+      toast.show('Login non valide !');
+      return;
+    }
 
     bool isAdmin = this.isAdmin(login);
     if (isAdmin) toast.show('Login déjà pris !');
     if (isAdmin) return;
 
-    loading.show('Chec login ...');
+    loading.show('Check login ...');
     base.select(tableUser, login, (result, value) {
-      if (result == 'error') loading.hide();
-      if (result == 'error') pass();
-      if (result == 'error') return;
+      if (result == 'error') {
+        loading.hide();
+        pass();
+        return;
+      }
+
       late Map<String, dynamic> user;
       user = value.data() as Map<String, Object?>;
-      if (user['login'] == login) toast.show('Login déjà pris !');
-      if (user['login'] == login) loading.hide();
-      if (user['login'] == login) return;
+      if (user['login'] == login) {
+        toast.show('Login déjà pris !');
+        loading.hide();
+        return;
+      }
       loading.hide();
       pass();
     });
@@ -56,7 +60,8 @@ class METHODE {
 
   // ---------------------------------------------------------------
   void createCompte(String login, String mdp, Function pass) {
-    loading.show('Chec login ...');
+    loading.show('Check login ...');
+    login = login.trim();
     user = {
       'fullname': login,
       'motdepasse': mdp,
@@ -69,9 +74,11 @@ class METHODE {
       'boites': []
     };
     base.insert(tableUser, login, user, (result, value) {
-      if (result == 'error') toast.show('Une problème est survenue !');
-      if (result == 'error') loading.hide();
-      if (result == 'error') return;
+      if (result == 'error') {
+        toast.show('Une problème est survenue !');
+        loading.hide();
+        return;
+      }
       loading.hide();
       pass(user);
     });
@@ -79,35 +86,48 @@ class METHODE {
 
   // ---------------------------------------------------------------
   void selectCompte(String login, Function pass) {
-    if (login == '') toast.show('Login obligatoire');
-    if (login == '') return;
+    login = login.trim();
+    if (login == '') {
+      toast.show('Login obligatoire');
+      return;
+    }
     loading.show('Connexion ...');
     base.select(tableUser, login, (result, value) {
-      if (result == 'error') toast.show('Compte inconnue !');
-      if (result == 'error') loading.hide();
-      if (result == 'error') return;
+      if (result == 'error') {
+        toast.show('Compte inconnue !');
+        loading.hide();
+        return;
+      }
       user = value.data() as Map<String, Object?>;
 
       // get & update LEVEL
       if (user['level'] < EXP().getLevelOf(user['exp'])) {
         user['level'] = EXP().getLevelOf(user['exp']);
         base.insert(tableUser, user['login'], user, (result, value) {
-          if (user['login'] == login) loading.hide();
-          if (user['login'] == login) pass();
+          if (user['login'] == login) {
+            loading.hide();
+            pass();
+          }
         });
       } else {
-        if (user['login'] == login) loading.hide();
-        if (user['login'] == login) pass();
+        if (user['login'] == login) {
+          loading.hide();
+          pass();
+        }
       }
     });
   }
 
   // ---------------------------------------------------------------
   void seconnect(String mdp, Function pass) {
-    if (mdp == '') toast.show('Mot de passe obligatoire');
-    if (mdp == '') return;
-    if (mdp != user['motdepasse'].toString()) toast.show('Mot de passe incorrect');
-    if (mdp != user['motdepasse'].toString()) return;
+    if (mdp == '') {
+      toast.show('Mot de passe obligatoire');
+      return;
+    }
+    if (mdp != user['motdepasse'].toString()) {
+      toast.show('Mot de passe incorrect');
+      return;
+    }
     pass(user);
   }
 

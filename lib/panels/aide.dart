@@ -1,9 +1,9 @@
-import 'package:amoi/componantes/button.dart';
-import 'package:amoi/componantes/label.dart';
+import 'package:amoi/component/button.dart';
 import 'package:amoi/functions/boitePlein.dart';
 import 'package:amoi/main.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class MANUEL extends StatelessWidget {
   MANUEL({super.key});
 
@@ -71,7 +71,7 @@ class MANUEL extends StatelessWidget {
           SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Container(
-                    color: Colors.black12,
+                  color: Colors.black12,
                   width: 200,
                   child: Padding(
                     padding: const EdgeInsets.all(5),
@@ -130,7 +130,7 @@ class MANUEL extends StatelessWidget {
           SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Container(
-                    color: Colors.black12,
+                  color: Colors.black12,
                   width: 200,
                   child: Padding(
                     padding: const EdgeInsets.all(5),
@@ -215,9 +215,9 @@ class MANUEL extends StatelessWidget {
               child: Row(children: [
                 const Icon(Icons.whatsapp),
                 BUTTON(
-                    text: "+260344974196",
+                    text: "+261344974196",
                     action: () {
-                      copieCodeToClip("+260344974196");
+                      copieCodeToClip("+261344974196");
                     },
                     type: 'TEXT')
               ])),

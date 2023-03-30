@@ -3,3 +3,7 @@
 Appliquer les caraqteristique de chaque level
 
 ici le to do nirina 
+
+- Refactoring code
+- New admin dashboard design ( Waiting )
+- Login (use trim)

@@ -11,35 +11,34 @@ class EXP {
 
   int exp = 75;
 
-
-  int getLevelOf(int _exp) {
+  int getLevelOf(int exp) {
     int niv = 1;
     bool b = false;
-    if (_exp < level[2]) {
+    if (exp < level[2]) {
       niv = 1;
       b = true;
     }
-    if ((_exp < level[3]) && !b) {
+    if ((exp < level[3]) && !b) {
       niv = 2;
       b = true;
     }
-    if ((_exp < level[4]) && !b) {
+    if ((exp < level[4]) && !b) {
       niv = 3;
       b = true;
     }
-    if ((_exp < level[5]) && !b) {
+    if ((exp < level[5]) && !b) {
       niv = 4;
       b = true;
     }
-    if ((_exp < level[6]) && !b) {
+    if ((exp < level[6]) && !b) {
       niv = 5;
       b = true;
     }
-    if ((_exp < level[7]) && !b) {
+    if ((exp < level[7]) && !b) {
       niv = 6;
       b = true;
     }
-    if (_exp >= level[7]) {
+    if (exp >= level[7]) {
       niv = 7;
     }
     return niv;
