@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:side_navigation/side_navigation.dart';
 
+// ignore: must_be_immutable
 class PANEL extends StatefulWidget {
   PANEL(
       {super.key,

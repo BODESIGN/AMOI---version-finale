@@ -1,16 +1,18 @@
 import 'dart:math';
 
 import 'package:amoi/screens/admin.dart';
+import 'package:amoi/screens/admin_dashboard.dart';
 import 'package:amoi/screens/dashboard.dart';
 import 'package:amoi/screens/seconnect.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
-import 'componantes/connectivite.dart';
-import 'componantes/firebase.dart';
-import 'componantes/loading.dart';
-import 'componantes/toast.dart';
+
+import 'component/connectivite.dart';
+import 'component/firebase.dart';
+import 'component/loading.dart';
+import 'component/toast.dart';
 
 LOADING loading = LOADING();
 TOAST toast = TOAST();
@@ -55,6 +57,7 @@ class MAIN extends StatelessWidget {
           'SECONNECT': (context) => const SECONNECT(),
           'DASHBOARD': (context) => const DASHBOARD(),
           'ADMIN': (context) => const ADMIN(),
+          'ADMIN_DASHBOARD': (context) => const AdminDashboard(),
         });
   }
 }
@@ -98,18 +101,17 @@ bool checParentIsInBoite(String parent, List inBoite) {
 }
 
 // ==================================================================
-  copieCodeToClip(String text) async {
-    toast.show('Copie dans le papier presse effectuée');
-    await Clipboard.setData(
-        ClipboardData(text: text));
-  }
+copieCodeToClip(String text) async {
+  toast.show('Copie dans le papier presse effectuée');
+  await Clipboard.setData(ClipboardData(text: text));
+}
 
 // ==================================================================
 String newCode() {
   int len = 7;
   var r = Random();
-  const _chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-  return List.generate(len, (index) => _chars[r.nextInt(_chars.length)]).join();
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+  return List.generate(len, (index) => chars[r.nextInt(chars.length)]).join();
 }
 
 // ==================================================================
@@ -137,13 +139,11 @@ Widget pdp(String uri, Function clickOnpdp,
                                 : null));
                   })))
           : Image.asset(uri, fit: BoxFit.cover, scale: 1.0)
-      : Container(
-          // color: Colors.white,
-          child: InkWell(
-              splashColor: Colors.transparent,
-              hoverColor: Colors.transparent,
-              onTap: (() {
-                clickOnpdp();
-              }),
-              child: Icon(Icons.person, color: Colors.black, size: iconSize)));
+      : InkWell(
+          splashColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          onTap: (() {
+            clickOnpdp();
+          }),
+          child: Icon(Icons.person, color: Colors.black, size: iconSize));
 }

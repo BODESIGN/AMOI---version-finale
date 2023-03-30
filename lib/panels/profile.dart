@@ -1,15 +1,15 @@
 import 'dart:io';
 
-import 'package:amoi/componantes/button.dart';
-import 'package:amoi/componantes/input.dart';
-import 'package:amoi/componantes/label.dart';
-import 'package:amoi/componantes/modale.dart';
+import 'package:amoi/component/button.dart';
+import 'package:amoi/component/input.dart';
+import 'package:amoi/component/label.dart';
+import 'package:amoi/component/modale.dart';
 import 'package:amoi/main.dart';
-import 'package:flutter/material.dart';
-
-import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
+// ignore: must_be_immutable
 class PANELPROFILE extends StatefulWidget {
   PANELPROFILE({super.key, required this.user, required this.redraw});
 
@@ -34,13 +34,17 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
 
   // --------------------------------------------------------------
   _saveNewMdp() {
-    if (mdp3.getValue() != userActif['motdepasse']) toast.show('Ancien mot de passe incorrect !');
+    if (mdp3.getValue() != userActif['motdepasse']) {
+      toast.show('Ancien mot de passe incorrect !');
+    }
     if (mdp3.getValue() != userActif['motdepasse']) return;
 
     if (mdp1.getValue() == '') toast.show('Mot de passe Obligatoire');
     if (mdp1.getValue() == '') return;
 
-    if (mdp1.getValue() != mdp2.getValue()) toast.show('Nouveaux mot de passe non correspondant !');
+    if (mdp1.getValue() != mdp2.getValue()) {
+      toast.show('Nouveaux mot de passe non correspondant !');
+    }
     if (mdp1.getValue() != mdp2.getValue()) return;
 
     setState(() {
@@ -64,11 +68,11 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
   // --------------------------------------------------------------
   _update(String column, String value) {
     widget.redraw();
-    loading.show('Mise a jour ...');
+    loading.show('Mise à jour ...');
     base.update_fiche(table['user']!, userActif['login'], value, column,
         (result, value) {
       toast.show(result == 'error'
-          ? 'Erreur de mise a jour'
+          ? 'Erreur de Mise à jour'
           : 'Modification enrégistrée');
       loading.hide();
     });
@@ -82,9 +86,10 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
   // ===========================================================
   late File imgFile;
   final imgPicker = ImagePicker();
-  FirebaseStorage _storage = FirebaseStorage.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   void openCamera() async {
+    // ignore: deprecated_member_use
     var imgCamera = await imgPicker.getImage(source: ImageSource.camera);
     setState(() {
       imgFile = File(imgCamera!.path);
@@ -93,6 +98,7 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
   }
 
   void openGallery() async {
+    // ignore: deprecated_member_use
     var imgGallery = await imgPicker.getImage(source: ImageSource.gallery);
     setState(() {
       imgFile = File(imgGallery!.path);
@@ -111,7 +117,7 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
     // firebase
     base.insert(table['user']!, userActif['login'], userActif, (result, value) {
       loading.hide();
-      toast.show('Mise a jour éffectuée !');
+      toast.show('Mise à jour éffectuée !');
       widget.redraw();
     });
   }
@@ -121,7 +127,7 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
   @override
   Widget build(BuildContext context) {
     modalChandePdp = MODALE(
-        context, "Modifier profile", "Mise a jour de la photo de profile")
+        context, "Modifier profile", "Mise à jour de la photo de profile")
       ..labelButton1 = 'Camera'
       ..icon1 = Icons.camera_alt
       ..action1 = () {
@@ -155,11 +161,11 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
       fullname,
       Row(mainAxisAlignment: MainAxisAlignment.end, children: [savename]),
       LABEL(text: 'Modification Mot de passe', color: Colors.grey),
+      mdp3,
+      const SizedBox(height: 5),
       mdp1,
       const SizedBox(height: 5),
       mdp2,
-      const SizedBox(height: 5),
-      mdp3,
       Row(mainAxisAlignment: MainAxisAlignment.end, children: [savemdp]),
     ]);
   }

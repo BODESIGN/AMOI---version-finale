@@ -1,8 +1,8 @@
-import 'package:amoi/componantes/appbar.dart';
-import 'package:amoi/componantes/button.dart';
-import 'package:amoi/componantes/input.dart';
-import 'package:amoi/componantes/label.dart';
-import 'package:amoi/componantes/panel.dart';
+import 'package:amoi/component/appbar.dart';
+import 'package:amoi/component/button.dart';
+import 'package:amoi/component/input.dart';
+import 'package:amoi/component/label.dart';
+import 'package:amoi/component/panel.dart';
 import 'package:amoi/functions/boite.dart';
 import 'package:amoi/main.dart';
 import 'package:amoi/panels/aide.dart';

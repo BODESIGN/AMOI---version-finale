@@ -135,8 +135,9 @@ class TRANSACTION {
               "${table['user']}/${dmd['codeUser']}/${table['transaction']}";
           // SET TRANSACTION in HISTORIQUE
           base.insert(here, transaction['date'], transaction, (result, value) {
-            if (result == 'error')
+            if (result == 'error') {
               toast.show('Une problème est survenue ! (4)');
+            }
             if (result == 'error') loading.hide();
             if (result == 'error') return;
             Map<String, dynamic> transaction2 = {
@@ -151,8 +152,9 @@ class TRANSACTION {
             // SET TRANSACTION in HISTORIQUE CHIFFRE DAFFAIER
             base.insert(here, transaction2['date'], transaction2,
                 (result, value) {
-              if (result == 'error')
+              if (result == 'error') {
                 toast.show('Une problème est survenue ! (5)');
+              }
               if (result == 'error') loading.hide();
               if (result == 'error') return;
               loading.hide();
@@ -209,8 +211,9 @@ class TRANSACTION {
               "${table['user']}/${dmd['codeUser']}/${table['transaction']}";
           // SET TRANSACTION in HISTORIQUE
           base.insert(here, transaction['date'], transaction, (result, value) {
-            if (result == 'error')
+            if (result == 'error') {
               toast.show('Une problème est survenue ! (4)');
+            }
             if (result == 'error') loading.hide();
             if (result == 'error') return;
             Map<String, dynamic> transaction2 = {
@@ -225,8 +228,9 @@ class TRANSACTION {
             // SET TRANSACTION in HISTORIQUE CHIFFRE DAFFAIER
             base.insert(here, transaction2['date'], transaction2,
                 (result, value) {
-              if (result == 'error')
+              if (result == 'error') {
                 toast.show('Une problème est survenue ! (5)');
+              }
               if (result == 'error') loading.hide();
               if (result == 'error') return;
               loading.hide();

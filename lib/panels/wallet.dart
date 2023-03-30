@@ -1,10 +1,11 @@
-import 'package:amoi/componantes/button.dart';
-import 'package:amoi/componantes/input.dart';
-import 'package:amoi/componantes/label.dart';
+import 'package:amoi/component/button.dart';
+import 'package:amoi/component/input.dart';
+import 'package:amoi/component/label.dart';
 import 'package:amoi/functions/transaction.dart';
 import 'package:amoi/main.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class PANELWALLET extends StatefulWidget {
   PANELWALLET({super.key, required this.user, required this.redraw});
 
@@ -34,11 +35,15 @@ class _PANELWALLETState extends State<PANELWALLET> {
 
   // ----------------------------------------------------------
   void _retirer() {
-    if (mdp.getValue() != userActif['motdepasse']) toast.show('Mot de passe incorrect !');
+    if (mdp.getValue() != userActif['motdepasse']) {
+      toast.show('Mot de passe incorrect !');
+    }
     if (mdp.getValue() != userActif['motdepasse']) return;
 
-    if (tel.getValue() == '') toast.show('Numéro obligatoire !');
-    if (tel.getValue() == '') return;
+    if (tel.getValue() == '') {
+      toast.show('Numéro obligatoire !');
+      return;
+    }
 
     int m = 0;
     try {
@@ -47,12 +52,15 @@ class _PANELWALLETState extends State<PANELWALLET> {
       toast.show('Veuillez verifier votre montant !');
       return;
     }
-    
-    if (m < 2000) toast.show('Montant trop bas');
-    if (m < 2000) return;
 
-    if (m > userActif['ariary']) toast.show("Votre sold n'est pas suffisant");
-    if (m > userActif['ariary']) return;
+    if (m < 2000) {
+      toast.show('Montant trop bas');
+      return;
+    }
+
+    if (m > userActif['ariary']) {
+      toast.show("Votre sold n'est pas suffisant");
+    }
 
     $.retrait(userActif['login'], tel.getValue(), m, () {
       toast.show('✅ Demande envoyée !');
@@ -62,8 +70,10 @@ class _PANELWALLETState extends State<PANELWALLET> {
 
   // ----------------------------------------------------------
   void _depot() {
-    if (tel2.getValue() == '') toast.show('Numéro obligatoire !');
-    if (tel2.getValue() == '') return;
+    if (tel2.getValue() == '') {
+      toast.show('Numéro obligatoire !');
+      return;
+    }
 
     int m = 0;
     try {
@@ -73,8 +83,10 @@ class _PANELWALLETState extends State<PANELWALLET> {
       return;
     }
 
-    if (m < 2000) toast.show('Montant trop bas');
-    if (m < 2000) return;
+    if (m < 2000) {
+      toast.show('Montant trop bas');
+      return;
+    }
 
     $.depot(userActif['login'], tel2.getValue(), m, () {
       toast.show('✅ Demande envoyée !');
@@ -114,6 +126,7 @@ class _PANELWALLETState extends State<PANELWALLET> {
     setState(() {
       btCredit.action = widget.user['level'] < 3
           ? () => toast.show('Desolé, un crédit est disponible au niveau 3')
+          // ignore: avoid_print
           : () => print('demande de credit');
       btRetrait.action = () => _retirer();
       btDepot.action = () => _depot();
