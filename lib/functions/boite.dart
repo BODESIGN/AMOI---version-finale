@@ -1,16 +1,14 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
-import 'dart:math';
-
-import 'package:amoi/componantes/button.dart';
-import 'package:amoi/componantes/label.dart';
-import 'package:amoi/componantes/modale.dart';
+import 'package:amoi/component/button.dart';
+import 'package:amoi/component/label.dart';
+import 'package:amoi/component/modale.dart';
 import 'package:amoi/functions/boitePlein.dart';
 import 'package:amoi/functions/exp.dart';
 import 'package:amoi/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 // ===================== DESIGN
 class BOITE {
@@ -119,7 +117,10 @@ class BOITE {
                   text: "Mon code : ${map['code']}-${userActif['login']}",
                   color: Colors.grey),
               Row(children: [
-                BUTTON(text: 'Copier code', action: () => copieCodeToClip('${map['code']}-${userActif['login']}')),
+                BUTTON(
+                    text: 'Copier code',
+                    action: () => copieCodeToClip(
+                        '${map['code']}-${userActif['login']}')),
                 const SizedBox(width: 10),
                 BUTTON(
                     text: 'Créer',
@@ -158,7 +159,8 @@ class BOITE {
                         child: Row(children: [
                           BUTTON(
                               text: 'Copier code',
-                              action: () => copieCodeToClip('${map['code']}-${userActif['login']}')),
+                              action: () => copieCodeToClip(
+                                  '${map['code']}-${userActif['login']}')),
                           if (!checIamInBoite(map)) const SizedBox(width: 10),
                           if (!checIamInBoite(map))
                             BUTTON(
@@ -206,7 +208,8 @@ class BOITE {
                               Row(children: [
                                 BUTTON(
                                     text: 'Copier code',
-                                    action: () => copieCodeToClip('${map['code']}-${userActif['login']}')),
+                                    action: () => copieCodeToClip(
+                                        '${map['code']}-${userActif['login']}')),
                                 const SizedBox(width: 10),
                                 BUTTON(
                                     text: 'Voir les membres',
@@ -230,7 +233,7 @@ class BOITE {
       if (result == 'error') loading.hide();
       if (result == 'error') return;
       // UPDATE fiche
-      loading.show('Mise a jour de la fiche ...');
+      loading.show('Mise à jour de la fiche ...');
       base.rejoindreBoite(
           userActif['login'], map['code'], parentCode, map['montant'],
           (result) {
@@ -240,7 +243,7 @@ class BOITE {
           'date': getDateNow(),
           'dateTimes': Timestamp.now()
         };
-        loading.show('Mise a jour de la tracage ...');
+        loading.show('Mise à jour de la tracage ...');
         String here = "${table['boite']}/${map['code']}/${table['histoBoite']}";
         base.insert(here, histo['date'], histo, (result, value) {
           if (result == 'error') toast.show('Une problème est survenue !');
@@ -272,8 +275,9 @@ class BOITE {
 
   // ===================================================
   rejoindreBoite() async {
-    if (map['montant'] > userActif['ariary'])
+    if (map['montant'] > userActif['ariary']) {
       toast.show("Votre sold est insuffisant");
+    }
     if (map['montant'] > userActif['ariary']) return;
 
     bool haveSortant = true;
@@ -350,36 +354,50 @@ class BOITE {
     map['etages']['1'][7] = userActif['login'];
 
     // INFO ETAGE
-    if (map['etages']['3'][0] != 'vide')
+    if (map['etages']['3'][0] != 'vide') {
       map['informations'][map['etages']['3'][0]]['etage'] = 3;
-    if (map['etages']['3'][1] != 'vide')
+    }
+    if (map['etages']['3'][1] != 'vide') {
       map['informations'][map['etages']['3'][1]]['etage'] = 3;
+    }
 
-    if (map['etages']['2'][0] != 'vide')
+    if (map['etages']['2'][0] != 'vide') {
       map['informations'][map['etages']['2'][0]]['etage'] = 2;
-    if (map['etages']['2'][1] != 'vide')
+    }
+    if (map['etages']['2'][1] != 'vide') {
       map['informations'][map['etages']['2'][1]]['etage'] = 2;
-    if (map['etages']['2'][2] != 'vide')
+    }
+    if (map['etages']['2'][2] != 'vide') {
       map['informations'][map['etages']['2'][2]]['etage'] = 2;
-    if (map['etages']['2'][3] != 'vide')
+    }
+    if (map['etages']['2'][3] != 'vide') {
       map['informations'][map['etages']['2'][3]]['etage'] = 2;
+    }
 
-    if (map['etages']['1'][0] != 'vide')
+    if (map['etages']['1'][0] != 'vide') {
       map['informations'][map['etages']['1'][0]]['etage'] = 1;
-    if (map['etages']['1'][1] != 'vide')
+    }
+    if (map['etages']['1'][1] != 'vide') {
       map['informations'][map['etages']['1'][1]]['etage'] = 1;
-    if (map['etages']['1'][2] != 'vide')
+    }
+    if (map['etages']['1'][2] != 'vide') {
       map['informations'][map['etages']['1'][2]]['etage'] = 1;
-    if (map['etages']['1'][3] != 'vide')
+    }
+    if (map['etages']['1'][3] != 'vide') {
       map['informations'][map['etages']['1'][3]]['etage'] = 1;
-    if (map['etages']['1'][0] != 'vide')
+    }
+    if (map['etages']['1'][0] != 'vide') {
       map['informations'][map['etages']['1'][0]]['etage'] = 1;
-    if (map['etages']['1'][1] != 'vide')
+    }
+    if (map['etages']['1'][1] != 'vide') {
       map['informations'][map['etages']['1'][1]]['etage'] = 1;
-    if (map['etages']['1'][2] != 'vide')
+    }
+    if (map['etages']['1'][2] != 'vide') {
       map['informations'][map['etages']['1'][2]]['etage'] = 1;
-    if (map['etages']['1'][3] != 'vide')
+    }
+    if (map['etages']['1'][3] != 'vide') {
       map['informations'][map['etages']['1'][3]]['etage'] = 1;
+    }
 
     map['membres'].add(userActif['login'].toString());
 
@@ -431,7 +449,7 @@ class BOITE {
                     ? 'VIDE'
                     : 'OTHER'),
             const SizedBox(width: 5),
-            LABEL(text: ' ... (3e etage)', color: Colors.grey)
+            LABEL(text: ' ... (2e etage)', color: Colors.grey)
           ]),
           Row(children: [
             icon(userActif['login'] == map['etages']['2'][0]
@@ -455,7 +473,7 @@ class BOITE {
                     ? 'VIDE'
                     : 'OTHER'),
             const SizedBox(width: 5),
-            LABEL(text: ' ... (2e etage)', color: Colors.grey)
+            LABEL(text: ' ... (1er etage)', color: Colors.grey)
           ]),
           Row(children: [
             icon(userActif['login'] == map['etages']['1'][0]
@@ -499,7 +517,7 @@ class BOITE {
                     ? 'VIDE'
                     : 'OTHER'),
             const SizedBox(width: 5),
-            LABEL(text: ' ... (1e etage)', color: Colors.grey)
+            LABEL(text: ' ', color: Colors.grey)
           ])
         ]));
   }
@@ -640,7 +658,9 @@ class BOITE {
                 height: 40,
                 width: 40,
                 child: pdp(u['urlPdp'].toString(), () {
-                  print('Voire fiche : ${u['login']}');
+                  if (kDebugMode) {
+                    print('Voire fiche : ${u['login']}');
+                  }
                   MODALE m = MODALE(context, 'Vu boites', '')
                     ..type = 'CUSTOM'
                     ..child = Column(children: [
@@ -667,6 +687,7 @@ class BOITE {
       ));
     }
 
+    // ignore: use_build_context_synchronously
     MODALE mListMembre = MODALE(context, 'Vu boites', '')
       ..type = 'CUSTOM'
       ..child = Column(children: [

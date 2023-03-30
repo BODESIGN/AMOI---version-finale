@@ -1,7 +1,8 @@
-import 'package:amoi/componantes/label.dart';
+import 'package:amoi/component/label.dart';
 import 'package:amoi/main.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class APPBAR extends StatefulWidget {
   APPBAR({super.key, required this.user});
 

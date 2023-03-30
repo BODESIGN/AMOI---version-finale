@@ -1,8 +1,9 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
 import 'dart:io';
-import 'package:flutter/foundation.dart';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/foundation.dart';
 
 class CONNECTIVITE {
   Future<bool> checkData(_showToast) async {
@@ -51,7 +52,7 @@ class CONNECTIVITE {
     try {
       await InternetAddress.lookup('www.google.com');
       res = true;
-    } on SocketException catch (e) {
+    } on SocketException {
       res = false;
     }
     return res;

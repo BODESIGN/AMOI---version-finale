@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class BUTTON extends StatefulWidget {
   BUTTON(
       {super.key,
@@ -14,8 +15,8 @@ class BUTTON extends StatefulWidget {
   Function action;
   IconData icon = Icons.add;
 
-  setText(String _text) {
-    text = _text;
+  setText(String text) {
+    text = text;
   }
 
   @override
@@ -76,6 +77,5 @@ class _BUTTONState extends State<BUTTON> {
                     ),
                     child: Text(widget.text,
                         style: TextStyle(fontSize: widget.size)));
-    ;
   }
 }

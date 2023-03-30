@@ -1,9 +1,10 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
 import 'dart:io';
-import 'package:amoi/componantes/button.dart';
-import 'package:amoi/componantes/input.dart';
-import 'package:amoi/componantes/label.dart';
+
+import 'package:amoi/component/button.dart';
+import 'package:amoi/component/input.dart';
+import 'package:amoi/component/label.dart';
 import 'package:amoi/functions/boitePlein.dart';
 import 'package:amoi/functions/login.dart';
 import 'package:amoi/main.dart';

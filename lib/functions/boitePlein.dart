@@ -121,19 +121,19 @@ traiterPassationBoite(Map boite, Function pass) async {
   loading.show('Création des nouveau boites ...');
   await createBoite(map1, map2, histo1, histo2, here1, here2);
 
-  loading.show('Mise a jour de membre de la boite 1 ...');
+  loading.show('Mise à jour de membre de la boite 1 ...');
   await updateAllUser(map1['membres'], boite['code'], map1['code']);
 
-  loading.show('Mise a jour de membre de la boite 2 ...');
+  loading.show('Mise à jour de membre de la boite 2 ...');
   await updateAllUser(map2['membres'], boite['code'], map2['code']);
 
-  loading.show('Mise a jour des sortants ...');
+  loading.show('Mise à jour des sortants ...');
   await updateSortant(sortants, boite);
 
   loading.show("Suppression de l'ancien boite ...");
   await deleteBoite(boite['code']);
 
-  loading.show("Mise a jour Sold du mois ...");
+  loading.show("Mise à jour Sold du mois ...");
   await updateSoldDuMois(boite['montant']);
 
   loading.hide();
