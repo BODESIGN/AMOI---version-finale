@@ -101,8 +101,17 @@ class MODALE {
                               ]))
                     ]));
         break;
+      case 'PLEIN':
+        showModalBottomSheet<void>(
+            context: context,
+            isScrollControlled:true,
+            enableDrag: false,
+            isDismissible: false,
+            builder: (BuildContext context) {
+              return SafeArea(child: child);
+            });
+        break;
       default:
-        // container
         showModalBottomSheet<void>(
             context: context,
             isScrollControlled: true,

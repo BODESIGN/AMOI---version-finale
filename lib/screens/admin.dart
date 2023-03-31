@@ -1,7 +1,6 @@
 // ignore_for_file: unused_element
 
 import 'dart:async';
-import 'dart:io';
 
 import 'package:amoi/component/button.dart';
 import 'package:amoi/component/label.dart';
@@ -9,13 +8,9 @@ import 'package:amoi/component/modale.dart';
 import 'package:amoi/functions/boitePlein.dart';
 import 'package:amoi/functions/transaction.dart';
 import 'package:amoi/main.dart';
-import 'package:app_installer/app_installer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
-import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 
 class ADMIN extends StatefulWidget {
   const ADMIN({super.key});
@@ -36,8 +31,6 @@ class _ADMINState extends State<ADMIN> {
 
   BUTTON btTraiterLaPeriode =
       BUTTON(text: 'Passer au période suivant', action: () {});
-
-  BUTTON btDownloadLastVersion = BUTTON(text: 'Télécharger', action: () {});
 
   String periodeDebut = '';
 
@@ -119,8 +112,7 @@ class _ADMINState extends State<ADMIN> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: listInvestisseur),
         const SizedBox(height: 10),
-        btTraiterLaPeriode,
-        btDownloadLastVersion
+        btTraiterLaPeriode
       ],
     );
   }
@@ -399,40 +391,6 @@ class _ADMINState extends State<ADMIN> {
         await base.passerAuPeriodeSuivant();
         loading.hide();
         _loadGenerale();
-      };
-      btDownloadLastVersion.action = () async {
-        loading.show("Téléchargement ...");
-        final storageRef = FirebaseStorage.instance.ref();
-        final islandRef = storageRef.child("version/app.apk");
-        final PathProviderPlatform provider = PathProviderPlatform.instance;
-        final appDocDir = await provider.getExternalStoragePath();
-        final filePath = "$appDocDir/amoi.apk";
-        final File file = File(filePath);
-
-        final downloadTask = islandRef.writeToFile(file);
-
-        downloadTask.snapshotEvents.listen((taskSnapshot) async {
-          switch (taskSnapshot.state) {
-            case TaskState.running:
-              double percent =
-                  ((taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
-                          100);
-              loading.showProgress(percent,"téléchargement cours ...");
-              break;
-            case TaskState.paused:
-              break;
-            case TaskState.success:
-              loading.hide();
-              await AppInstaller.installApk(filePath);
-              break;
-            case TaskState.canceled:
-              loading.hide();
-              break;
-            case TaskState.error:
-              loading.hide();
-              break;
-          }
-        });
       };
     });
     return WillPopScope(

@@ -19,7 +19,7 @@ TOAST toast = TOAST();
 CONNECTIVITE connectivite = CONNECTIVITE();
 FIREBASE base = FIREBASE();
 
-const String version = 'v1.0';
+String version = 'v1.0';
 
 // ==================================================================
 late Map<String, dynamic> userActif;

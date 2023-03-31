@@ -1,9 +1,21 @@
 
 
-Appliquer les caraqteristique de chaque level
+- Refactoring code 👍
+- New admin dashboard design ( Waiting ) 
+- Login (use trim) : asio explic kel oe ty 
 
-ici le to do nirina 
+A FAIRE :
 
-- Refactoring code
-- New admin dashboard design ( Waiting )
-- Login (use trim)
+_ ao  @ admin ao asina : 
+    liste des users > pour visualiser leur sold , transation , etc... 
+    liste des boite > pour visualiser les detailles des boite en cours 
+
+
+_ button : btCredit (demander un crédit)
+    privilège d'un niveau supperieur : peuve demander un crédit pour alimenter son sold sans faire un depot  
+
+_ Appliquer les caraqteristique de chaque level
+
+_ new design for all
+
+_ le input : mot de passe > atao pardefaut mot de passe invisible

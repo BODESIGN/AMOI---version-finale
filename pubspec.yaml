@@ -28,13 +28,11 @@ dependencies:
   video_player: ^2.5.1
   toast: ^0.3.0
   side_navigation: ^1.0.4
-<<<<<<< HEAD
   path_provider_android: ^2.0.24
-  app_installer: ^1.1.0
-=======
   flutter_staggered_grid_view: ^0.6.2
   flutter_icons: ^1.1.0
->>>>>>> d605a432e89d2e48f29b3450a0cdb5676a81ef00
+  permission_handler: ^10.2.0
+
 
   
 flutter_native_splash:

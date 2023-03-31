@@ -33,6 +33,7 @@ class FIREBASE {
         if (!documentSnapshot.exists) actionAfter('error', 'Not exist');
       },
     ).catchError((error) {
+      print("ERROR : $error");
       actionAfter('error', error);
     });
   }

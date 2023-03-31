@@ -5,11 +5,15 @@ import 'dart:io';
 import 'package:amoi/component/button.dart';
 import 'package:amoi/component/input.dart';
 import 'package:amoi/component/label.dart';
+import 'package:amoi/component/modale.dart';
 import 'package:amoi/functions/boitePlein.dart';
 import 'package:amoi/functions/login.dart';
 import 'package:amoi/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SECONNECT extends StatefulWidget {
   const SECONNECT({super.key});
@@ -28,6 +32,7 @@ class _SECONNECTState extends State<SECONNECT> {
   BUTTON next = BUTTON(text: 'Suivant', action: () {}, type: 'BLEU');
   final METHODE $ = METHODE();
   bool isConstruct = true;
+  late MODALE vuModalNewVersion;
 
   int etape = 1;
   bool isnew = false;
@@ -96,15 +101,92 @@ class _SECONNECTState extends State<SECONNECT> {
     // chec connexion
     if (!await connectivite.checkData(toast.show)) return;
     // -- get ADMINISTRATOR
+    loading.show("Verification de l'appliction ...");
     base.select(table['setting']!, table['admin']!, (result, value) {
       administrator = value.data() as Map<String, Object?>;
       cote = administrator['cote'];
       bonusSortant = administrator['bonusSortant'];
+      loading.hide();
+
+      // CHEC VERSION
+      if (version == administrator['version']) return;
+      if (!administrator['version-obli']) return;
+      
+      vuModalNewVersion = MODALE(context, 'Modale new version', '')
+        ..type = 'PLEIN'
+        ..child = modaleNewVersion(context);
+      vuModalNewVersion.show();
     });
   }
 
+  _downloadLastVersion() async {
+    loading.show("Téléchargement ...");
+    final storageRef = FirebaseStorage.instance.ref();
+    final islandRef = storageRef.child("version/app.apk");
+    String filePath = "/storage/emulated/0/Download/amoi.apk";
+    final File file = File(filePath);
+
+    final downloadTask = islandRef.writeToFile(file);
+
+    downloadTask.snapshotEvents.listen((taskSnapshot) async {
+      switch (taskSnapshot.state) {
+        case TaskState.running:
+          double percent =
+              taskSnapshot.bytesTransferred / taskSnapshot.totalBytes;
+          loading.showProgress(percent,
+              "(${(percent * 100).round()}%) Téléchargement cours ...");
+          break;
+        case TaskState.paused:
+          break;
+        case TaskState.success:
+          loading.hide();
+          // TODO open directly APK
+          // await File(filePath).readAsBytes();
+          toast.show(
+              "La dernière vesrion a été télécharger veuillez ovrire le fichier : amoi.apk dans votre dossier download");
+          Navigator.pop(context);
+
+          break;
+        case TaskState.canceled:
+          loading.hide();
+          break;
+        case TaskState.error:
+          loading.hide();
+          break;
+      }
+    });
+  }
+
+  _checPermission() async {
+    var status = await Permission.storage.status;
+    if (!status.isDenied) status = await Permission.accessMediaLocation.status;
+    if (!status.isDenied) status = await Permission.manageExternalStorage.status;
+    if (!status.isDenied) status = await Permission.mediaLibrary.status;
+    if (!status.isDenied) status = await Permission.requestInstallPackages.status;
+
+    if (status.isDenied) {
+      // You can request multiple permissions at once.
+      Map<Permission, PermissionStatus> statuses = await [
+        Permission.storage,
+        Permission.accessMediaLocation,
+        Permission.manageExternalStorage,
+        Permission.mediaLibrary,
+        Permission.requestInstallPackages,
+      ].request();
+
+      // print(" PERMIS : ${statuses[Permission.storage]}");
+    }
+  }
+
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+    // CHEC PERMISSION 
+    _checPermission();
+  }
+
+  @override
+  build(BuildContext context) {
     toast.init(context);
     setState(() {
       newc.action = () => _newc(context);
@@ -150,12 +232,61 @@ class _SECONNECTState extends State<SECONNECT> {
                               etape == 1 ? newc : prev,
                               etape == 1 ? conn : next,
                             ],
-                          ),
+                          )
                         ]))))),
         onWillPop: () async {
           if (Platform.isAndroid) SystemNavigator.pop();
           if (Platform.isIOS) exit(0);
           return false;
         });
+  }
+
+  Widget modaleNewVersion(BuildContext context)  {
+    return Container(
+        color: Colors.black87,
+        height: double.maxFinite,
+        width: double.maxFinite,
+        child: Center(
+            child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            LABEL(
+                text: "On a une nouvelle version de l'application",
+                color: Colors.white,
+                size: 18),
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 50,
+              width: 50,
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(300),
+                  child: Container(
+                      color: Colors.white,
+                      child: const Icon(Icons.phonelink_setup))),
+            ),
+            const SizedBox(height: 10),
+            LABEL(
+                text: "Voullez-vous le télécharger tout de suite ?",
+                size: 14,
+                isBold: true,
+                color: Colors.white),
+            LABEL(
+                text: "(taille : ${administrator['version-size']})",
+                size: 14,
+                color: Colors.white60),
+            const SizedBox(height: 10),
+            BUTTON(
+                text: 'TELECHARGER et Mettre a jour',
+                type: 'BLEU',
+                action: () => _downloadLastVersion()),
+            BUTTON(
+                text: 'QUITTER',
+                action: () {
+                  vuModalNewVersion.hide();
+                  Platform.isIOS ? exit(0) : SystemNavigator.pop();
+                }),
+          ],
+        )));
   }
 }

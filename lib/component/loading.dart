@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class LOADING {
+  int vu = 0; // 0 : dismissed      1 : toast    2 : progress
+
   setConfig() {
     EasyLoading.instance
       ..displayDuration = const Duration(milliseconds: 2000)
@@ -19,15 +21,19 @@ class LOADING {
   }
 
   show(String message) async {
+    vu = 1;
     await EasyLoading.show(
         status: message, maskType: EasyLoadingMaskType.black);
   }
 
   showProgress(double val, String message) {
+    if (vu == 1) hide();
+    vu = 2;
     EasyLoading.showProgress(val, status: message);
   }
 
-  hide() async {
-    await EasyLoading.dismiss();
+  hide() {
+    vu = 0;
+    EasyLoading.dismiss();
   }
 }
