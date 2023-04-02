@@ -1,6 +1,5 @@
 
 
-- Refactoring code 👍
 - New admin dashboard design ( Waiting ) 
 - Login (use trim) : asio explic kel oe ty 
 
