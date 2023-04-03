@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
+import 'package:package_info/package_info.dart';
 
 import 'component/connectivite.dart';
 import 'component/firebase.dart';
@@ -19,15 +20,19 @@ TOAST toast = TOAST();
 CONNECTIVITE connectivite = CONNECTIVITE();
 FIREBASE base = FIREBASE();
 
-String version = 'v1.0';
+String version = '';
 
 // ==================================================================
 late Map<String, dynamic> userActif;
-Map<String, dynamic> administrator = {'version': null};
+Map<String, dynamic> administrator = {};
 
 // ==================================================================
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  version = packageInfo.version.toString();
+  // ignore: avoid_print
+  print("APP VERSION : $version");
   await initFirebase();
   loading.setConfig();
   runApp(const MAIN());
