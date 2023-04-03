@@ -9,11 +9,13 @@ import 'package:amoi/component/modale.dart';
 import 'package:amoi/functions/boitePlein.dart';
 import 'package:amoi/functions/login.dart';
 import 'package:amoi/main.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SECONNECT extends StatefulWidget {
   const SECONNECT({super.key});
@@ -42,7 +44,12 @@ class _SECONNECTState extends State<SECONNECT> {
     if (!await connectivite.checkData(toast.show)) return;
 
     if (administrator['version'] == null) await _getAdmin();
-    if ($.isVersionValide() == false) return;
+
+    bool isVersion;
+    isVersion = await $.isVersionValide();
+    if (isVersion == false) {
+      return;
+    }
 
     if (isnew) {
       // new compte
@@ -111,7 +118,7 @@ class _SECONNECTState extends State<SECONNECT> {
       // CHEC VERSION
       if (version == administrator['version']) return;
       if (!administrator['version-obli']) return;
-      
+
       vuModalNewVersion = MODALE(context, 'Modale new version', '')
         ..type = 'PLEIN'
         ..child = modaleNewVersion(context);
@@ -123,8 +130,12 @@ class _SECONNECTState extends State<SECONNECT> {
     loading.show("Téléchargement ...");
     final storageRef = FirebaseStorage.instance.ref();
     final islandRef = storageRef.child("version/app.apk");
-    String filePath = "/storage/emulated/0/Download/amoi.apk";
+    // String filePath = "/storage/emulated/0/Download/amoi.apk";
+    // final File file = File(filePath);
+    final Directory? directory = await getExternalStorageDirectory();
+    final String filePath = '${directory?.path}/app.apk';
     final File file = File(filePath);
+    // await islandRef.writeToFile(file);
 
     final downloadTask = islandRef.writeToFile(file);
 
@@ -142,8 +153,28 @@ class _SECONNECTState extends State<SECONNECT> {
           loading.hide();
           // TODO open directly APK
           // await File(filePath).readAsBytes();
+
+          try {
+            final url = 'file://$filePath';
+            if (await canLaunchUrl(Uri.parse(url))) {
+              await launchUrl(Uri.parse(url));
+            } else {
+              throw 'Could not launch $url';
+            }
+
+            // Show a success message or navigate to a new page
+            // ...
+
+          } catch (e) {
+            if (kDebugMode) {
+              print(e);
+            }
+            // Handle errors
+          }
+
           toast.show(
               "La dernière vesrion a été télécharger veuillez ovrire le fichier : amoi.apk dans votre dossier download");
+          // ignore: use_build_context_synchronously
           Navigator.pop(context);
 
           break;
@@ -160,9 +191,13 @@ class _SECONNECTState extends State<SECONNECT> {
   _checPermission() async {
     var status = await Permission.storage.status;
     if (!status.isDenied) status = await Permission.accessMediaLocation.status;
-    if (!status.isDenied) status = await Permission.manageExternalStorage.status;
+    if (!status.isDenied) {
+      status = await Permission.manageExternalStorage.status;
+    }
     if (!status.isDenied) status = await Permission.mediaLibrary.status;
-    if (!status.isDenied) status = await Permission.requestInstallPackages.status;
+    if (!status.isDenied) {
+      status = await Permission.requestInstallPackages.status;
+    }
 
     if (status.isDenied) {
       // You can request multiple permissions at once.
@@ -181,7 +216,7 @@ class _SECONNECTState extends State<SECONNECT> {
   @override
   void initState() {
     super.initState();
-    // CHEC PERMISSION 
+    // CHEC PERMISSION
     _checPermission();
   }
 
@@ -241,7 +276,7 @@ class _SECONNECTState extends State<SECONNECT> {
         });
   }
 
-  Widget modaleNewVersion(BuildContext context)  {
+  Widget modaleNewVersion(BuildContext context) {
     return Container(
         color: Colors.black87,
         height: double.maxFinite,
