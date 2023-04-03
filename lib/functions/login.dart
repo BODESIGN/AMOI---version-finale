@@ -2,6 +2,7 @@
 
 import 'package:amoi/functions/exp.dart';
 import 'package:amoi/main.dart';
+import 'package:package_info/package_info.dart';
 
 class METHODE {
   String mdp1 = '';
@@ -140,8 +141,11 @@ class METHODE {
   }
 
   // ---------------------------------------------------------------
-  bool isVersionValide() {
+  Future<bool> isVersionValide() async {
     if (administrator['version-obli'] == false) return true;
-    return (administrator['version'] == version);
+    final packageInfo = await PackageInfo.fromPlatform();
+    final installedVersion = int.parse(packageInfo.buildNumber);
+
+    return (int.parse(administrator['version']) == installedVersion);
   }
 }
