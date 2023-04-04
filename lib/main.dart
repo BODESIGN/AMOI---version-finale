@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:amoi/screens/admin.dart';
+import 'package:amoi/screens/admin_boite_all.dart';
 import 'package:amoi/screens/admin_dashboard.dart';
+import 'package:amoi/screens/admin_users_all.dart';
 import 'package:amoi/screens/dashboard.dart';
 import 'package:amoi/screens/seconnect.dart';
 import 'package:flutter/material.dart';
@@ -63,6 +65,8 @@ class MAIN extends StatelessWidget {
           'DASHBOARD': (context) => const DASHBOARD(),
           'ADMIN': (context) => const ADMIN(),
           'ADMIN_DASHBOARD': (context) => const AdminDashboard(),
+          'ADMIN_ALL_USER': (context) => const SCREEN_ALL_USERS(),
+          'ADMIN_ALL_BOITE': (context) => const SCREEN_ALL_BOITE(),
         });
   }
 }

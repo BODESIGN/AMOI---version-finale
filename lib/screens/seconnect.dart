@@ -13,7 +13,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:package_info/package_info.dart';
+// import 'package:package_info/package_info.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -46,11 +46,12 @@ class _SECONNECTState extends State<SECONNECT> {
 
     if (administrator['version'] == null) await _getAdmin();
 
-    bool isVersion;
-    isVersion = await $.isVersionValide();
-    if (isVersion == false) {
-      return;
-    }
+    // > TSY ILAINA TSONY
+    // bool isVersion;
+    // isVersion = await $.isVersionValide();
+    // if (isVersion == false) {
+    //   return;
+    // }
 
     if (isnew) {
       // new compte
@@ -229,6 +230,7 @@ class _SECONNECTState extends State<SECONNECT> {
       conn.action = () => _conn(context);
       next.action = () => _next(context);
       prev.action = () => _prev(context);
+      mdp.isMotDePasse = true;
     });
     if (isConstruct) {
       setState(() => isConstruct = false);

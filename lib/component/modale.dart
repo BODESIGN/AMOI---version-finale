@@ -104,11 +104,28 @@ class MODALE {
       case 'PLEIN':
         showModalBottomSheet<void>(
             context: context,
-            isScrollControlled:true,
+            isScrollControlled: true,
             enableDrag: false,
             isDismissible: false,
             builder: (BuildContext context) {
               return SafeArea(child: child);
+            });
+        break;
+      case 'NOTYF':
+        showModalBottomSheet<void>(
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            builder: (BuildContext context) {
+              return SingleChildScrollView(
+                  child: Padding(
+                padding: const EdgeInsets.all(25),
+                child: Container(
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    child: child),
+              ));
             });
         break;
       default:

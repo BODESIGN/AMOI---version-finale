@@ -146,6 +146,6 @@ class METHODE {
     final packageInfo = await PackageInfo.fromPlatform();
     final installedVersion = int.parse(packageInfo.buildNumber);
 
-    return (int.parse(administrator['version']) == installedVersion);
+    return (administrator['version'].toString() == installedVersion.toString());
   }
 }

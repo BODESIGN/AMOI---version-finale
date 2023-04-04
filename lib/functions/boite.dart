@@ -53,6 +53,8 @@ class BOITE {
     };
   }
 
+  int nbMyBoite = 0;
+
   // =========================== VU MODALE NEW
   initModaleNew(BuildContext context) {
     vuModaleNew = MODALE(context, 'Boite', '')
@@ -61,14 +63,15 @@ class BOITE {
   }
 
   // =========================== VU MODALE NEW
-  initModaleSearch(BuildContext context) {
+  initModaleSearch(BuildContext context, int _nbMyBoite) {
+    nbMyBoite = _nbMyBoite;
     vuModaleNew = MODALE(context, 'Boite', '')
       ..type = 'CUSTOM'
       ..child = vu(context, isModaleSearch: true);
   }
 
   // ================================= INIT NEW
-  search(BuildContext context, List<String> searchers) {
+  search(BuildContext context, List<String> searchers, int nbBoite) {
     if (searchers[0] == '') toast.show("Code érronée");
     if (searchers[0] == '') return;
     if (searchers.length > 1) parentCode = searchers[1];
@@ -80,7 +83,7 @@ class BOITE {
       if (result == 'error') return;
       map = value.data() as Map<String, Object?>;
       loading.hide();
-      initModaleSearch(context);
+      initModaleSearch(context, nbBoite);
       // loading.show("Affichage ...");
       // Future.delayed(const Duration(milliseconds: 200), () {
       vuModaleNew.show();
@@ -174,50 +177,62 @@ class BOITE {
                         ]),
                       )
                     ]))
-            : Padding(
-                padding: const EdgeInsets.all(10),
-                child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
-                    child: SizedBox(
-                        height: MediaQuery.of(context).size.height,
-                        // width: MediaQuery.of(context).size.width,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(children: [
-                                LABEL(
-                                    text: 'Code : ${map['code']}',
-                                    color: Colors.grey,
-                                    isBold: true),
-                                LABEL(text: ' / ${map['dateCreate']}')
-                              ]),
-                              LABEL(
-                                  text:
-                                      'Montant Investi : ${map['montant']} ariary'),
-                              const SizedBox(height: 10),
-                              designEtage(),
-                              const SizedBox(height: 10),
-                              legende(),
-                              const SizedBox(height: 10),
-                              mesState(),
-                              const SizedBox(height: 10),
-                              LABEL(
-                                  text:
-                                      "Mon code : ${map['code']}-${userActif['login']}",
-                                  color: Colors.grey),
-                              Row(children: [
-                                BUTTON(
-                                    text: 'Copier code',
-                                    action: () => copieCodeToClip(
-                                        '${map['code']}-${userActif['login']}')),
-                                const SizedBox(width: 10),
-                                BUTTON(
-                                    text: 'Voir les membres',
-                                    action: () => showModaleMembre(context)),
-                              ]),
-                              const SizedBox(height: 10),
-                              histo()
-                            ]))));
+            : Card(
+                color: Colors.white,
+                surfaceTintColor: Colors.white,
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: SizedBox(
+                            height: MediaQuery.of(context).size.height,
+                            // width: MediaQuery.of(context).size.width,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(children: [
+                                    LABEL(
+                                        text: 'Code : ${map['code']}',
+                                        color: Colors.grey,
+                                        isBold: true),
+                                    LABEL(text: ' / ${map['dateCreate']}')
+                                  ]),
+                                  LABEL(
+                                      text:
+                                          'Montant Investi : ${map['montant']} ariary'),
+                                  const SizedBox(height: 10),
+                                  designEtage(),
+                                  const SizedBox(height: 10),
+                                  legende(),
+                                  const SizedBox(height: 10),
+                                  if (checIamInBoite(map)) mesState(),
+                                  if (checIamInBoite(map))
+                                    const SizedBox(height: 10),
+                                  if (checIamInBoite(map))
+                                    LABEL(
+                                        text:
+                                            "Mon code : ${map['code']}-${userActif['login']}",
+                                        color: Colors.grey),
+                                  Row(children: [
+                                    if (checIamInBoite(map))
+                                      BUTTON(
+                                          text: 'Copier code',
+                                          action: () => copieCodeToClip(
+                                              '${map['code']}-${userActif['login']}')),
+                                    const SizedBox(width: 10),
+                                    BUTTON(
+                                        text: 'Voir les membres',
+                                        action: () =>
+                                            showModaleMembre(context)),
+                                  ]),
+                                  const SizedBox(height: 10),
+                                  histo()
+                                ])))),
+              );
   }
 
   // =========================== FUNCTION
@@ -279,6 +294,13 @@ class BOITE {
       toast.show("Votre sold est insuffisant");
     }
     if (map['montant'] > userActif['ariary']) return;
+
+    if (!EXP().checPrivillege_NbBoiteMaxe(userActif['level'], nbMyBoite))
+      // ignore: curly_braces_in_flow_control_structures
+      toast.show(
+          "Vous avez déjà attein le nombre maximum de votre boite en cours !");
+    if (!EXP().checPrivillege_NbBoiteMaxe(userActif['level'], nbMyBoite))
+      return;
 
     bool haveSortant = true;
 
@@ -537,6 +559,7 @@ class BOITE {
 
   recalculeProgression() {
     meProgression = 0;
+    if (!checIamInBoite(map)) return;
     //
     if (map['informations'][userActif['login']]['childNbr'] > 0) {
       meProgression +=
@@ -588,7 +611,7 @@ class BOITE {
     String here = "${table['boite']}/${map['code']}/${table['histoBoite']}";
     base.selectList(here,
         haveLimit: true,
-        limit: 5,
+        limit: 7,
         haveOrder: true,
         order: 'dateTimes',
         desc: true, (res) {

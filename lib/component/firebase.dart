@@ -249,19 +249,40 @@ class FIREBASE {
     }).onError((error, stackTrace) => actionAfter([]));
   }
 
+  // ----------------------- > SELECT USERS
+  selectListUsers(
+    Function actionAfter,
+  ) {
+    // LIMITE
+    firestore.collection(table['user']!).get().then((querySnapshot) {
+      List<Map> liste = [];
+      for (var result in querySnapshot.docs) {
+        liste.add(result.data());
+      }
+      actionAfter(liste);
+    }).onError((error, stackTrace) => actionAfter([]));
+  }
+
   // ----------------------- > SELECT BOITES - LIST
-  void select_Boite(Function actionAfter, {bool isIamNotIn = false}) {
+  void select_Boite(Function actionAfter,
+      {bool isIamNotIn = false, bool getAll = false}) {
     firestore.collection(table['boite']!).get().then((querySnapshot) {
       List<Map> boites = [];
       List<Map> boitesImNotIn = [];
+      List<Map> boitesAll = [];
       for (var result in querySnapshot.docs) {
+        boitesAll.add(result.data());
         if (checIamInBoite(result.data())) {
           boites.add(result.data());
         } else {
           boitesImNotIn.add(result.data());
         }
       }
-      actionAfter(isIamNotIn ? boitesImNotIn : boites);
+      actionAfter(isIamNotIn
+          ? boitesImNotIn
+          : getAll
+              ? boitesAll
+              : boites);
     }).onError((error, stackTrace) => actionAfter([]));
   }
 

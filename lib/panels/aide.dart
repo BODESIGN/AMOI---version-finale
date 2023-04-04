@@ -1,5 +1,6 @@
 import 'package:amoi/component/button.dart';
 import 'package:amoi/functions/boitePlein.dart';
+import 'package:amoi/functions/exp.dart';
 import 'package:amoi/main.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,15 @@ class MANUEL extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> vuPrivilege = [];
+
+    EXP().privilege.forEach((key, value) {
+      vuPrivilege.add(Text("$key : ${value['nom']}", style: pB));
+      vuPrivilege.add(Text(
+          "Boîte maximum : ${value['nb boite max']}, Montant maximum dans le portefeuille : ${value['sold delivrable max']} ariary, Révenue actionnaire : ${value['revenue actionnaire']}%",
+          style: p));
+    });
+
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Column(
@@ -140,34 +150,9 @@ class MANUEL extends StatelessWidget {
 
           Text("〽️ Privilège de chaque niveau", style: pB),
           const SizedBox(height: 10),
-          Text("Niv. 1 : Membre junior ", style: pB),
-          Text(
-              "Boîte maximum : 5, Montant maximum dans le portefeuille : 100.000 ariary.",
-              style: p),
-          Text("Niv. 2 : Membre sénior ", style: pB),
-          Text(
-              "Boîte maximum : 10, Montant maximum dans le portefeuille : 500.000 ariary.",
-              style: p),
-          Text("Niv. 3 : Collaborateur junior ", style: pB),
-          Text(
-              "Boîte maximum : illimité, Montant maximum dans le portefeuille : 500.000 ariary.",
-              style: p),
-          Text("Niv. 4 : Collaborateur sénior ", style: pB),
-          Text(
-              "Boîte maximum : illimité, Montant maximum dans le portefeuille : illimité.",
-              style: p),
-          Text("Niv. 5 : Pré-actionnaire ", style: pB),
-          Text(
-              "Boîte maximum : illimité, Montant maximum dans le portefeuille : illimité, revenue actionnaire : 1% du sold de l'application.",
-              style: p),
-          Text("Niv. 6 : Actionnaire junior", style: pB),
-          Text(
-              "Boîte maximum : illimité, Montant maximum dans le portefeuille : illimité, revenue actionnaire : 3% du sold de l'application.",
-              style: p),
-          Text("Niv. 7 : Actionnaire sénior", style: pB),
-          Text(
-              "Boîte maximum : illimité, Montant maximum dans le portefeuille : illimité, revenue actionnaire : 7% du sold de l'application.",
-              style: p),
+          Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: vuPrivilege),
 
           const SizedBox(height: 10),
           const SizedBox(height: 10),

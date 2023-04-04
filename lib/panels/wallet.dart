@@ -1,6 +1,7 @@
 import 'package:amoi/component/button.dart';
 import 'package:amoi/component/input.dart';
 import 'package:amoi/component/label.dart';
+import 'package:amoi/functions/exp.dart';
 import 'package:amoi/functions/transaction.dart';
 import 'package:amoi/main.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class PANELWALLET extends StatefulWidget {
   PANELWALLET({super.key, required this.user, required this.redraw});
 
   Map<String, dynamic> user;
-  Function redraw;
+  Function redraw; 
 
   @override
   State<PANELWALLET> createState() => _PANELWALLETState();
@@ -26,12 +27,11 @@ class _PANELWALLETState extends State<PANELWALLET> {
   INPUT tel2 = INPUT(label: 'Numéro mobile money');
   BUTTON btDepot = BUTTON(text: 'Déposer', action: () {}, type: 'BLEU');
 
-  BUTTON btCredit = BUTTON(text: 'Demander un crédit', action: () {});
-
   List<Widget> transactions = [];
   TRANSACTION $ = TRANSACTION();
 
   bool isConstruct = true;
+
 
   // ----------------------------------------------------------
   void _retirer() {
@@ -63,7 +63,7 @@ class _PANELWALLETState extends State<PANELWALLET> {
     }
 
     $.retrait(userActif['login'], tel.getValue(), m, () {
-      toast.show('✅ Demande envoyée !');
+      toast.showNotyf('Demande envoyée !', 'SUCCES');
       _getTransaction();
     });
   }
@@ -88,8 +88,15 @@ class _PANELWALLETState extends State<PANELWALLET> {
       return;
     }
 
+    // - CHEC PRIVIL7GE
+    if (!EXP().checPrivillege_SoldMax(userActif['level'], userActif['ariary'])) {
+      toast.show(
+          'Votre sold délivrable a attein son plafond, veuillez faire une retaire ! ');
+      return;
+    }
+
     $.depot(userActif['login'], tel2.getValue(), m, () {
-      toast.show('✅ Demande envoyée !');
+      toast.showNotyf('Demande envoyée !', 'SUCCES');
       _getTransaction();
     });
   }
@@ -124,10 +131,6 @@ class _PANELWALLETState extends State<PANELWALLET> {
   @override
   Widget build(BuildContext context) {
     setState(() {
-      btCredit.action = widget.user['level'] < 3
-          ? () => toast.show('Desolé, un crédit est disponible au niveau 3')
-          // ignore: avoid_print
-          : () => print('demande de credit');
       btRetrait.action = () => _retirer();
       btDepot.action = () => _depot();
     });
@@ -140,7 +143,6 @@ class _PANELWALLETState extends State<PANELWALLET> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          btCredit,
           const SizedBox(height: 20),
           LABEL(text: "Effécter un retrait d'argent"),
           tel,

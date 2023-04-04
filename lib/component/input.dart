@@ -23,22 +23,15 @@ class INPUT extends StatefulWidget {
 }
 
 class _boInput extends State<INPUT> {
-  bool isObscur = false;
+  bool isObscur = true;
   InputBorder inputborder = OutlineInputBorder(
       borderSide: const BorderSide(color: Colors.black12),
       borderRadius: BorderRadius.circular(5));
 
   void onChangeVuMpd() {
-    setState(() {
-      isObscur = !isObscur;
-    });
+    setState(() => isObscur = !isObscur);
   }
 
-  @override
-  void initState() {
-    super.initState();
-    if (widget.isMotDePasse) onChangeVuMpd();
-  }
 
   @override
   Widget build(BuildContext context) {

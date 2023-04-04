@@ -4,6 +4,7 @@ import 'package:amoi/component/input.dart';
 import 'package:amoi/component/label.dart';
 import 'package:amoi/component/panel.dart';
 import 'package:amoi/functions/boite.dart';
+import 'package:amoi/functions/exp.dart';
 import 'package:amoi/main.dart';
 import 'package:amoi/panels/aide.dart';
 import 'package:amoi/panels/profile.dart';
@@ -203,6 +204,13 @@ class _DASHBOARDState extends State<DASHBOARD> {
     if (m > userActif['ariary']) toast.show("Votre sold est insuffisant");
     if (m > userActif['ariary']) return;
 
+    if (!EXP().checPrivillege_NbBoiteMaxe(userActif['level'], vuBoites.length))
+      // ignore: curly_braces_in_flow_control_structures
+      toast.show(
+          "Vous avez déjà attein le nombre maximum de votre boite en cours !");
+    if (!EXP().checPrivillege_NbBoiteMaxe(userActif['level'], vuBoites.length))
+      return;
+
     setState(() {
       newBoite.redraw = () {
         setState(() => vuAction = 0);
@@ -228,7 +236,7 @@ class _DASHBOARDState extends State<DASHBOARD> {
         reloadBoite(context);
       };
     });
-    searchBoite.search(context, searchers);
+    searchBoite.search(context, searchers, vuBoites.length);
   }
 
   paste() async {
@@ -289,14 +297,17 @@ class _DASHBOARDState extends State<DASHBOARD> {
                       child: vuBoites.isNotEmpty
                           ? SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
-                              child: SizedBox(
-                                  // width: MediaQuery.of(context).size.width,
-                                  child: Row(children: vuBoites)))
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: SizedBox(
+                                    // width: MediaQuery.of(context).size.width,
+                                    child: Row(children: vuBoites)),
+                              ))
                           : Center(
                               child: LABEL(
                                   text: 'Aucune boite', color: Colors.grey)),
                     ),
-                    const SizedBox(height: 10),
+                    // const SizedBox(height: 10),
                     if (vuAction == 1) montant,
                     if (vuAction == 2) search,
                     const SizedBox(height: 10),
@@ -322,50 +333,45 @@ class _DASHBOARDState extends State<DASHBOARD> {
 
           // PROFILE
           SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    APPBAR(user: userActif),
-                    const SizedBox(height: 10),
-                    Container(
-                        height: 1,
-                        width: double.maxFinite,
-                        color: Colors.black12),
-                    const SizedBox(height: 10),
-                    PANELPROFILE(user: userActif, redraw: () => setState(() {}))
-                  ],
-                ),
-              ),
-            ),
-          ),
+              scrollDirection: Axis.vertical,
+              child: SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            APPBAR(user: userActif),
+                            const SizedBox(height: 10),
+                            Container(
+                                height: 1,
+                                width: double.maxFinite,
+                                color: Colors.black12),
+                            const SizedBox(height: 10),
+                            PANELPROFILE(
+                                user: userActif, redraw: () => setState(() {}))
+                          ])))),
 
           // WALLET
           SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  APPBAR(user: userActif),
-                  const SizedBox(height: 10),
-                  Container(
-                      height: 1,
-                      width: double.maxFinite,
-                      color: Colors.black12),
-                  const SizedBox(height: 10),
-                  PANELWALLET(user: userActif, redraw: () => setState(() {}))
-                ],
-              ),
-            ),
-          ),
+              scrollDirection: Axis.vertical,
+              child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        APPBAR(user: userActif),
+                        const SizedBox(height: 10),
+                        Container(
+                            height: 1,
+                            width: double.maxFinite,
+                            color: Colors.black12),
+                        const SizedBox(height: 10),
+                        PANELWALLET(
+                            user: userActif, redraw: () => setState(() {}))
+                      ]))),
 
           // MES TOKEN
           Padding(
