@@ -13,4 +13,6 @@ RAYAN
 
     (OK -> toast.showNotyf) _ not use TOAST > use MODALE personaliser 
     
+    _ créer les lien bour nour réjoindre : gmail , fb (logo) , whatsapp
+    
     _ new design for all -> petit a petit
