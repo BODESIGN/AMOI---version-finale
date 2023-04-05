@@ -143,7 +143,7 @@ class _PANELWALLETState extends State<PANELWALLET> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           LABEL(text: "Effécter un retrait d'argent"),
           tel,
           const SizedBox(height: 5),

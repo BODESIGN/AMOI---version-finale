@@ -280,56 +280,71 @@ class _DASHBOARDState extends State<DASHBOARD> {
         ],
         panels: [
           //DASHBOARD
-          Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    APPBAR(user: userActif),
-                    const SizedBox(height: 10),
-                    Container(
-                        height: 1,
-                        width: double.maxFinite,
-                        color: Colors.black12),
-                    const SizedBox(height: 10),
-                    Expanded(
-                      child: vuBoites.isNotEmpty
-                          ? SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
+          Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  // color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: APPBAR(user: userActif),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Container(
+                    height: 1, width: double.maxFinite, color: Colors.black12),
+                Expanded(
+                  child: vuBoites.isNotEmpty
+                      ? SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Container(
+                              color: Colors.grey[300],
+                              // width: MediaQuery.of(context).size.width,
                               child: Padding(
-                                padding: const EdgeInsets.only(bottom: 8.0),
-                                child: SizedBox(
-                                    // width: MediaQuery.of(context).size.width,
-                                    child: Row(children: vuBoites)),
-                              ))
-                          : Center(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                child: Row(children: vuBoites),
+                              )))
+                      : Container(
+                          color: Colors.grey[300],
+                          child: Center(
                               child: LABEL(
-                                  text: 'Aucune boite', color: Colors.grey)),
-                    ),
-                    // const SizedBox(height: 10),
-                    if (vuAction == 1) montant,
-                    if (vuAction == 2) search,
-                    const SizedBox(height: 10),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          vuAction == 0 ? btNewBoite : btValider,
-                          const SizedBox(width: 5),
-                          vuAction == 0 ? btSearch : btAnnuler,
-                          if (vuAction == 0 || vuAction == 2)
+                                  text: 'Aucune boite', color: Colors.black)),
+                        ),
+                ),
+                // const SizedBox(height: 10),
+                if (vuAction == 1) montant,
+                if (vuAction == 2) search,
+                Container(
+                  color: Colors.grey[300],
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            vuAction == 0 ? btNewBoite : btValider,
                             const SizedBox(width: 5),
-                          if (vuAction == 0) btRefrech,
-                          if (vuAction == 2) btPast,
-                          Expanded(
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                LABEL(text: 'Amoi Groupe', color: Colors.grey),
-                                LABEL(text: version, color: Colors.grey)
-                              ]))
-                        ])
-                  ])),
+                            vuAction == 0 ? btSearch : btAnnuler,
+                            if (vuAction == 0 || vuAction == 2)
+                              const SizedBox(width: 5),
+                            if (vuAction == 0) btRefrech,
+                            if (vuAction == 2) btPast,
+                            Expanded(
+                                child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                  LABEL(
+                                      text: 'Amoi Groupe', color: Colors.grey),
+                                  LABEL(text: version, color: Colors.grey)
+                                ]))
+                          ]),
+                    ),
+                  ),
+                )
+              ]),
 
           // PROFILE
           SingleChildScrollView(
@@ -354,24 +369,28 @@ class _DASHBOARDState extends State<DASHBOARD> {
                           ])))),
 
           // WALLET
-          SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        APPBAR(user: userActif),
-                        const SizedBox(height: 10),
-                        Container(
-                            height: 1,
-                            width: double.maxFinite,
-                            color: Colors.black12),
-                        const SizedBox(height: 10),
-                        PANELWALLET(
-                            user: userActif, redraw: () => setState(() {}))
-                      ]))),
+          Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    APPBAR(user: userActif),
+                    const SizedBox(height: 10),
+                    Container(
+                        height: 1,
+                        width: double.maxFinite,
+                        color: Colors.black12),
+                    const SizedBox(height: 10),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height - 120,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: PANELWALLET(
+                            user: userActif, redraw: () => setState(() {})),
+                      ),
+                    )
+                  ])),
 
           // MES TOKEN
           Padding(

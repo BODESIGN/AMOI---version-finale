@@ -13,4 +13,4 @@ RAYAN
 
     (OK -> toast.showNotyf) _ not use TOAST > use MODALE personaliser 
     
-    _ new design for all
+    _ new design for all -> petit a petit

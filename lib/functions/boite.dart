@@ -177,61 +177,62 @@ class BOITE {
                         ]),
                       )
                     ]))
-            : Card(
-                color: Colors.white,
-                surfaceTintColor: Colors.white,
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: SizedBox(
-                            height: MediaQuery.of(context).size.height,
-                            // width: MediaQuery.of(context).size.width,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(children: [
-                                    LABEL(
-                                        text: 'Code : ${map['code']}',
-                                        color: Colors.grey,
-                                        isBold: true),
-                                    LABEL(text: ' / ${map['dateCreate']}')
-                                  ]),
-                                  LABEL(
-                                      text:
-                                          'Montant Investi : ${map['montant']} ariary'),
-                                  const SizedBox(height: 10),
-                                  designEtage(),
-                                  const SizedBox(height: 10),
-                                  legende(),
-                                  const SizedBox(height: 10),
-                                  if (checIamInBoite(map)) mesState(),
-                                  if (checIamInBoite(map))
-                                    const SizedBox(height: 10),
-                                  if (checIamInBoite(map))
+            : Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 1, color: Colors.black12),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5)),
+                  child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: SizedBox(
+                              height: MediaQuery.of(context).size.height,
+                              // width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(children: [
+                                      LABEL(
+                                          text: 'Code : ${map['code']}',
+                                          color: Colors.grey,
+                                          isBold: true),
+                                      LABEL(text: ' / ${map['dateCreate']}')
+                                    ]),
                                     LABEL(
                                         text:
-                                            "Mon code : ${map['code']}-${userActif['login']}",
-                                        color: Colors.grey),
-                                  Row(children: [
+                                            'Montant Investi : ${map['montant']} ariary'),
+                                    const SizedBox(height: 10),
+                                    designEtage(),
+                                    const SizedBox(height: 10),
+                                    legende(),
+                                    const SizedBox(height: 10),
+                                    if (checIamInBoite(map)) mesState(),
                                     if (checIamInBoite(map))
+                                      const SizedBox(height: 10),
+                                    if (checIamInBoite(map))
+                                      LABEL(
+                                          text:
+                                              "Mon code : ${map['code']}-${userActif['login']}",
+                                          color: Colors.grey),
+                                    Row(children: [
+                                      if (checIamInBoite(map))
+                                        BUTTON(
+                                            text: 'Copier code',
+                                            action: () => copieCodeToClip(
+                                                '${map['code']}-${userActif['login']}')),
+                                      const SizedBox(width: 10),
                                       BUTTON(
-                                          text: 'Copier code',
-                                          action: () => copieCodeToClip(
-                                              '${map['code']}-${userActif['login']}')),
-                                    const SizedBox(width: 10),
-                                    BUTTON(
-                                        text: 'Voir les membres',
-                                        action: () =>
-                                            showModaleMembre(context)),
-                                  ]),
-                                  const SizedBox(height: 10),
-                                  histo()
-                                ])))),
+                                          text: 'Voir les membres',
+                                          action: () =>
+                                              showModaleMembre(context)),
+                                    ]),
+                                    const SizedBox(height: 10),
+                                    histo()
+                                  ])))),
+                ),
               );
   }
 
