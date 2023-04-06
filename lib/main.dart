@@ -154,5 +154,5 @@ Widget pdp(String uri, Function clickOnpdp,
           onTap: (() {
             clickOnpdp();
           }),
-          child: Icon(Icons.person, color: Colors.black, size: iconSize));
+          child: Icon(Icons.person, color: Colors.white, size: iconSize));
 }
