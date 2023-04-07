@@ -30,13 +30,6 @@ class AdminDashboard extends StatelessWidget {
                       onTap: () {},
                     ),
                     _buildTile(
-                      color: Colors.grey,
-                      icon: Icons.person,
-                      title: 'Utilisateurs actifs',
-                      subtitle: '1,000',
-                      onTap: () {},
-                    ),
-                    _buildTile(
                         color: Colors.pink,
                         icon: Icons.group,
                         title: 'Utilisateurs',

@@ -129,7 +129,7 @@ class _PANELState extends State<PANEL> {
                                     : Colors.white54),
                           ),
                         ),
-                        if (isExpanded) const SizedBox(width: 5),
+                        if (isExpanded) const SizedBox(width: 10),
                         if (isExpanded)
                           LABEL(
                               text: k.toString(),

@@ -80,13 +80,10 @@ class _APPBARState extends State<APPBAR> {
                                     width: 30,
                                     height: 30,
                                     child: Center(
-                                        child: Column(children: [
-                                      LABEL(
-                                          text: '${widget.user['level']}',
-                                          size: 11,
-                                          isBold: true),
-                                      LABEL(text: 'Niv.', size: 10)
-                                    ])))
+                                        child: LABEL(
+                                            text: '${widget.user['level']}',
+                                            size: 13,
+                                            isBold: true)))
                               ]))
                         ])))));
   }

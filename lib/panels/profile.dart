@@ -23,7 +23,6 @@ class PANELPROFILE extends StatefulWidget {
 class _PANELPROFILEState extends State<PANELPROFILE> {
   INPUT fullname = INPUT(label: 'Nom prénom');
   BUTTON savename = BUTTON(text: 'Enregistrer', action: () {});
-  BUTTON btUpdatePdp = BUTTON(text: '', type: 'ICON', size: 20, action: () {});
 
   INPUT mdp1 = INPUT(label: 'Nouveau mot de passe', isMotDePasse: true);
   INPUT mdp2 = INPUT(label: 'Nouveau mot de passe', isMotDePasse: true);
@@ -149,12 +148,14 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
       fullname.setText(widget.user['fullname'].toString());
       savename.action = () => _updateFullname();
       savemdp.action = () => _saveNewMdp();
-      btUpdatePdp.icon = Icons.camera_alt;
-      btUpdatePdp.action = () => _clickOnpdp();
     });
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Row(children: [btUpdatePdp, const SizedBox(width: 10)]),
+      Row(children: [
+        BUTTON(text: 'Changer ma photo', type: '', action: () => _clickOnpdp())
+          ..icon = Icons.camera_alt,
+        const SizedBox(width: 10)
+      ]),
       const SizedBox(height: 10),
       const SizedBox(height: 10),
       LABEL(text: 'Modification Nom prénom', color: Colors.grey),

@@ -1,5 +1,7 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
+import 'dart:math';
+
 import 'package:amoi/component/button.dart';
 import 'package:amoi/component/label.dart';
 import 'package:amoi/component/modale.dart';
@@ -98,6 +100,13 @@ class BOITE {
     bool isModaleNew = false,
     bool isModaleSearch = false,
   }) {
+    List<Color> colors = const [
+      Color.fromRGBO(246, 245, 254, 1),
+      Color.fromRGBO(218, 234, 218, 1),
+      Color.fromRGBO(255, 249, 242, 1),
+      Color.fromRGBO(243, 244, 246, 1),
+    ];
+
     return isModaleNew
         ? Padding(
             padding: const EdgeInsets.all(10),
@@ -181,8 +190,8 @@ class BOITE {
                 padding: const EdgeInsets.only(right: 10),
                 child: Container(
                   decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: Colors.black12),
-                      color: Colors.white,
+                      // border: Border.all(width: 1, color: Colors.black12),
+                      color: colors[Random().nextInt(colors.length)],
                       borderRadius: BorderRadius.circular(5)),
                   child: Padding(
                       padding: const EdgeInsets.all(10),
@@ -449,11 +458,11 @@ class BOITE {
       return Icon(Icons.portrait, color: Colors.blue, size: size);
     }
     if (type == 'OTHER') {
-      return Icon(Icons.portrait, color: Colors.black38, size: size);
+      return Icon(Icons.portrait, color: Colors.black, size: size);
     }
     // VIDE
     return Icon(Icons.check_box_outline_blank,
-        color: Colors.black38, size: size);
+        color: Colors.black, size: size);
   }
 
   Widget designEtage() {
@@ -540,7 +549,7 @@ class BOITE {
                     ? 'VIDE'
                     : 'OTHER'),
             const SizedBox(width: 5),
-            LABEL(text: ' ', color: Colors.grey)
+            LABEL(text: ' ... (Entré)', color: Colors.grey)
           ])
         ]));
   }

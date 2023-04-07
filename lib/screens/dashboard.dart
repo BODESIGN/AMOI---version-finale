@@ -290,7 +290,7 @@ class _DASHBOARDState extends State<DASHBOARD> {
                       ? SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                            padding: const EdgeInsets.fromLTRB(25, 25, 0, 15),
                             child: Row(children: vuBoites),
                           ))
                       : Center(

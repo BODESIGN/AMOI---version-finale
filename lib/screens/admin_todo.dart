@@ -28,9 +28,8 @@ class _SCREEN_TODOState extends State<SCREEN_TODO> {
       setState(() => isConstruct = false);
     }
     return Scaffold(
-        appBar: AppBar(
-            title: const Text('TODO'),
-            surfaceTintColor: Colors.white),
+        appBar:
+            AppBar(title: const Text('TODO'), surfaceTintColor: Colors.white),
         body: ListView(children: _getItems()),
         floatingActionButton: FloatingActionButton(
             onPressed: () => _displayDialog(context),
@@ -107,7 +106,10 @@ class _SCREEN_TODOState extends State<SCREEN_TODO> {
             type: 'ICON')
           ..icon = todo['traiter']
               ? Icons.check_box_rounded
-              : Icons.check_box_outline_blank,
+              : Icons.check_box_outline_blank
+          ..color = todo['traiter'] ? Colors.green : Colors.white
+          ..colorBg = todo['traiter'] ? Colors.black12 : Colors.black38
+          ..size = 20,
         subtitle: Text(todo['description']),
         trailing: BUTTON(
             text: '',
@@ -122,7 +124,8 @@ class _SCREEN_TODOState extends State<SCREEN_TODO> {
               }
             },
             type: 'ICON')
-          ..icon = Icons.delete);
+          ..icon = Icons.delete
+          ..colorBg = Colors.red);
   }
 
   // Generate a single item widget

@@ -54,6 +54,7 @@ class _ADMINState extends State<ADMIN> {
   bool isConstruct = true;
   List<Widget> listOldMontant = [];
   List<Widget> listInvestisseur = [];
+  List<Widget> listContact = [];
 
   // ===================================================
   void _loadGenerale() {
@@ -77,6 +78,10 @@ class _ADMINState extends State<ADMIN> {
         listInvestisseur = [];
         administrator['investiseurs'].forEach((key, value) {
           listInvestisseur.add(LABEL(text: "$key : $value"));
+        });
+        listContact = [];
+        administrator['contact'].forEach((key, value) {
+          listContact.add(LABEL(text: "$key : $value"));
         });
       });
       loading.hide();
@@ -113,7 +118,13 @@ class _ADMINState extends State<ADMIN> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: listInvestisseur),
         const SizedBox(height: 10),
-        btTraiterLaPeriode
+        btTraiterLaPeriode,
+        const SizedBox(height: 10),
+        LABEL(text: "Notre contacte", isBold: true),
+        Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: listContact),
+        const SizedBox(height: 10),
       ],
     );
   }

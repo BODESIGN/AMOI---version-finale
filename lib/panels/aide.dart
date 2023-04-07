@@ -16,12 +16,34 @@ class MANUEL extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> vuPrivilege = [];
+    List<Widget> listContact = [];
 
     EXP().privilege.forEach((key, value) {
       vuPrivilege.add(Text("$key : ${value['nom']}", style: pB));
       vuPrivilege.add(Text(
           "Boîte maximum : ${value['nb boite max']}, Montant maximum dans le portefeuille : ${value['sold delivrable max']} ariary, Révenue actionnaire : ${value['revenue actionnaire']}%",
           style: p));
+    });
+
+    listContact = [];
+    administrator['contact'].forEach((key, value) {
+      listContact.add(SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(children: [
+            Icon(key == 'facebook'
+                ? Icons.facebook
+                : key == 'gmail'
+                    ? Icons.mail
+                    : key == 'whatsapp'
+                        ? Icons.whatsapp
+                        : Icons.message),
+            const SizedBox(width: 10),
+            BUTTON(
+                text: value.toString(),
+                action: () {
+                  copieCodeToClip(value.toString());
+                })
+          ])));
     });
 
     return Padding(
@@ -183,41 +205,12 @@ class MANUEL extends StatelessWidget {
           Text(
               "Nous sommes très ouverts aux suggestions, aux coopérations et aux commentaires 😊.",
               style: p),
-          Text("On rest joignable sur : ", style: p),
-          SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(children: [
-                const Icon(Icons.mail),
-                BUTTON(
-                    text: "bodesign1998@gmail.com",
-                    action: () {
-                      copieCodeToClip("bodesign1998@gmail.com");
-                    },
-                    type: 'TEXT')
-              ])),
-          SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(children: [
-                const Icon(Icons.whatsapp),
-                BUTTON(
-                    text: "+261344974196",
-                    action: () {
-                      copieCodeToClip("+261344974196");
-                    },
-                    type: 'TEXT')
-              ])),
-          SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(children: [
-                const Icon(Icons.facebook),
-                BUTTON(
-                    text: "Bô design",
-                    action: () {
-                      // copieCodeToClip("https://www.facebook.com/bo.belle.32/");
-                      copieCodeToClip("Bô design");
-                    },
-                    type: 'TEXT')
-              ])),
+          const SizedBox(height: 10),
+          Text("On rèste joignable sur : ", style: pB),
+          const SizedBox(height: 10),
+          Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: listContact)
         ],
       ),
     );

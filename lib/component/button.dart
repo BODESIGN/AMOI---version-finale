@@ -14,6 +14,8 @@ class BUTTON extends StatefulWidget {
   double size = 12;
   Function action;
   IconData icon = Icons.add;
+  Color color = Colors.white;
+  Color colorBg = Colors.blue;
 
   setText(String text) {
     text = text;
@@ -26,6 +28,10 @@ class BUTTON extends StatefulWidget {
 class _BUTTONState extends State<BUTTON> {
   @override
   Widget build(BuildContext context) {
+    if (widget.type == 'BLEU') {
+      widget.color = Colors.white;
+      widget.colorBg = Colors.blue;
+    }
     return widget.type == 'TEXT'
         ? TextButton(
             onPressed: () {
@@ -37,7 +43,7 @@ class _BUTTONState extends State<BUTTON> {
                 height: 40,
                 width: 40,
                 child: Material(
-                    color: Colors.black,
+                    color: widget.colorBg,
                     borderRadius: BorderRadius.circular(5),
                     elevation: 2.0,
                     child: InkWell(
@@ -46,36 +52,18 @@ class _BUTTONState extends State<BUTTON> {
                           widget.action();
                         },
                         child: Icon(widget.icon,
-                            size: widget.size, color: Colors.white))))
-            : widget.type == 'BLEU'
-                ? ElevatedButton(
-                    onPressed: () {
-                      widget.action();
-                    },
-                    style: ButtonStyle(
-                      backgroundColor:
-                          const MaterialStatePropertyAll<Color>(Colors.blue),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      ),
-                    ),
-                    child: Text(widget.text,
-                        style: TextStyle(
-                            fontSize: widget.size, color: Colors.white)))
-                : ElevatedButton(
-                    onPressed: () {
-                      widget.action();
-                    },
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      ),
-                    ),
-                    child: Text(widget.text,
-                        style: TextStyle(fontSize: widget.size)));
+                            size: widget.size, color: widget.color))))
+            : ElevatedButton(
+                onPressed: () {
+                  widget.action();
+                },
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStatePropertyAll<Color>(widget.colorBg),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)))),
+                child: Text(widget.text,
+                    style:
+                        TextStyle(fontSize: widget.size, color: widget.color)));
   }
 }

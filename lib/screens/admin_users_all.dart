@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'package:amoi/component/button.dart';
 import 'package:amoi/component/label.dart';
 import 'package:amoi/component/modale.dart';
@@ -51,79 +53,79 @@ class _SCREEN_ALL_USERSState extends State<SCREEN_ALL_USERS> {
 // =====================================================
   Widget vu(Map user) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 5),
-      child: Card(
-          surfaceTintColor: Colors.white,
-          elevation: 8,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: InkWell(
-              onTap: () {
-                // get Transaction
-                _getTransaction(user, () {
-                  loading.show("Chargement ...");
-                  setState(() {
-                    vuTransaction = MODALE(context, 'Vu transaction', '')
-                      ..type = 'CUSTOM'
-                      ..child = Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: transactions);
-                  });
-                  Future.delayed(const Duration(seconds: 1), () {
-                    vuTransaction.show();
-                    loading.hide();
-                  });
-                });
-              },
-              child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 40,
-                          width: 40,
-                          child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: pdp(user['urlPdp'].toString(), () {})),
-                        ),
-                        const SizedBox(width: 10),
-                        Column(
+        padding: const EdgeInsets.only(bottom: 5),
+        child: Card(
+            surfaceTintColor: Colors.white,
+            elevation: 8,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: InkWell(
+                onTap: () {
+                  // get Transaction
+                  _getTransaction(user, () {
+                    loading.show("Chargement ...");
+                    setState(() {
+                      vuTransaction = MODALE(context, 'Vu transaction', '')
+                        ..type = 'CUSTOM'
+                        ..child = Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(children: [
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: transactions);
+                    });
+                    Future.delayed(const Duration(seconds: 1), () {
+                      vuTransaction.show();
+                      loading.hide();
+                    });
+                  });
+                },
+                child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 40,
+                            width: 40,
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: pdp(user['urlPdp'].toString(), () {})),
+                          ),
+                          const SizedBox(width: 10),
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(children: [
+                                  LABEL(
+                                      size: 15,
+                                      text: '${user['fullname']} | ',
+                                      isBold: true),
+                                  LABEL(text: '${user['ariary']}'),
+                                  LABEL(text: ' ariary')
+                                ]),
+                                Row(children: [
+                                  LABEL(text: 'login : '),
+                                  LABEL(text: '${user['login']}', isBold: true)
+                                ]),
+                                Row(children: [
+                                  LABEL(text: 'mot de passe : '),
+                                  LABEL(
+                                      text: '${user['motdepasse']}',
+                                      isBold: true)
+                                ]),
                                 LABEL(
-                                    size: 15,
-                                    text: '${user['fullname']} | ',
-                                    isBold: true),
-                                LABEL(text: '${user['ariary']}'),
-                                LABEL(text: ' ariary')
-                              ]),
-                              Row(children: [
-                                LABEL(text: 'login : '),
-                                LABEL(text: '${user['login']}', isBold: true)
-                              ]),
-                              Row(children: [
-                                LABEL(text: 'mot de passe : '),
+                                    text:
+                                        'Niv. ${user['level']} / ${user['exp']} exp / ${user['dateCreate']}',
+                                    color: Colors.grey),
+                                LABEL(text: '-'),
                                 LABEL(
-                                    text: '${user['motdepasse']}', isBold: true)
-                              ]),
-                              LABEL(
-                                  text:
-                                      'Niv. ${user['level']} / ${user['exp']} exp / ${user['dateCreate']}',
-                                  color: Colors.grey),
-                              LABEL(text: '-'),
-                              LABEL(
-                                  text:
-                                      '(${user['boites'].length}) Boite en cours : '),
-                              LABEL(text: '${user['boites']}'),
-                            ])
-                      ])))),
-    );
+                                    text:
+                                        '(${user['boites'].length}) Boite en cours : '),
+                                LABEL(text: '${user['boites']}'),
+                              ])
+                        ])))));
   }
 
   getList() {
