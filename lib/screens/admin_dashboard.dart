@@ -8,6 +8,7 @@ class AdminDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    setStatutBarTheme();
     toast.init(context);
     return Scaffold(
         appBar: AppBar(
@@ -30,23 +31,9 @@ class AdminDashboard extends StatelessWidget {
                     ),
                     _buildTile(
                       color: Colors.grey,
-                      icon: Icons.account_balance_wallet,
-                      title: 'Total des retours',
-                      subtitle: 'Ar 00,000',
-                      onTap: () {},
-                    ),
-                    _buildTile(
-                      color: Colors.grey,
                       icon: Icons.person,
                       title: 'Utilisateurs actifs',
                       subtitle: '1,000',
-                      onTap: () {},
-                    ),
-                    _buildTile(
-                      color: Colors.grey,
-                      icon: Icons.notifications,
-                      title: 'Notifications',
-                      subtitle: '3',
                       onTap: () {},
                     ),
                     _buildTile(
@@ -64,6 +51,14 @@ class AdminDashboard extends StatelessWidget {
                         subtitle: 'Liste des Boites',
                         onTap: () {
                           Navigator.of(context).pushNamed('ADMIN_ALL_BOITE');
+                        }),
+                    _buildTile(
+                        color: Colors.black,
+                        icon: Icons.book,
+                        title: 'TODO',
+                        subtitle: 'Notre chose a faire',
+                        onTap: () {
+                          Navigator.of(context).pushNamed('ADMIN_TODO');
                         }),
                   ])
             ])));

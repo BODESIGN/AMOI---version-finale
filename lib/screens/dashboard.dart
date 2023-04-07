@@ -247,6 +247,7 @@ class _DASHBOARDState extends State<DASHBOARD> {
 
   @override
   Widget build(BuildContext context) {
+    setStatutBarTheme();
     setState(() {
       btNewBoite.action = () => setState(() => vuAction = 1);
       btSearch.icon = Icons.search;
@@ -300,39 +301,36 @@ class _DASHBOARDState extends State<DASHBOARD> {
                 if (vuAction == 1) montant,
                 if (vuAction == 2) search,
                 Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          vuAction == 0 ? btNewBoite : btValider,
-                          const SizedBox(width: 5),
-                          vuAction == 0 ? btSearch : btAnnuler,
-                          if (vuAction == 0 || vuAction == 2)
-                            const SizedBox(width: 5),
-                          if (vuAction == 0) btRefrech,
-                          if (vuAction == 2) btPast,
-                          if (vuBoites.isNotEmpty)
-                            Expanded(
-                                child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                  LABEL(
-                                      text: 'Nb. boite : ${vuBoites.length}',
-                                      color: Colors.grey)
-                                ]))
-                        ]),
-                  ),
-                )
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                        child: Row(
+                            mainAxisAlignment: vuBoites.isNotEmpty
+                                ? MainAxisAlignment.spaceBetween
+                                : MainAxisAlignment.start,
+                            children: [
+                              vuAction == 0 ? btNewBoite : btValider,
+                              const SizedBox(width: 5),
+                              vuAction == 0 ? btSearch : btAnnuler,
+                              if (vuAction == 0 || vuAction == 2)
+                                const SizedBox(width: 5),
+                              if (vuAction == 0) btRefrech,
+                              if (vuAction == 2) btPast,
+                              if (vuBoites.isNotEmpty)
+                                Expanded(
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                      LABEL(
+                                          text:
+                                              'Nb. boite : ${vuBoites.length}',
+                                          color: Colors.grey)
+                                    ]))
+                            ])))
               ]),
 
           // PROFILE
-          // SingleChildScrollView(
-          //   scrollDirection: Axis.vertical,
-          //   child: SizedBox(
-          //     height: MediaQuery.of(context).size.height,
-          // child:
           Padding(
             padding: const EdgeInsets.all(10),
             child: Column(
@@ -341,8 +339,6 @@ class _DASHBOARDState extends State<DASHBOARD> {
                 children: [
                   PANELPROFILE(user: userActif, redraw: () => setState(() {}))
                 ]),
-            //   ),
-            // ),
           ),
 
           // WALLET

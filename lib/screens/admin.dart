@@ -41,7 +41,8 @@ class _ADMINState extends State<ADMIN> {
   Map demandeVu = {};
 
   BUTTON btTraiteDmd = BUTTON(text: 'Traiter', action: () {}, type: 'BLEU');
-  BUTTON btSupprimDmd = BUTTON(text: 'Supprimer', action: () {});
+  BUTTON btVoireSold = BUTTON(text: 'Voire sold', action: () {}, type: 'BLEU');
+  BUTTON btSupprimDmd = BUTTON(text: 'Supprimer', action: () {}, type: 'BLEU');
   Map boiteVu = {};
   late MODALE vuBoite;
 
@@ -220,7 +221,7 @@ class _ADMINState extends State<ADMIN> {
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [btTraiteDmd, btSupprimDmd],
+              children: [btTraiteDmd, btVoireSold, btSupprimDmd],
             ),
             const SizedBox(height: 20),
           ]);
@@ -329,6 +330,7 @@ class _ADMINState extends State<ADMIN> {
   // ===================================================
   @override
   Widget build(BuildContext context) {
+    setStatutBarTheme();
     toast.init(context);
     if (isConstruct) {
       _loadGenerale();
@@ -369,6 +371,22 @@ class _ADMINState extends State<ADMIN> {
             _loadDemande();
           });
         }
+      };
+      btVoireSold.action = () {
+        loading.show("Chargement ...");
+        base.select(table['user']!, demandeVu['codeUser'].toString(),
+            (result, value) {
+          if (result == 'error') {
+            loading.hide();
+            return;
+          }
+
+          late Map<String, dynamic> user;
+          user = value.data() as Map<String, Object?>;
+          loading.hide();
+          toast.showNotyf(
+              "Sold actuel : ${user['ariary']} ariary", 'PETIT INFO');
+        });
       };
       //
       btTraiteBoite.action = () {
@@ -419,18 +437,11 @@ class _ADMINState extends State<ADMIN> {
                               color: Colors.black12),
                           SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: [
-                                ButtonBar(
-                                  children: [btGeneral, btDemande, btBoites],
-                                ),
-                                // btGeneral,
-                                // const SizedBox(width: 10),
-                                // btDemande,
-                                // const SizedBox(width: 10),
-                                // btBoites,
-                              ],
-                            ),
+                            child: Row(children: [
+                              ButtonBar(
+                                children: [btGeneral, btDemande, btBoites],
+                              )
+                            ]),
                           ),
                           pageVu == 1
                               ? panelDemande()

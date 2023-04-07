@@ -27,7 +27,7 @@ class SECONNECT extends StatefulWidget {
 
 class _SECONNECTState extends State<SECONNECT> {
   LABEL title = LABEL(text: 'Bienvenue sur Amoi Groupe', size: 15);
-  INPUT login = INPUT(label: 'Login');
+  INPUT login = INPUT(label: 'Login (Aucun espace)');
   INPUT mdp = INPUT(label: 'Mot de passe', isMotDePasse: true);
   BUTTON conn = BUTTON(text: 'Se connecter', action: () {}, type: 'BLEU');
   BUTTON newc = BUTTON(text: 'Créer un compte', action: () {}, type: 'BLEU');
@@ -45,13 +45,6 @@ class _SECONNECTState extends State<SECONNECT> {
     if (!await connectivite.checkData(toast.show)) return;
 
     if (administrator['version'] == null) await _getAdmin();
-
-    // > TSY ILAINA TSONY
-    // bool isVersion;
-    // isVersion = await $.isVersionValide();
-    // if (isVersion == false) {
-    //   return;
-    // }
 
     if (isnew) {
       // new compte
@@ -224,6 +217,7 @@ class _SECONNECTState extends State<SECONNECT> {
 
   @override
   build(BuildContext context) {
+    setStatutBarTheme();
     toast.init(context);
     setState(() {
       newc.action = () => _newc(context);
@@ -231,6 +225,12 @@ class _SECONNECTState extends State<SECONNECT> {
       next.action = () => _next(context);
       prev.action = () => _prev(context);
       mdp.isMotDePasse = true;
+      login.onChangeVal = () {
+        login.getValue().runes.forEach((int rune) {
+          var character = String.fromCharCode(rune);
+          if (character == ' ') login.setText(login.getValue().trim());
+        });
+      };
     });
     if (isConstruct) {
       setState(() => isConstruct = false);

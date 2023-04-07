@@ -31,13 +31,17 @@ class TOAST {
                           ? Colors.green
                           : type == 'ERROR'
                               ? Colors.red
-                              : Colors.orange,
+                              : type == 'PETIT INFO'
+                                  ? Colors.black
+                                  : Colors.orange,
                       child: Icon(
                           type == 'SUCCES'
                               ? Icons.check
                               : type == 'ERROR'
                                   ? Icons.close
-                                  : Icons.warning,
+                                  : type == 'PETIT INFO'
+                                      ? Icons.message
+                                      : Icons.warning,
                           color: Colors.white))),
             ),
             const SizedBox(height: 10),
@@ -49,7 +53,9 @@ class TOAST {
                     ? Colors.green
                     : type == 'ERROR'
                         ? Colors.red
-                        : Colors.amber),
+                        : type == 'PETIT INFO'
+                            ? Colors.black
+                            : Colors.amber),
             const SizedBox(height: 20),
             BUTTON(
                 text: 'OK',

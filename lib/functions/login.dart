@@ -24,7 +24,7 @@ class METHODE {
     if (isAdmin) toast.show('Login déjà pris !');
     if (isAdmin) return;
 
-    loading.show('Check login ...');
+    loading.show('Vérification du login ...');
     base.select(tableUser, login, (result, value) {
       if (result == 'error') {
         loading.hide();
@@ -61,7 +61,7 @@ class METHODE {
 
   // ---------------------------------------------------------------
   void createCompte(String login, String mdp, Function pass) {
-    loading.show('Check login ...');
+    loading.show('Vérification du login ...');
     login = login.trim();
     user = {
       'fullname': login,

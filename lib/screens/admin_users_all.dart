@@ -53,7 +53,7 @@ class _SCREEN_ALL_USERSState extends State<SCREEN_ALL_USERS> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 5),
       child: Card(
-          color: Colors.white,
+          surfaceTintColor: Colors.white,
           elevation: 8,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
@@ -85,7 +85,11 @@ class _SCREEN_ALL_USERSState extends State<SCREEN_ALL_USERS> {
                         SizedBox(
                           height: 40,
                           width: 40,
-                          child: pdp(user['urlPdp'].toString(), () {}),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: pdp(user['urlPdp'].toString(), () {})),
                         ),
                         const SizedBox(width: 10),
                         Column(
@@ -106,8 +110,7 @@ class _SCREEN_ALL_USERSState extends State<SCREEN_ALL_USERS> {
                               Row(children: [
                                 LABEL(text: 'mot de passe : '),
                                 LABEL(
-                                    text: '${user['motdepasse']}',
-                                    isBold: true)
+                                    text: '${user['motdepasse']}', isBold: true)
                               ]),
                               LABEL(
                                   text:
@@ -138,6 +141,7 @@ class _SCREEN_ALL_USERSState extends State<SCREEN_ALL_USERS> {
 
   @override
   Widget build(BuildContext context) {
+    setStatutBarTheme();
     if (isConstruct) {
       getList();
       setState(() {
@@ -150,8 +154,6 @@ class _SCREEN_ALL_USERSState extends State<SCREEN_ALL_USERS> {
           title: Text('Liste des utilisateurs (${vuUsers.length} 👤)'),
           titleTextStyle: const TextStyle(
               fontSize: 13, color: Colors.black, fontWeight: FontWeight.bold),
-          // backgroundColor: Colors.white,
-          // foregroundColor: Colors.white,
           surfaceTintColor: Colors.white,
           actions: [
             Padding(

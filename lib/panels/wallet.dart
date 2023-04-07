@@ -11,19 +11,19 @@ class PANELWALLET extends StatefulWidget {
   PANELWALLET({super.key, required this.user, required this.redraw});
 
   Map<String, dynamic> user;
-  Function redraw; 
+  Function redraw;
 
   @override
   State<PANELWALLET> createState() => _PANELWALLETState();
 }
 
 class _PANELWALLETState extends State<PANELWALLET> {
-  INPUT montant = INPUT(label: 'Montant');
+  INPUT montant = INPUT(label: 'Montant (Min : 2.000ar)');
   INPUT mdp = INPUT(label: 'Mot de passe', isMotDePasse: true);
   INPUT tel = INPUT(label: 'Numéro mobile money');
   BUTTON btRetrait = BUTTON(text: 'Retirer', action: () {}, type: 'BLEU');
 
-  INPUT montant2 = INPUT(label: 'Montant');
+  INPUT montant2 = INPUT(label: 'Montant (Min : 2.000ar)');
   INPUT tel2 = INPUT(label: 'Numéro mobile money');
   BUTTON btDepot = BUTTON(text: 'Déposer', action: () {}, type: 'BLEU');
 
@@ -31,7 +31,6 @@ class _PANELWALLETState extends State<PANELWALLET> {
   TRANSACTION $ = TRANSACTION();
 
   bool isConstruct = true;
-
 
   // ----------------------------------------------------------
   void _retirer() {
@@ -59,7 +58,8 @@ class _PANELWALLETState extends State<PANELWALLET> {
     }
 
     if (m > userActif['ariary']) {
-      toast.show("Votre sold n'est pas suffisant");
+      toast.show("Votre sold n'est pas suffisant !");
+      return;
     }
 
     $.retrait(userActif['login'], tel.getValue(), m, () {
@@ -89,7 +89,8 @@ class _PANELWALLETState extends State<PANELWALLET> {
     }
 
     // - CHEC PRIVIL7GE
-    if (!EXP().checPrivillege_SoldMax(userActif['level'], userActif['ariary'])) {
+    if (!EXP()
+        .checPrivillege_SoldMax(userActif['level'], userActif['ariary'])) {
       toast.show(
           'Votre sold délivrable a attein son plafond, veuillez faire une retaire ! ');
       return;

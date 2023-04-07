@@ -48,6 +48,7 @@ class _SCREEN_ALL_BOITEState extends State<SCREEN_ALL_BOITE> {
 
   @override
   Widget build(BuildContext context) {
+    setStatutBarTheme();
     if (isConstruct) {
       getList(context);
       setState(() {

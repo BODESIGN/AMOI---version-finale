@@ -9,6 +9,7 @@ class INPUT extends StatefulWidget {
   String text = '';
   bool isMotDePasse;
   TextEditingController controller = TextEditingController();
+  Function onChangeVal = () {};
 
   String getValue() {
     return controller.text;
@@ -32,10 +33,12 @@ class _boInput extends State<INPUT> {
     setState(() => isObscur = !isObscur);
   }
 
-
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+        onChanged: (value) {
+          widget.onChangeVal();
+        },
         controller: widget.controller,
         obscureText: widget.isMotDePasse ? isObscur : false,
         style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),

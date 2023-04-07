@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:amoi/screens/admin.dart';
 import 'package:amoi/screens/admin_boite_all.dart';
 import 'package:amoi/screens/admin_dashboard.dart';
+import 'package:amoi/screens/admin_todo.dart';
 import 'package:amoi/screens/admin_users_all.dart';
 import 'package:amoi/screens/dashboard.dart';
 import 'package:amoi/screens/seconnect.dart';
@@ -33,8 +34,6 @@ main() async {
   WidgetsFlutterBinding.ensureInitialized();
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   version = packageInfo.version.toString();
-  // ignore: avoid_print
-  print("APP VERSION : $version");
   await initFirebase();
   loading.setConfig();
   runApp(const MAIN());
@@ -45,10 +44,7 @@ class MAIN extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.light,
-        statusBarColor: Colors.black));
-
+    setStatutBarTheme();
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Amoi Groupe',
@@ -67,6 +63,7 @@ class MAIN extends StatelessWidget {
           'ADMIN_DASHBOARD': (context) => const AdminDashboard(),
           'ADMIN_ALL_USER': (context) => const SCREEN_ALL_USERS(),
           'ADMIN_ALL_BOITE': (context) => const SCREEN_ALL_BOITE(),
+          'ADMIN_TODO': (context) => const SCREEN_TODO(),
         });
   }
 }
@@ -80,9 +77,16 @@ Map<String, String> table = {
   'setting': 'Setting',
   'admin': 'Administrator',
   'histoMoney': 'Historiques-Money',
+  'todo': 'TODO',
   'histoBoite': 'Historiques',
   'ticket': 'Tickets',
 };
+
+// ==================================================================
+setStatutBarTheme() {
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarIconBrightness: Brightness.light, statusBarColor: Colors.black));
+}
 
 // ==================================================================
 String getDateNow() {

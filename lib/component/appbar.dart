@@ -76,16 +76,17 @@ class _APPBARState extends State<APPBAR> {
                                     value: (widget.user['exp']) /
                                         (EXP()
                                             .level[widget.user['level'] + 1])),
-                                Positioned(
-                                    top: 3,
-                                    left: 8,
-                                    child: Column(children: [
-                                      LABEL(text: 'Niv.', size: 11),
+                                SizedBox(
+                                    width: 30,
+                                    height: 30,
+                                    child: Center(
+                                        child: Column(children: [
                                       LABEL(
                                           text: '${widget.user['level']}',
                                           size: 11,
-                                          isBold: true)
-                                    ]))
+                                          isBold: true),
+                                      LABEL(text: 'Niv.', size: 10)
+                                    ])))
                               ]))
                         ])))));
   }

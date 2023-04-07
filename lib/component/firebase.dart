@@ -454,4 +454,56 @@ class FIREBASE {
       actionAfter([]);
     });
   }
+
+  // ----------------------- > SELECT TO DO
+  selectListTODO(String order, Function actionAfter) {
+    String here = "${table['setting']}/${table['admin']}/${table['todo']}";
+    firestore
+        .collection(here)
+        .orderBy(order, descending: true)
+        .get()
+        .then((querySnapshot) {
+      List<Map<String, dynamic>> liste = [];
+      for (var result in querySnapshot.docs) {
+        liste.add(result.data() as Map<String, dynamic>);
+      }
+      actionAfter(liste);
+    }).onError((error, stackTrace) => actionAfter([]));
+  }
+
+  // ----------------------- > new TO DO
+  newTODO(String todoCode, Map<String, dynamic> todo) {
+    loading.show("Ajout dans la base ...");
+    String here = "${table['setting']}/${table['admin']}/${table['todo']}";
+    firestore.collection(here).doc(todoCode).set(todo).then((value) {
+      loading.hide();
+      toast.show("Insertion éffectuée ✅");
+    }).catchError((error) {
+      if (kDebugMode) {
+        print(error);
+      }
+      loading.hide();
+    });
+  }
+
+  // ----------------------- > DALETE TO DO
+  deleteTODO(String todoCode) async {
+    String here = "${table['setting']}/${table['admin']}/${table['todo']}";
+    loading.show("Suppression en cours ...");
+    await firestore.collection(here).doc(todoCode).delete().then((value) {
+      loading.hide();
+      toast.show("TODO Supprimée !");
+    }).catchError((error) => loading.hide());
+  }
+
+  // ----------------------- > UPDATE TO DO
+  updateChecTODO(String todoCode, bool statut) async {
+    String here = "${table['setting']}/${table['admin']}/${table['todo']}";
+    loading.show("Mise a jour ...");
+    await firestore.collection(here).doc(todoCode).update(
+        {'traiter': statut, 'dateTraiter': Timestamp.now()}).then((value) {
+      loading.hide();
+      toast.show("TODO mis a jour !");
+    }).catchError((error) => loading.hide());
+  }
 }
