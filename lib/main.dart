@@ -23,6 +23,7 @@ TOAST toast = TOAST();
 CONNECTIVITE connectivite = CONNECTIVITE();
 FIREBASE base = FIREBASE();
 
+PackageInfo? packageInfo;
 String version = '';
 
 // ==================================================================
@@ -32,8 +33,8 @@ Map<String, dynamic> administrator = {};
 // ==================================================================
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  version = packageInfo.version.toString();
+  packageInfo = await PackageInfo.fromPlatform();
+  version = packageInfo!.version.toString();
   await initFirebase();
   loading.setConfig();
   runApp(const MAIN());

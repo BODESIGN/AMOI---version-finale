@@ -9,6 +9,7 @@ import 'package:amoi/component/modale.dart';
 import 'package:amoi/functions/boitePlein.dart';
 import 'package:amoi/functions/login.dart';
 import 'package:amoi/main.dart';
+import 'package:app_installer/app_installer.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -111,6 +112,9 @@ class _SECONNECTState extends State<SECONNECT> {
       loading.hide();
 
       // CHEC VERSION
+      if (kDebugMode) {
+        print("$version, ${administrator['version']}");
+      }
       if (version == administrator['version']) return;
       if (!administrator['version-obli']) return;
 
@@ -119,6 +123,29 @@ class _SECONNECTState extends State<SECONNECT> {
         ..child = modaleNewVersion(context);
       vuModalNewVersion.show();
     });
+  }
+
+  _launchFile(BuildContext context, String filePath) async {
+    final file = File(filePath);
+    final contentUri = await getUriForFile(context, file);
+    try {
+      await launchUrl(contentUri);
+      print(contentUri.toString());
+    } on PlatformException catch (e) {
+      print(e.message);
+    }
+  }
+
+  Future<Uri> getUriForFile(BuildContext context, File file) async {
+    final directory = await getExternalStorageDirectory();
+    final path = '${directory?.path}';
+    final newPath = '$path/${file.path.split('/').last}';
+    final newFile = await file.copy(newPath);
+    print(newFile.path);
+    final contentUri = Uri.parse(
+        'content://${packageInfo?.packageName}.fileprovider/my_files/${file.path.split('/').last}');
+    print(contentUri.toString());
+    return contentUri;
   }
 
   _downloadLastVersion() async {
@@ -150,12 +177,7 @@ class _SECONNECTState extends State<SECONNECT> {
           // await File(filePath).readAsBytes();
 
           try {
-            final url = 'file://$filePath';
-            if (await canLaunchUrl(Uri.parse(url))) {
-              await launchUrl(Uri.parse(url));
-            } else {
-              throw 'Could not launch $url';
-            }
+            AppInstaller.installApk(filePath);
 
             // Show a success message or navigate to a new page
             // ...
@@ -167,8 +189,8 @@ class _SECONNECTState extends State<SECONNECT> {
             // Handle errors
           }
 
-          toast.show(
-              "La dernière vesrion a été télécharger veuillez ovrire le fichier : amoi.apk dans votre dossier download");
+          // toast.show(
+          //     "La dernière vesrion a été télécharger veuillez ovrire le fichier : amoi.apk dans votre dossier download");
           // ignore: use_build_context_synchronously
           Navigator.pop(context);
 
