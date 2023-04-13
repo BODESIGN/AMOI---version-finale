@@ -1,3 +1,4 @@
+import 'package:amoi/component/label.dart';
 import 'package:amoi/component/nav.dart';
 import 'package:amoi/main.dart';
 import 'package:amoi/panels/aide.dart';
@@ -21,6 +22,12 @@ class _DASHBOARDState extends State<DASHBOARD> {
     setStatutBarTheme();
 
     Map nav = {
+      'Notification': {
+        'GROUPE': '',
+        'ICON': Icons.notifications,
+        'ON-CLICK': () {},
+        'PANEL': LABEL(text: 'Notification & Nes '),
+      },
       'Dashboard': {
         'GROUPE': {
           'Boites': {
@@ -34,6 +41,14 @@ class _DASHBOARDState extends State<DASHBOARD> {
             'ICON': Icons.receipt_rounded,
             'ON-CLICK': () {},
             'PANEL': PANELTICKET(user: userActif, redraw: () => setState(() {}))
+          },
+          'Defie': {
+            'GROUPE': '',
+            'ICON': Icons.generating_tokens_rounded,
+            'ON-CLICK': () {},
+            'PANEL': LABEL(
+                text:
+                    'En cours ... mise en place des evenements a remplir dans la boite')
           },
         }
       },
@@ -57,11 +72,16 @@ class _DASHBOARDState extends State<DASHBOARD> {
             'GROUPE': '',
             'ICON': Icons.groups,
             'ON-CLICK': () {},
-            'PANEL': Expanded(
-                child: SizedBox(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [MYHYERARCHY()])))
+            'PANEL': Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: LABEL(text: 'Mes childs direct', isBold: true),
+                ),
+                MYHYERARCHY()
+              ],
+            )
           }
         }
       },
@@ -86,9 +106,15 @@ class _DASHBOARDState extends State<DASHBOARD> {
           // body: panel,
           body: NAVIGATION(
               nav: nav,
-              current: 'Boites',
-              currentIsInGroupe: true,
-              navActifGroupe: nav['Dashboard']['GROUPE']['Boites']),
+              current: 'Notification',
+              currentIsInGroupe: false,
+              navActifGroupe: {
+                'GROUPE': '',
+                'ICON': Icons.notifications,
+                'ON-CLICK': () {},
+                'PANEL': Expanded(
+                    child: Center(child: LABEL(text: 'Notification & Nes '))),
+              }),
         )));
   }
 }

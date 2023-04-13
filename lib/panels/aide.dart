@@ -171,6 +171,11 @@ class MANUEL extends StatelessWidget {
                         child: Image.asset("assets/pic2.jpg"),
                       ))),
               const SizedBox(height: 10),
+              const SizedBox(height: 10),
+              Text("💵 Autre bonus", style: pB),
+              Text(
+                  "Solde délivrable : +$bonusSortant%  de MI de childs direct. (Ticket réçu lors de la sortie de le child direct de sa boites, actif si le sortant en question possède au moins 2 child)"),
+              const SizedBox(height: 10),
 
               Text("〽️ Privilège de chaque niveau", style: pB),
               const SizedBox(height: 10),
@@ -178,7 +183,6 @@ class MANUEL extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: vuPrivilege),
 
-              const SizedBox(height: 10),
               const SizedBox(height: 10),
               Text("À propos de nous", style: pG),
               const SizedBox(height: 10),

@@ -126,14 +126,18 @@ class BOITE {
               legende(),
               const SizedBox(height: 10),
               LABEL(
-                  text: "Mon code : ${map['code']}-${userActif['login']}",
+                  text:
+                      "Mon code : ${CRYPTO().crypte("${map['code']}-${userActif['login']}")}",
                   color: Colors.grey),
               Row(children: [
-                BUTTON(
-                    text: 'Copier code',
-                    action: () => copieCodeToClip(
-                        '${map['code']}-${userActif['login']}')),
-                const SizedBox(width: 10),
+                // BUTTON(
+                //     text: 'Copier code',
+                //     action: () {
+                //       String code = CRYPTO()
+                //           .crypte("${map['code']}-${userActif['login']}");
+                //       copieCodeToClip(code);
+                //     }),
+                // const SizedBox(width: 10),
                 BUTTON(
                     text: 'Créer',
                     action: () {
@@ -161,19 +165,24 @@ class BOITE {
                       designEtage(),
                       const SizedBox(height: 10),
                       legende(),
-                      const SizedBox(height: 10),
-                      LABEL(
-                          text:
-                              "Mon code : ${map['code']}-${userActif['login']}",
-                          color: Colors.grey),
+                      if (checIamInBoite(map)) const SizedBox(height: 10),
+                      if (checIamInBoite(map))
+                        LABEL(
+                            text:
+                                "Mon code : ${CRYPTO().crypte("${map['code']}-${userActif['login']}")}",
+                            color: Colors.grey),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(children: [
-                          BUTTON(
-                              text: 'Copier code',
-                              action: () => copieCodeToClip(
-                                  '${map['code']}-${userActif['login']}')),
-                          const SizedBox(width: 10),
+                          if (checIamInBoite(map))
+                            BUTTON(
+                                text: 'Copier code',
+                                action: () {
+                                  String code = CRYPTO().crypte(
+                                      "${map['code']}-${userActif['login']}");
+                                  copieCodeToClip(code);
+                                }),
+                          if (checIamInBoite(map)) const SizedBox(width: 10),
                           BUTTON(
                               text: 'Voir les membres',
                               action: () => showModaleMembre(context)),

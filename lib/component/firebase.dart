@@ -374,7 +374,7 @@ class FIREBASE {
   }
 
   // ----------------------- > QUIT BOITE
-  quitBoiteToSortant(String login, String boiteOld, double montant) async {
+  quitBoiteToSortant(String login, String boiteOld, int montant) async {
     await firestore
         .collection(table['user']!)
         .doc(login)
@@ -384,6 +384,26 @@ class FIREBASE {
         })
         .then((value) => {toast.show("User : $login a jour !")})
         .catchError((error) => {toast.show(error.toString())});
+  }
+
+  // ----------------------- > QUIT BOITE
+  quitBoiteToSortantParent(String login, int montant) async {
+    await firestore.collection(table['user']!).doc(login).get().then(
+      (DocumentSnapshot documentSnapshot) async {
+        Map<String, Object?> user =
+            documentSnapshot.data() as Map<String, Object?>;
+        String parent = user['parent'] as String;
+
+        if (parent == 'root') return;
+
+        await firestore
+            .collection(table['user']!)
+            .doc(parent)
+            .update({"ariary": FieldValue.increment(montant)})
+            .then((value) => {toast.show("User Parent : $login a jour !")})
+            .catchError((error) => {toast.show(error.toString())});
+      },
+    );
   }
 
   // ----------------------- > QUIT BOITE
@@ -397,7 +417,7 @@ class FIREBASE {
   }
 
   // ----------------------- > QUIT BOITE
-  sendTiquetSortant(String login, String boiteOld, double montant,
+  sendTiquetSortant(String login, String boiteOld, int montant,
       Map<String, dynamic> infos) async {
     await firestore
         .collection("${table['user']}/$login/${table['ticket']}")
@@ -408,12 +428,46 @@ class FIREBASE {
           'login': login,
           'code': "AMOI-TK${newCode()}-${newCode()}",
           'vu': false,
+          'type': 'SORTANT',
           'description':
               'Ticket de sortant de la boite : $boiteOld, Montant : $montant ajouté dans votre solde 💵',
           'informations': infos
         })
         .then((value) => {toast.show("User : $login a jour !")})
         .catchError((error) => {toast.show(error.toString())});
+  }
+
+  // ----------------------- > QUIT BOITE
+  sendTiquetSortantParent(String login, String boiteOld, int montant,
+      Map<String, dynamic> infos) async {
+    await firestore
+        .collection(table['user']!)
+        .doc(login)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) async {
+      Map<String, Object?> user =
+          documentSnapshot.data() as Map<String, Object?>;
+      String parent = user['parent'] as String;
+
+      if (parent == 'root') return;
+
+      await firestore
+          .collection("${table['user']}/$parent/${table['ticket']}")
+          .doc(getDateNow())
+          .set({
+            'dateTime': Timestamp.now(),
+            'date': getDateNow(),
+            'login': parent,
+            'code': "AMOI-TK${newCode()}-${newCode()}",
+            'vu': false,
+            'type': 'CHILD DIRECT',
+            'description':
+                'Ticket de child direct (boite : $boiteOld), Montant : $montant ajouté dans votre solde 💵',
+            'informations': infos
+          })
+          .then((value) => {toast.show("User : $login a jour !")})
+          .catchError((error) => {toast.show(error.toString())});
+    });
   }
 
   // ----------------------- > QUIT BOITE

@@ -90,42 +90,45 @@ class _ADMINState extends State<ADMIN> {
 
   // ===================================================
   Widget panelGeneral() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(height: 1, width: double.maxFinite, color: Colors.black12),
-        const SizedBox(height: 10),
-        LABEL(text: "Date debut appli : $periodeDebut", isBold: true),
-        LABEL(text: "Entré : ${administrator['net-entre']} ariary"),
-        LABEL(text: "Sortie : ${administrator['net-sortie']} ariary"),
-        LABEL(
-            text:
-                "Rest : ${administrator['net-entre'] - administrator['net-sortie']} ariary"),
-        const SizedBox(height: 10),
-        LABEL(text: "Sold des mois precédents ", isBold: true),
-        Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: listOldMontant),
-        const SizedBox(height: 10),
-        LABEL(
-            text:
-                "Sold de ce mois : ${administrator['sold de ce mois']} ariary",
-            isBold: true),
-        LABEL(text: "(100% pour les actionnaires)", color: Colors.grey),
-        const SizedBox(height: 10),
-        LABEL(text: "Actionnaires", isBold: true),
-        Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: listInvestisseur),
-        const SizedBox(height: 10),
-        btTraiterLaPeriode,
-        const SizedBox(height: 10),
-        LABEL(text: "Notre contacte", isBold: true),
-        Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: listContact),
-        const SizedBox(height: 10),
-      ],
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(height: 1, width: double.maxFinite, color: Colors.black12),
+          const SizedBox(height: 10),
+          LABEL(text: "Date debut appli : $periodeDebut", isBold: true),
+          LABEL(text: "Entré : ${administrator['net-entre']} ariary"),
+          LABEL(text: "Sortie : ${administrator['net-sortie']} ariary"),
+          LABEL(
+              text:
+                  "Rest : ${administrator['net-entre'] - administrator['net-sortie']} ariary"),
+          const SizedBox(height: 10),
+          LABEL(text: "Sold des mois precédents ", isBold: true),
+          Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: listOldMontant),
+          const SizedBox(height: 10),
+          LABEL(
+              text:
+                  "Sold de ce mois : ${administrator['sold de ce mois']} ariary",
+              isBold: true),
+          LABEL(text: "(100% pour les actionnaires)", color: Colors.grey),
+          const SizedBox(height: 10),
+          LABEL(text: "Actionnaires", isBold: true),
+          Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: listInvestisseur),
+          const SizedBox(height: 10),
+          btTraiterLaPeriode,
+          const SizedBox(height: 10),
+          LABEL(text: "Notre contact", isBold: true),
+          Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: listContact),
+          const SizedBox(height: 10),
+        ],
+      ),
     );
   }
 
@@ -308,34 +311,40 @@ class _ADMINState extends State<ADMIN> {
 
   // ===================================================
   Widget panelDemande() {
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          const SizedBox(height: 10),
-          const Text("Traiter demande Dépôt ou retrait ",
-              style: TextStyle(fontWeight: FontWeight.bold)),
-          const Text('Liste des demandes non traité '),
-          const SizedBox(height: 10),
-          Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: listDemandeVu)
-        ]);
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            const SizedBox(height: 10),
+            const Text("Traiter demande Dépôt ou retrait ",
+                style: TextStyle(fontWeight: FontWeight.bold)),
+            const Text('Liste des demandes non traité '),
+            const SizedBox(height: 10),
+            Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: listDemandeVu)
+          ]),
+    );
   }
 
   // ===================================================
   Widget panelBoite() {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const SizedBox(height: 10),
-      const Text("Traiter sortant des boites ",
-          style: TextStyle(fontWeight: FontWeight.bold)),
-      const SizedBox(height: 10),
-      const Text(
-          "creation new BOITE , update all fiche in boite , update info boite "),
-      Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: listBoitePleinVu)
-    ]);
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        const SizedBox(height: 10),
+        const Text("Traiter sortant des boites ",
+            style: TextStyle(fontWeight: FontWeight.bold)),
+        const SizedBox(height: 10),
+        const Text(
+            "creation new BOITE , update all fiche in boite , update info boite "),
+        Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: listBoitePleinVu)
+      ]),
+    );
   }
 
   // ===================================================
@@ -430,11 +439,10 @@ class _ADMINState extends State<ADMIN> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SafeArea(
-              child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.vertical,
+          Expanded(
+            child: SafeArea(
+                child: Padding(
+                    padding: const EdgeInsets.all(10),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -454,13 +462,15 @@ class _ADMINState extends State<ADMIN> {
                               )
                             ]),
                           ),
-                          pageVu == 1
-                              ? panelDemande()
-                              : pageVu == 2
-                                  ? panelBoite()
-                                  : panelGeneral(),
-                        ]),
-                  ))),
+                          Expanded(
+                            child: pageVu == 1
+                                ? panelDemande()
+                                : pageVu == 2
+                                    ? panelBoite()
+                                    : panelGeneral(),
+                          )
+                        ]))),
+          ),
           BottomNavigationBar(
               currentIndex: _currentIndex,
               onTap: (value) => setState(() {

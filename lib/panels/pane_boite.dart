@@ -47,6 +47,7 @@ class _PANELBOITEState extends State<PANELBOITE> {
         BOITE b = BOITE(map);
         b.redraw = () {
           setState(() => vuAction = 0);
+          widget.redraw();
           reloadBoite(context);
         };
         b.getHistorique((histos) {
@@ -97,6 +98,7 @@ class _PANELBOITEState extends State<PANELBOITE> {
     setState(() {
       newBoite.redraw = () {
         setState(() => vuAction = 0);
+        widget.redraw();
         reloadBoite(context);
       };
       newBoite.initValueNew(m, userActif['login']);
@@ -117,6 +119,7 @@ class _PANELBOITEState extends State<PANELBOITE> {
     setState(() {
       searchBoite.redraw = () {
         setState(() => vuAction = 0);
+        widget.redraw();
         reloadBoite(context);
       };
     });

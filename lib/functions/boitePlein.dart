@@ -17,6 +17,7 @@ traiterPassationBoite(Map boite, Function pass) async {
   }
 
   // Create 2 MAP
+  // => 1 ==============================================================
   Map<String, dynamic> map1 = {
     'code': newCode(),
     'montant': boite['montant'],
@@ -58,6 +59,14 @@ traiterPassationBoite(Map boite, Function pass) async {
           [boite['etages']['1'][3].toString()],
     }
   };
+  map1['informations'][boite['etages']['2'][0].toString()]['etage'] = 3;
+  map1['informations'][boite['etages']['2'][1].toString()]['etage'] = 3;
+  map1['informations'][boite['etages']['1'][0].toString()]['etage'] = 2;
+  map1['informations'][boite['etages']['1'][1].toString()]['etage'] = 2;
+  map1['informations'][boite['etages']['1'][2].toString()]['etage'] = 2;
+  map1['informations'][boite['etages']['1'][3].toString()]['etage'] = 2;
+
+  // => 2 ==============================================================
   Map<String, dynamic> map2 = {
     'code': newCode(),
     'montant': boite['montant'],
@@ -99,6 +108,12 @@ traiterPassationBoite(Map boite, Function pass) async {
           [boite['etages']['1'][7].toString()],
     }
   };
+  map2['informations'][boite['etages']['2'][2].toString()]['etage'] = 3;
+  map2['informations'][boite['etages']['2'][3].toString()]['etage'] = 3;
+  map2['informations'][boite['etages']['1'][4].toString()]['etage'] = 2;
+  map2['informations'][boite['etages']['1'][5].toString()]['etage'] = 2;
+  map2['informations'][boite['etages']['1'][6].toString()]['etage'] = 2;
+  map2['informations'][boite['etages']['1'][7].toString()]['etage'] = 2;
 
   // SEND NOTIF into 2 MAP
   Map<String, dynamic> histo1 = {
@@ -130,6 +145,9 @@ traiterPassationBoite(Map boite, Function pass) async {
   loading.show('Mise à jour des sortants ...');
   await updateSortant(sortants, boite);
 
+  loading.show('Mise à jour des Parent des sortants ...');
+  await updateSortantParent(sortants, boite);
+
   loading.show("Suppression de l'ancien boite ...");
   await deleteBoite(boite['code']);
 
@@ -153,7 +171,7 @@ double cote = 48.5;
 double bonusSortant = 17.5;
 double fraisSecu = 12.5;
 
-double getProgress(String u, Map map) {
+int getProgress(String u, Map map) {
   double meProgression = 0;
   //
   if (map['informations'][u]['childNbr'] > 0) {
@@ -179,7 +197,7 @@ double getProgress(String u, Map map) {
 
 updateSortant(List<String> users, Map map) async {
   for (var u in users) {
-    double m = getProgress(u, map);
+    int m = getProgress(u, map);
     Map<String, dynamic> infoTicket = {
       'montant': map['montant'],
       'cote child': cote,
@@ -193,6 +211,23 @@ updateSortant(List<String> users, Map map) async {
     };
     await base.quitBoiteToSortant(u, map['code'], m);
     await base.sendTiquetSortant(u, map['code'], m, infoTicket);
+  }
+}
+
+// ==========================================================================
+updateSortantParent(List<String> users, Map map) async {
+  for (var u in users) {
+    int m = map['informations'][u]['childNbr'] > 1
+        ? (map['montant'] * bonusSortant / 100).round()
+        : 0;
+    Map<String, dynamic> infoTicket = {
+      'montant': map['montant'],
+      'cote': map['informations'][u]['childNbr'] > 1 ? bonusSortant : 0,
+      'code boite': map['code'],
+      'Net recu': m
+    };
+    await base.quitBoiteToSortantParent(u, m);
+    await base.sendTiquetSortantParent(u, map['code'], m, infoTicket);
   }
 }
 
