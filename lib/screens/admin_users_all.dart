@@ -119,6 +119,10 @@ class _SCREEN_ALL_USERSState extends State<SCREEN_ALL_USERS> {
                                     text:
                                         'Niv. ${user['level']} / ${user['exp']} exp / ${user['dateCreate']}',
                                     color: Colors.grey),
+                                Row(children: [
+                                  LABEL(text: 'parent : '),
+                                  LABEL(text: '${user['parent']}', isBold: true)
+                                ]),
                                 LABEL(text: '-'),
                                 LABEL(
                                     text:

@@ -174,7 +174,7 @@ double getProgress(String u, Map map) {
   // + ticket['informations']['bonus']
   // - ticket['informations']['frais secu']
 
-  return map['montant'] * meProgression / 100;
+  return (map['montant'] * meProgression / 100).round();
 }
 
 updateSortant(List<String> users, Map map) async {

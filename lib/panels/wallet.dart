@@ -140,36 +140,48 @@ class _PANELWALLETState extends State<PANELWALLET> {
       setState(() => isConstruct = false);
     }
 
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const SizedBox(height: 10),
-          LABEL(text: "Effécter un retrait d'argent"),
-          tel,
-          const SizedBox(height: 5),
-          montant,
-          const SizedBox(height: 5),
-          mdp,
-          Row(mainAxisAlignment: MainAxisAlignment.end, children: [btRetrait]),
-          const SizedBox(height: 10),
-          LABEL(text: "Effécter un dépot d'argent"),
-          tel2,
-          const SizedBox(height: 5),
-          montant2,
-          Row(mainAxisAlignment: MainAxisAlignment.end, children: [btDepot]),
-          const SizedBox(height: 10),
-          LABEL(text: "Historique des transaction"),
-          Container(height: 1, width: double.maxFinite, color: Colors.black12),
-          const SizedBox(height: 10),
-          LABEL(text: 'Date / Action', color: Colors.grey, isBold: true),
-          const SizedBox(height: 10),
-          Container(height: 1, width: double.maxFinite, color: Colors.black12),
-          const SizedBox(height: 10),
-          Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: transactions)
-        ]);
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(height: 10),
+              LABEL(text: "Effécter un retrait d'argent"),
+              tel,
+              const SizedBox(height: 5),
+              montant,
+              const SizedBox(height: 5),
+              mdp,
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [btRetrait]),
+              const SizedBox(height: 10),
+              LABEL(text: "Effécter un dépot d'argent"),
+              tel2,
+              const SizedBox(height: 5),
+              montant2,
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [btDepot]),
+              const SizedBox(height: 10),
+              LABEL(text: "Historique des transaction"),
+              Container(
+                  height: 1, width: double.maxFinite, color: Colors.black12),
+              const SizedBox(height: 10),
+              LABEL(text: 'Date / Action', color: Colors.grey, isBold: true),
+              const SizedBox(height: 10),
+              Container(
+                  height: 1, width: double.maxFinite, color: Colors.black12),
+              const SizedBox(height: 10),
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: transactions)
+            ]),
+      ),
+    );
   }
 }

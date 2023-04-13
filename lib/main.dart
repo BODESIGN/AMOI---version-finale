@@ -1,10 +1,16 @@
 import 'dart:math';
+import 'dart:ui';
 
+import 'package:amoi/component/label.dart';
+import 'package:amoi/component/modale.dart';
+import 'package:amoi/functions/exp.dart';
 import 'package:amoi/screens/admin.dart';
 import 'package:amoi/screens/admin_boite_all.dart';
 import 'package:amoi/screens/admin_dashboard.dart';
+import 'package:amoi/screens/admin_inversti.dart';
 import 'package:amoi/screens/admin_todo.dart';
 import 'package:amoi/screens/admin_users_all.dart';
+import 'package:amoi/screens/admin_users_tree.dart';
 import 'package:amoi/screens/dashboard.dart';
 import 'package:amoi/screens/seconnect.dart';
 import 'package:flutter/material.dart';
@@ -65,6 +71,8 @@ class MAIN extends StatelessWidget {
           'ADMIN_ALL_USER': (context) => const SCREEN_ALL_USERS(),
           'ADMIN_ALL_BOITE': (context) => const SCREEN_ALL_BOITE(),
           'ADMIN_TODO': (context) => const SCREEN_TODO(),
+          'ADMIN_ALL_TREE': (context) => const SCREEN_ALL_TREE(),
+          'ADMIN_ALL_INVESTI': (context) => const SCREEN_ALL_INVEST(),
         });
   }
 }
@@ -112,6 +120,67 @@ bool checParentIsInBoite(String parent, List inBoite) {
     if (code.toString() == parent) isIn = true;
   }
   return isIn;
+}
+
+// ==================================================================
+showProfile(BuildContext context, Map<String, dynamic> u) {
+  MODALE m = MODALE(context, 'Vu boites', '')
+    ..type = 'PROFILE'
+    ..child = Stack(children: [
+      SizedBox(
+        width: MediaQuery.of(context).size.width - 50,
+        height: 100,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: u['urlPdp'].toString() == ''
+              ? Container(
+                  width: double.maxFinite,
+                  height: double.maxFinite,
+                  color: Colors.black)
+              : ImageFiltered(
+                  imageFilter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 5.0),
+                  child: Image.network(
+                    u['urlPdp'].toString(),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+        ),
+      ),
+      Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10), color: Colors.black45),
+          width: MediaQuery.of(context).size.width - 50,
+          height: 100),
+      Positioned(
+        left: 20,
+        top: 20,
+        child: SizedBox(
+            height: 60,
+            width: 60,
+            child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(200),
+                    border: Border.all(width: 1, color: Colors.white)),
+                child: pdp(u['urlPdp'].toString(), () {}))),
+      ),
+      Positioned(
+        left: 100,
+        top: 20,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            LABEL(text: "${u['fullname']}", color: Colors.white, size: 17),
+            LABEL(text: "#${u['login']}", isBold: true, color: Colors.white),
+            LABEL(
+                text:
+                    "⭐ Niv : ${u['level']} (${EXP().privilege['Niv. ${u['level']}']['nom']})",
+                color: Colors.white)
+          ],
+        ),
+      ),
+    ]);
+  m.show();
 }
 
 // ==================================================================

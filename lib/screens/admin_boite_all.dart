@@ -34,7 +34,8 @@ class _SCREEN_ALL_BOITEState extends State<SCREEN_ALL_BOITE> {
           setState(() {
             vuBoites = [];
             for (var b in listB) {
-              vuBoites.add(b.vu(context));
+              vuBoites.add(
+                  Padding(padding: const EdgeInsets.fromLTRB(20,20,0,20), child: b.vu(context)));
             }
           });
 
@@ -83,8 +84,8 @@ class _SCREEN_ALL_BOITEState extends State<SCREEN_ALL_BOITE> {
                               // width: MediaQuery.of(context).size.width,
                               child: Row(children: vuBoites)))
                       : Center(
-                          child: LABEL(
-                              text: 'Aucune boite', color: Colors.grey)))
+                          child:
+                              LABEL(text: 'Aucune boite', color: Colors.grey)))
             ]));
   }
 }

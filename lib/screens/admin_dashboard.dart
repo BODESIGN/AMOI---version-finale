@@ -23,12 +23,22 @@ class AdminDashboard extends StatelessWidget {
                   mainAxisSpacing: 12,
                   children: <Widget>[
                     _buildTile(
-                      color: Colors.grey,
+                      color: Colors.blueGrey,
                       icon: Icons.monetization_on,
-                      title: 'Total des investissements',
-                      subtitle: 'Ar 2,500,000',
-                      onTap: () {},
+                      title: 'Investissements',
+                      subtitle: 'Total des investissements',
+                      onTap: () {
+                        Navigator.of(context).pushNamed('ADMIN_ALL_INVESTI');
+                      },
                     ),
+                    _buildTile(
+                        color: Colors.green,
+                        icon: Icons.account_tree_rounded,
+                        title: 'Hyerarchy',
+                        subtitle: 'Liste des Membres',
+                        onTap: () {
+                          Navigator.of(context).pushNamed('ADMIN_ALL_TREE');
+                        }),
                     _buildTile(
                         color: Colors.pink,
                         icon: Icons.group,

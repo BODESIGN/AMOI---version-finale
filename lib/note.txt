@@ -1,14 +1,4 @@
+cmd : flutter build apk --split-per-abi
 
-NIRINA
-    - New admin dashboard design ( Waiting ) 
-    - Login (use trim) 
-
-
-RAYAN
-    (OK)    admin : liste des users > pour visualiser leur sold , transation , etc... 
-    (OK)    admin : liste des boite > pour visualiser les detailles des boite en cours 
-
-    (OK) _ Appliquer les caraqteristique de chaque level 
-    (OK) _ le input : mot de passe > atao pardefaut mot de passe invisible
-
-    (OK -> toast.showNotyf) _ not use TOAST > use MODALE personaliser 
+TODO : 
+    crypte code 

@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class APPBAR extends StatefulWidget {
-  APPBAR({super.key, required this.user});
+  APPBAR({super.key, required this.user, this.isInInit = false});
 
   Map<String, dynamic> user;
+  bool isInInit = false;
 
   @override
   State<APPBAR> createState() => _APPBARState();
@@ -17,13 +18,18 @@ class _APPBARState extends State<APPBAR> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+        padding: widget.isInInit
+            ? const EdgeInsets.all(0)
+            : const EdgeInsets.fromLTRB(10, 0, 10, 0),
         child: SizedBox(
             width: double.maxFinite,
             child: Card(
                 surfaceTintColor: Colors.white,
+                elevation: widget.isInInit ? 0 : 5,
                 child: Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                    padding: widget.isInInit
+                        ? const EdgeInsets.all(0)
+                        : const EdgeInsets.fromLTRB(15, 10, 15, 10),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -38,8 +44,10 @@ class _APPBARState extends State<APPBAR> {
                                 SizedBox(
                                   height: 30,
                                   width: 30,
-                                  child: pdp(
-                                      widget.user['urlPdp'].toString(), () {}),
+                                  child:
+                                      pdp(widget.user['urlPdp'].toString(), () {
+                                    showProfile(context, widget.user);
+                                  }),
                                 ),
                                 const SizedBox(width: 5)
                               ])),
@@ -55,14 +63,16 @@ class _APPBARState extends State<APPBAR> {
                                             text: '${widget.user['fullname']}',
                                             size: 18,
                                             isBold: true),
-                                        Row(children: [
-                                          LABEL(
-                                              text: '${widget.user['ariary']}',
-                                              size: 18,
-                                              isBold: true),
-                                          LABEL(text: '.ar', size: 18),
-                                          LABEL(text: ' (sold délivrable)')
-                                        ])
+                                        if (!widget.isInInit)
+                                          Row(children: [
+                                            LABEL(
+                                                text:
+                                                    '${widget.user['ariary']}',
+                                                size: 18,
+                                                isBold: true),
+                                            LABEL(text: 'ar', size: 18),
+                                            LABEL(text: ' (sold délivrable)')
+                                          ])
                                       ]))),
                           const SizedBox(width: 10),
                           Container(

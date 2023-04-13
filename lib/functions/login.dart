@@ -45,6 +45,35 @@ class METHODE {
   }
 
   // ---------------------------------------------------------------
+  void checParentExist(String parentLogin, Function pass) {
+    parentLogin = parentLogin.trim();
+    if (parentLogin == '') toast.show('Parent obligatoire !');
+    if (parentLogin == '') return;
+
+    bool isAdmin = this.isAdmin(parentLogin);
+    if (isAdmin) toast.show('Parent non valide !');
+    if (isAdmin) return;
+
+    loading.show('Vérification du parent ...');
+    base.select(tableUser, parentLogin, (result, value) {
+      if (result == 'error') {
+        toast.show('Parent non introuver !');
+        loading.hide();
+        return;
+      }
+
+      Map<String, dynamic> u = value.data() as Map<String, Object?>;
+      if (u['login'] == parentLogin) {
+        loading.hide();
+        pass();
+      } else {
+        toast.show('Parent non introuver !');
+      }
+      loading.hide();
+    });
+  }
+
+  // ---------------------------------------------------------------
   void setMdp1(String mdp, Function pass) {
     if (mdp == '') toast.show('Mot de passe obligatoire !');
     if (mdp == '') return;
@@ -60,28 +89,41 @@ class METHODE {
   }
 
   // ---------------------------------------------------------------
-  void createCompte(String login, String mdp, Function pass) {
-    loading.show('Vérification du login ...');
-    login = login.trim();
-    user = {
-      'fullname': login,
-      'motdepasse': mdp,
-      'login': login,
-      'ariary': 0,
-      'exp': 0,
-      'level': 1,
-      'urlPdp': '',
-      'dateCreate': getDateNow(),
-      'boites': []
-    };
-    base.insert(tableUser, login, user, (result, value) {
-      if (result == 'error') {
-        toast.show('Une problème est survenue !');
-        loading.hide();
-        return;
-      }
-      loading.hide();
-      pass(user);
+  void createCompte(String login, String mdp, String parent, Function pass) {
+    checParentExist(parent, () {
+      login = login.trim();
+      user = {
+        'fullname': login,
+        'motdepasse': mdp,
+        'login': login,
+        'parent': parent,
+        'ariary': 0,
+        'exp': 0,
+        'level': 1,
+        'urlPdp': '',
+        'dateCreate': getDateNow(),
+        'boites': [],
+        'childs-direct': []
+      };
+      loading.show('Création de la compte ...');
+      base.insert(tableUser, login, user, (result, value) {
+        if (result == 'error') {
+          toast.show('Une problème est survenue !');
+          loading.hide();
+          return;
+        }
+
+        loading.show('Mise a jour du parent ...');
+        base.updateParent(parent, login, (result, value) {
+          if (result == 'error') {
+            toast.show('Une problème est survenue !');
+            loading.hide();
+            return;
+          }
+          loading.hide();
+          pass(user);
+        });
+      });
     });
   }
 

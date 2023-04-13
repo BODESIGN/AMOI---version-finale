@@ -6,10 +6,10 @@ import 'package:amoi/component/button.dart';
 import 'package:amoi/component/label.dart';
 import 'package:amoi/component/modale.dart';
 import 'package:amoi/functions/boitePlein.dart';
+import 'package:amoi/functions/crypto.dart';
 import 'package:amoi/functions/exp.dart';
 import 'package:amoi/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 // ===================== DESIGN
@@ -173,16 +173,17 @@ class BOITE {
                               text: 'Copier code',
                               action: () => copieCodeToClip(
                                   '${map['code']}-${userActif['login']}')),
+                          const SizedBox(width: 10),
+                          BUTTON(
+                              text: 'Voir les membres',
+                              action: () => showModaleMembre(context)),
                           if (!checIamInBoite(map)) const SizedBox(width: 10),
                           if (!checIamInBoite(map))
                             BUTTON(
                                 text: 'Rejoindre',
-                                action: () => rejoindreBoite(),
-                                type: 'BLEU'),
-                          const SizedBox(width: 10),
-                          BUTTON(
-                              text: 'Voir les membres',
-                              action: () => showModaleMembre(context))
+                                action: () => rejoindreBoite())
+                              ..color = Colors.white
+                              ..colorBg = Colors.green
                         ]),
                       )
                     ]))
@@ -212,7 +213,8 @@ class BOITE {
                                     ]),
                                     LABEL(
                                         text:
-                                            'Montant Investi : ${map['montant']} ariary'),
+                                            'Montant Investi : ${map['montant']} ariary',
+                                        color: Colors.brown),
                                     const SizedBox(height: 10),
                                     designEtage(),
                                     const SizedBox(height: 10),
@@ -224,14 +226,17 @@ class BOITE {
                                     if (checIamInBoite(map))
                                       LABEL(
                                           text:
-                                              "Mon code : ${map['code']}-${userActif['login']}",
+                                              "Mon code : ${CRYPTO().crypte("${map['code']}-${userActif['login']}")}",
                                           color: Colors.grey),
                                     Row(children: [
                                       if (checIamInBoite(map))
                                         BUTTON(
                                             text: 'Copier code',
-                                            action: () => copieCodeToClip(
-                                                '${map['code']}-${userActif['login']}')),
+                                            action: () {
+                                              String code = CRYPTO().crypte(
+                                                  "${map['code']}-${userActif['login']}");
+                                              copieCodeToClip(code);
+                                            }),
                                       const SizedBox(width: 10),
                                       BUTTON(
                                           text: 'Voir les membres',
@@ -461,8 +466,7 @@ class BOITE {
       return Icon(Icons.portrait, color: Colors.black, size: size);
     }
     // VIDE
-    return Icon(Icons.check_box_outline_blank,
-        color: Colors.black, size: size);
+    return Icon(Icons.check_box_outline_blank, color: Colors.black, size: size);
   }
 
   Widget designEtage() {
@@ -604,7 +608,8 @@ class BOITE {
         LABEL(text: 'Progression : $meProgression%'),
         LABEL(
             text:
-                'Montant a recévoir (en sortant) : ${(map['montant'] * meProgression / 100)} ariary'),
+                'Montant a recévoir (en sortant) : ${(map['montant'] * meProgression / 100).round()} ariary',
+            color: Colors.teal),
         LABEL(
             text:
                 'Nb. childs : ${map['informations'][userActif['login']]['childNbr']}'),
@@ -684,40 +689,19 @@ class BOITE {
 
     for (var u in users) {
       vu.add(Padding(
-        padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-        child: Column(
-          children: [
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: Column(children: [
             SizedBox(
                 height: 40,
                 width: 40,
-                child: pdp(u['urlPdp'].toString(), () {
-                  if (kDebugMode) {
-                    print('Voire fiche : ${u['login']}');
-                  }
-                  MODALE m = MODALE(context, 'Vu boites', '')
-                    ..type = 'CUSTOM'
-                    ..child = Column(children: [
-                      SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Column(children: [
-                            const SizedBox(height: 10),
-                            SizedBox(
-                                height: 60,
-                                width: 60,
-                                child: pdp(u['urlPdp'].toString(), () {})),
-                            LABEL(text: "#${u['login']}", isBold: true),
-                            const SizedBox(height: 10),
-                            LABEL(text: "Nom complet : ${u['fullname']}"),
-                            LABEL(text: "Niveau : ${u['level']}"),
-                            const SizedBox(height: 10),
-                          ]))
-                    ]);
-                  m.show();
-                })),
+                child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: pdp(u['urlPdp'].toString(),
+                        () => showProfile(context, u)))),
             LABEL(text: u['login'])
-          ],
-        ),
-      ));
+          ])));
     }
 
     // ignore: use_build_context_synchronously

@@ -111,6 +111,17 @@ class MODALE {
               return SafeArea(child: child);
             });
         break;
+      case 'PROFILE':
+        showModalBottomSheet<void>(
+            context: context,
+            isScrollControlled: true,
+            backgroundColor: Colors.transparent,
+            builder: (BuildContext context) {
+              return SingleChildScrollView(
+                  child:
+                      Padding(padding: const EdgeInsets.all(25), child: child));
+            });
+        break;
       case 'NOTYF':
         showModalBottomSheet<void>(
             context: context,

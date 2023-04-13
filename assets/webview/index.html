@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>amCharts 5 Example - hierarchy-force-directed</title>
+  <link rel="stylesheet" href="index.css" />
+</head>
+
+<body>
+  <div id="chartdiv"></div>
+  <script src="src/index.js"></script>
+  <script src="src/hierarchy.js"></script>
+  <script src="src/Animated.js"></script>
+  <script>
+    var root = am5.Root.new("chartdiv");
+
+    root.setThemes([
+      am5themes_Animated.new(root)
+    ]);
+
+    var container = root.container.children.push(am5.Container.new(root, {
+      width: am5.percent(100),
+      height: am5.percent(100),
+      layout: root.verticalLayout
+    }));
+
+    // Create series
+    var series = container.children.push(am5hierarchy.ForceDirected.new(root, {
+      singleBranchOnly: false,
+      downDepth: 1,
+      initialDepth: 2,
+      valueField: "value",
+      categoryField: "name",
+      childDataField: "children"
+    }));
+
+    // Generate and set data
+    var maxLevels = 2;
+    var maxNodes = 3;
+    var maxValue = 100;
+
+    var data = {
+      name: "Root",
+      children: []
+    }
+    generateLevel(data, "", 0);
+
+    series.data.setAll([data]);
+    series.set("selectedDataItem", series.dataItems[0]);
+
+    function generateLevel(data, name, level) {
+      for (var i = 0; i < Math.ceil(maxNodes * Math.random()) + 1; i++) {
+        var nodeName = name + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i];
+        var child;
+        if (level < maxLevels) {
+          child = {
+            name: nodeName + level
+          }
+
+          if (level > 0 && Math.random() < 0.5) {
+            child.value = Math.round(Math.random() * maxValue);
+          }
+          else {
+            child.children = [];
+            generateLevel(child, nodeName + i, level + 1)
+          }
+        }
+        else {
+          child = {
+            name: name + i,
+            value: Math.round(Math.random() * maxValue)
+          }
+        }
+        data.children.push(child);
+      }
+
+      level++;
+      return data;
+    }
+
+    series.appear(1000, 100);
+  </script>
+</body>
+
+</html>

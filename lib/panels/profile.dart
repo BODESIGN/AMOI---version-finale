@@ -150,24 +150,45 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
       savemdp.action = () => _saveNewMdp();
     });
 
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Row(children: [
-        BUTTON(text: 'Changer ma photo', type: '', action: () => _clickOnpdp())
-          ..icon = Icons.camera_alt,
-        const SizedBox(width: 10)
-      ]),
-      const SizedBox(height: 10),
-      const SizedBox(height: 10),
-      LABEL(text: 'Modification Nom prénom', color: Colors.grey),
-      fullname,
-      Row(mainAxisAlignment: MainAxisAlignment.end, children: [savename]),
-      LABEL(text: 'Modification Mot de passe', color: Colors.grey),
-      mdp3,
-      const SizedBox(height: 5),
-      mdp1,
-      const SizedBox(height: 5),
-      mdp2,
-      Row(mainAxisAlignment: MainAxisAlignment.end, children: [savemdp]),
-    ]);
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height - 100,
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  BUTTON(
+                      text: 'Changer ma photo',
+                      type: '',
+                      action: () => _clickOnpdp())
+                    ..icon = Icons.camera_alt,
+                  const SizedBox(height: 10),
+                  BUTTON(
+                      text: 'Voir profile',
+                      action: () => showProfile(context, userActif)),
+                  const SizedBox(height: 10),
+                  LABEL(text: 'Modification Nom prénom', color: Colors.grey),
+                  fullname,
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [savename]),
+                  LABEL(text: 'Modification Mot de passe', color: Colors.grey),
+                  mdp3,
+                  const SizedBox(height: 5),
+                  mdp1,
+                  const SizedBox(height: 5),
+                  mdp2,
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [savemdp]),
+                ])
+              ]),
+        ),
+      ),
+    );
   }
 }

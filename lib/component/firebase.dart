@@ -110,6 +110,18 @@ class FIREBASE {
   }
 
   // ----------------------- > UPDATE ADMIN
+  void updateParent(String parent, String login, Function actionAfter) {
+    firestore
+        .collection(table['user']!)
+        .doc(parent)
+        .update({
+          "childs-direct": FieldValue.arrayUnion([login])
+        })
+        .then((value) => {actionAfter('succes', value)})
+        .catchError((error) => {actionAfter('error', error)});
+  }
+
+  // ----------------------- > UPDATE ADMIN
   void updateTablePlein(String boiteCode, Function actionAfter) {
     firestore
         .collection(table['setting']!)
@@ -250,9 +262,7 @@ class FIREBASE {
   }
 
   // ----------------------- > SELECT USERS
-  selectListUsers(
-    Function actionAfter,
-  ) {
+  selectListUsers(Function actionAfter) {
     // LIMITE
     firestore.collection(table['user']!).get().then((querySnapshot) {
       List<Map> liste = [];
@@ -349,15 +359,18 @@ class FIREBASE {
 
   // ----------------------- > QUIT BOITE
   quitBoiteToNew(String login, String boiteCode, String newBoiteCode) async {
-    await firestore
-        .collection(table['user']!)
-        .doc(login)
-        .update({
-          // "boites": FieldValue.arrayRemove([boiteCode]),
-          "boites": FieldValue.arrayUnion([newBoiteCode])
-        })
-        .then((value) => {toast.show("User : $login a jour !")})
-        .catchError((error) => {toast.show(error.toString())});
+    await firestore.collection(table['user']!).doc(login).update({
+      "boites": FieldValue.arrayUnion([newBoiteCode])
+    }).then((value) async {
+      await firestore
+          .collection(table['user']!)
+          .doc(login)
+          .update({
+            "boites": FieldValue.arrayRemove([boiteCode])
+          })
+          .then((value) => toast.show("User : $login a jour !"))
+          .catchError((error) => toast.show(error.toString()));
+    }).catchError((error) => toast.show(error.toString()));
   }
 
   // ----------------------- > QUIT BOITE
@@ -460,7 +473,7 @@ class FIREBASE {
     String here = "${table['setting']}/${table['admin']}/${table['todo']}";
     firestore
         .collection(here)
-        .orderBy(order, descending: true)
+        .orderBy(order, descending: false)
         .get()
         .then((querySnapshot) {
       List<Map<String, dynamic>> liste = [];

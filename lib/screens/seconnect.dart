@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:amoi/component/appbar.dart';
 import 'package:amoi/component/button.dart';
 import 'package:amoi/component/input.dart';
 import 'package:amoi/component/label.dart';
@@ -27,8 +28,8 @@ class SECONNECT extends StatefulWidget {
 }
 
 class _SECONNECTState extends State<SECONNECT> {
-  LABEL title = LABEL(text: 'Bienvenue sur Amoi Groupe', size: 15);
   INPUT login = INPUT(label: 'Login (Aucun espace)');
+  INPUT parent = INPUT(label: 'Parent (login / Aucun espace)');
   INPUT mdp = INPUT(label: 'Mot de passe', isMotDePasse: true);
   BUTTON conn = BUTTON(text: 'Se connecter', action: () {}, type: 'BLEU');
   BUTTON newc = BUTTON(text: 'Créer un compte', action: () {}, type: 'BLEU');
@@ -53,6 +54,18 @@ class _SECONNECTState extends State<SECONNECT> {
         case 1:
           $.checUserExist(login.getValue(), () {
             setState(() => etape++);
+            $.user = {
+              'fullname': login.getValue(),
+              'motdepasse': '',
+              'parent': '',
+              'login': login.getValue(),
+              'ariary': 0,
+              'exp': 0,
+              'level': 1,
+              'urlPdp': '',
+              'dateCreate': getDateNow(),
+              'boites': []
+            };
           });
           break;
         case 2:
@@ -63,11 +76,15 @@ class _SECONNECTState extends State<SECONNECT> {
           break;
         case 3:
           $.setMdp2(mdp.getValue(), () {
-            $.createCompte(login.getValue(), mdp.getValue(), (user) {
-              userActif = user;
-              bool isAdmin = $.isAdmin(user['login']);
-              Navigator.of(context).pushNamed(isAdmin ? 'ADMIN' : 'DASHBOARD');
-            });
+            setState(() => etape++);
+          });
+          break;
+        case 4:
+          $.createCompte(login.getValue(), mdp.getValue(), parent.getValue(),
+              (user) {
+            userActif = user;
+            bool isAdmin = $.isAdmin(user['login']);
+            Navigator.of(context).pushNamed(isAdmin ? 'ADMIN' : 'DASHBOARD');
           });
           break;
       }
@@ -110,11 +127,6 @@ class _SECONNECTState extends State<SECONNECT> {
       cote = administrator['cote'];
       bonusSortant = administrator['bonusSortant'];
       loading.hide();
-
-      // CHEC VERSION
-      if (kDebugMode) {
-        print("$version, ${administrator['version']}");
-      }
       if (version == administrator['version']) return;
       if (!administrator['version-obli']) return;
 
@@ -130,9 +142,7 @@ class _SECONNECTState extends State<SECONNECT> {
     final contentUri = await getUriForFile(context, file);
     try {
       await launchUrl(contentUri);
-      print(contentUri.toString());
     } on PlatformException catch (e) {
-      print(e.message);
     }
   }
 
@@ -141,10 +151,8 @@ class _SECONNECTState extends State<SECONNECT> {
     final path = '${directory?.path}';
     final newPath = '$path/${file.path.split('/').last}';
     final newFile = await file.copy(newPath);
-    print(newFile.path);
     final contentUri = Uri.parse(
         'content://${packageInfo?.packageName}.fileprovider/my_files/${file.path.split('/').last}');
-    print(contentUri.toString());
     return contentUri;
   }
 
@@ -152,12 +160,9 @@ class _SECONNECTState extends State<SECONNECT> {
     loading.show("Téléchargement ...");
     final storageRef = FirebaseStorage.instance.ref();
     final islandRef = storageRef.child("version/app.apk");
-    // String filePath = "/storage/emulated/0/Download/amoi.apk";
-    // final File file = File(filePath);
     final Directory? directory = await getExternalStorageDirectory();
     final String filePath = '${directory?.path}/app.apk';
     final File file = File(filePath);
-    // await islandRef.writeToFile(file);
 
     final downloadTask = islandRef.writeToFile(file);
 
@@ -173,26 +178,13 @@ class _SECONNECTState extends State<SECONNECT> {
           break;
         case TaskState.success:
           loading.hide();
-          // TODO open directly APK
-          // await File(filePath).readAsBytes();
-
           try {
             AppInstaller.installApk(filePath);
-
-            // Show a success message or navigate to a new page
-            // ...
-
           } catch (e) {
             if (kDebugMode) {
-              print(e);
+              // print(e);
             }
-            // Handle errors
           }
-
-          // toast.show(
-          //     "La dernière vesrion a été télécharger veuillez ovrire le fichier : amoi.apk dans votre dossier download");
-          // ignore: use_build_context_synchronously
-          Navigator.pop(context);
 
           break;
         case TaskState.canceled:
@@ -263,22 +255,44 @@ class _SECONNECTState extends State<SECONNECT> {
     return WillPopScope(
         child: SafeArea(
             child: Scaffold(
+                backgroundColor: Colors.white,
                 body: Padding(
                     padding: const EdgeInsets.all(20),
                     child: Center(
                         child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                          SizedBox(
-                              width: double.maxFinite,
-                              child: Row(children: [
-                                Image.asset("assets/logo/logoblack.png",
-                                    width: 30, height: 30),
-                                const SizedBox(width: 5),
-                                title
-                              ])),
+                          etape == 1
+                              ? SizedBox(
+                                  width: double.maxFinite,
+                                  child: Row(children: [
+                                    Image.asset("assets/logo/logoblack.png",
+                                        width: 30, height: 30),
+                                    const SizedBox(width: 5),
+                                    LABEL(
+                                        text: 'Bienvenue sur Amoi Groupe',
+                                        size: 15)
+                                  ]))
+                              : isnew
+                                  ? SizedBox(
+                                      width: double.maxFinite,
+                                      child: Row(children: [
+                                        Image.asset("assets/logo/logoblack.png",
+                                            width: 30, height: 30),
+                                        const SizedBox(width: 5),
+                                        LABEL(
+                                            text:
+                                                'Nouvelle compte (login : ${$.user['login']})',
+                                            size: 15)
+                                      ]))
+                                  : APPBAR(user: $.user, isInInit: true),
                           const SizedBox(height: 10),
-                          etape == 1 ? login : mdp,
+                          etape == 1
+                              ? login
+                              : etape == 4
+                                  ? parent
+                                  : mdp,
                           if (etape == 3)
                             SizedBox(
                                 width: double.maxFinite,
