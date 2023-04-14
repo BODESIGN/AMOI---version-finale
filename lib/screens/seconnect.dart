@@ -31,10 +31,10 @@ class _SECONNECTState extends State<SECONNECT> {
   INPUT login = INPUT(label: 'Login (Aucun espace)');
   INPUT parent = INPUT(label: 'Parent (login / Aucun espace)');
   INPUT mdp = INPUT(label: 'Mot de passe', isMotDePasse: true);
-  BUTTON conn = BUTTON(text: 'Se connecter', action: () {}, type: 'BLEU');
-  BUTTON newc = BUTTON(text: 'Créer un compte', action: () {}, type: 'BLEU');
+  BUTTON conn = BUTTON(text: 'Se connecter', action: () {});
+  BUTTON newc = BUTTON(text: 'Créer un compte', action: () {});
   BUTTON prev = BUTTON(text: 'Retour', action: () {});
-  BUTTON next = BUTTON(text: 'Suivant', action: () {}, type: 'BLEU');
+  BUTTON next = BUTTON(text: 'Suivant', action: () {});
   final METHODE $ = METHODE();
   bool isConstruct = true;
   late MODALE vuModalNewVersion;
@@ -142,8 +142,7 @@ class _SECONNECTState extends State<SECONNECT> {
     final contentUri = await getUriForFile(context, file);
     try {
       await launchUrl(contentUri);
-    } on PlatformException catch (e) {
-    }
+    } on PlatformException catch (e) {}
   }
 
   Future<Uri> getUriForFile(BuildContext context, File file) async {
@@ -268,7 +267,7 @@ class _SECONNECTState extends State<SECONNECT> {
                                   width: double.maxFinite,
                                   child: Row(children: [
                                     Image.asset("assets/logo/logoblack.png",
-                                        width: 30, height: 30),
+                                        width: 40, height: 40),
                                     const SizedBox(width: 5),
                                     LABEL(
                                         text: 'Bienvenue sur Amoi Groupe',
@@ -279,7 +278,7 @@ class _SECONNECTState extends State<SECONNECT> {
                                       width: double.maxFinite,
                                       child: Row(children: [
                                         Image.asset("assets/logo/logoblack.png",
-                                            width: 30, height: 30),
+                                            width: 40, height: 40),
                                         const SizedBox(width: 5),
                                         LABEL(
                                             text:

@@ -217,12 +217,12 @@ updateSortant(List<String> users, Map map) async {
 // ==========================================================================
 updateSortantParent(List<String> users, Map map) async {
   for (var u in users) {
-    int m = map['informations'][u]['childNbr'] > 1
-        ? (map['montant'] * bonusSortant / 100).round()
-        : 0;
+  if (!(map['informations'][u]['childNbr'] > 1)) return;
+  
+    int m = (map['montant'] * (bonusSortant / 2) / 100).round();
     Map<String, dynamic> infoTicket = {
       'montant': map['montant'],
-      'cote': map['informations'][u]['childNbr'] > 1 ? bonusSortant : 0,
+      'cote': map['informations'][u]['childNbr'] > 1 ? (bonusSortant / 2) : 0,
       'code boite': map['code'],
       'Net recu': m
     };

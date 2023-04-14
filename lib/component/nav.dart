@@ -26,6 +26,8 @@ class _NAVIGATIONState extends State<NAVIGATION> {
   bool isConstruct = true;
   late Map navActif;
   bool isExpanded = false;
+  String title = 'titre';
+  String curr = '';
 
   List<Widget> tabsExpand = [];
   List<Widget> tabsNotExpand = [];
@@ -39,11 +41,12 @@ class _NAVIGATIONState extends State<NAVIGATION> {
       setState(() {
         isVuInGroupe = widget.currentIsInGroupe;
         navActifGroupe = widget.navActifGroupe;
+        curr = widget.current;
         isConstruct = false;
       });
     }
     setState(() {
-      navActif = isVuInGroupe ? navActifGroupe : widget.nav[widget.current];
+      navActif = isVuInGroupe ? navActifGroupe : widget.nav[curr];
       tabsExpand = [];
       tabsNotExpand = [];
 
@@ -54,29 +57,29 @@ class _NAVIGATIONState extends State<NAVIGATION> {
                 padding: const EdgeInsets.fromLTRB(15, 10, 15, 10),
                 child: InkWell(
                     onTap: (() {
-                      setState(() => widget.current = k.toString());
+                      setState(() => curr = k.toString());
                       setState(() => isVuInGroupe = false);
                       v['ON-CLICK']();
                     }),
                     child: Row(children: [
                       Container(
                           decoration: BoxDecoration(
-                              color: k.toString() == widget.current
+                              color: k.toString() == curr
                                   ? Colors.amber
                                   : Colors.transparent,
                               borderRadius: BorderRadius.circular(5)),
                           child: Padding(
                               padding: const EdgeInsets.all(5),
                               child: Icon(v['ICON'],
-                                  color: k.toString() == widget.current
+                                  color: k.toString() == curr
                                       ? Colors.black
                                       : Colors.white54))),
                       const SizedBox(width: 10),
                       LABEL(
                           text: k.toString(),
-                          isBold: k.toString() == widget.current,
+                          isBold: k.toString() == curr,
                           size: 13,
-                          color: k.toString() == widget.current
+                          color: k.toString() == curr
                               ? Colors.white
                               : Colors.white54)
                     ]))));
@@ -86,21 +89,21 @@ class _NAVIGATIONState extends State<NAVIGATION> {
                 padding: const EdgeInsets.all(10),
                 child: InkWell(
                     onTap: (() {
-                      setState(() => widget.current = k.toString());
+                      setState(() => curr = k.toString());
                       setState(() => isVuInGroupe = false);
                       v['ON-CLICK']();
                     }),
                     child: Row(children: [
                       Container(
                           decoration: BoxDecoration(
-                              color: k.toString() == widget.current
+                              color: k.toString() == curr
                                   ? Colors.amber
                                   : Colors.transparent,
                               borderRadius: BorderRadius.circular(5)),
                           child: Padding(
                               padding: const EdgeInsets.all(5),
                               child: Icon(v['ICON'],
-                                  color: k.toString() == widget.current
+                                  color: k.toString() == curr
                                       ? Colors.black
                                       : Colors.white54)))
                     ]))));
@@ -109,12 +112,12 @@ class _NAVIGATIONState extends State<NAVIGATION> {
           bool isCurrent = false;
 
           v['GROUPE'].forEach((ck, cv) {
-            if (!isCurrent) isCurrent = ck.toString() == widget.current;
+            if (!isCurrent) isCurrent = ck.toString() == curr;
             Widget cw = Padding(
                 padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
                 child: InkWell(
                     onTap: (() {
-                      setState(() => widget.current = ck.toString());
+                      setState(() => curr = ck.toString());
                       setState(() => isVuInGroupe = true);
                       setState(() => navActifGroupe = cv);
                       cv['ON-CLICK']();
@@ -122,22 +125,22 @@ class _NAVIGATIONState extends State<NAVIGATION> {
                     child: Row(children: [
                       Container(
                           decoration: BoxDecoration(
-                              color: ck.toString() == widget.current
+                              color: ck.toString() == curr
                                   ? Colors.amber
                                   : Colors.transparent,
                               borderRadius: BorderRadius.circular(5)),
                           child: Padding(
                               padding: const EdgeInsets.all(5),
                               child: Icon(cv['ICON'],
-                                  color: ck.toString() == widget.current
+                                  color: ck.toString() == curr
                                       ? Colors.black
                                       : Colors.white54))),
                       const SizedBox(width: 10),
                       LABEL(
                           text: ck.toString(),
-                          isBold: ck.toString() == widget.current,
+                          isBold: ck.toString() == curr,
                           size: 13,
-                          color: ck.toString() == widget.current
+                          color: ck.toString() == curr
                               ? Colors.white
                               : Colors.white54)
                     ])));
@@ -148,12 +151,12 @@ class _NAVIGATIONState extends State<NAVIGATION> {
           bool isCurrent_c = false;
 
           v['GROUPE'].forEach((ck, cv) {
-            if (!isCurrent_c) isCurrent_c = ck.toString() == widget.current;
+            if (!isCurrent_c) isCurrent_c = ck.toString() == curr;
             Widget cw_c = Padding(
                 padding: const EdgeInsets.all(10),
                 child: InkWell(
                     onTap: (() {
-                      setState(() => widget.current = ck.toString());
+                      setState(() => curr = ck.toString());
                       setState(() => isVuInGroupe = true);
                       setState(() => navActifGroupe = cv);
                       cv['ON-CLICK']();
@@ -161,14 +164,14 @@ class _NAVIGATIONState extends State<NAVIGATION> {
                     child: Row(children: [
                       Container(
                           decoration: BoxDecoration(
-                              color: ck.toString() == widget.current
+                              color: ck.toString() == curr
                                   ? Colors.amber
                                   : Colors.transparent,
                               borderRadius: BorderRadius.circular(5)),
                           child: Padding(
                               padding: const EdgeInsets.all(5),
                               child: Icon(cv['ICON'],
-                                  color: ck.toString() == widget.current
+                                  color: ck.toString() == curr
                                       ? Colors.black
                                       : Colors.white54)))
                     ])));
@@ -208,6 +211,8 @@ class _NAVIGATIONState extends State<NAVIGATION> {
         tabsNotExpand.add(w_notExpand);
       });
     });
+
+    title = navActif['TITLE'];
 
     return Container(
         color: Colors.black,
@@ -250,11 +255,22 @@ class _NAVIGATIONState extends State<NAVIGATION> {
                                       color: Colors.white))))
                     ])),
             Expanded(
-                child: Card(
-                    elevation: 10,
-                    margin: const EdgeInsets.all(10),
-                    surfaceTintColor: Colors.white,
-                    child: Container(child: navActif['PANEL'])))
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
+                  child: LABEL(text: title, color: Colors.white, isBold: true),
+                ),
+                Expanded(
+                  child: Card(
+                      elevation: 10,
+                      margin: const EdgeInsets.all(10),
+                      surfaceTintColor: Colors.white,
+                      child: Container(child: navActif['PANEL'])),
+                ),
+              ],
+            ))
           ]))
         ]));
   }

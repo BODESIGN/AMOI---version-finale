@@ -41,7 +41,7 @@ class _boInput extends State<INPUT> {
         },
         controller: widget.controller,
         obscureText: widget.isMotDePasse ? isObscur : false,
-        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.blue),
         decoration: InputDecoration(
             isDense: true,
             hintText: widget.label,

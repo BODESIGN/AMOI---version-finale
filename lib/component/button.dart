@@ -15,7 +15,7 @@ class BUTTON extends StatefulWidget {
   Function action;
   IconData icon = Icons.add;
   Color color = Colors.white;
-  Color colorBg = Colors.blue;
+  Color colorBg = Colors.black;
 
   setText(String text) {
     text = text;
@@ -30,7 +30,7 @@ class _BUTTONState extends State<BUTTON> {
   Widget build(BuildContext context) {
     if (widget.type == 'BLEU') {
       widget.color = Colors.white;
-      widget.colorBg = Colors.blue;
+      widget.colorBg = Colors.black;
     }
     return widget.type == 'TEXT'
         ? TextButton(

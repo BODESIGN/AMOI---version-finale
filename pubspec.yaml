@@ -52,5 +52,6 @@ flutter:
   - assets/
   - assets/logo/
   - assets/money/
+  - assets/design/
   - assets/webview/
   - assets/webview/src/

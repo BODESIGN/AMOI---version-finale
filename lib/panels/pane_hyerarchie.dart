@@ -117,9 +117,9 @@ class _MYHYERARCHYState extends State<MYHYERARCHY> {
     }
 
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
+      scrollDirection: Axis.vertical,
       child: SingleChildScrollView(
-          scrollDirection: Axis.vertical, child: TreeView(nodes: vuTree)),
+          scrollDirection: Axis.horizontal, child: TreeView(nodes: vuTree)),
     );
   }
 }

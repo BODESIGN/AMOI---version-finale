@@ -174,7 +174,7 @@ class MANUEL extends StatelessWidget {
               const SizedBox(height: 10),
               Text("💵 Autre bonus", style: pB),
               Text(
-                  "Solde délivrable : +$bonusSortant%  de MI de childs direct. (Ticket réçu lors de la sortie de le child direct de sa boites, actif si le sortant en question possède au moins 2 child)"),
+                  "Solde délivrable : +${bonusSortant / 2}%  de MI de childs direct. (Ticket réçu lors de la sortie de le child direct de sa boites, actif si le sortant en question possède au moins 2 child)"),
               const SizedBox(height: 10),
 
               Text("〽️ Privilège de chaque niveau", style: pB),
