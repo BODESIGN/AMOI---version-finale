@@ -38,32 +38,52 @@ class _BUTTONState extends State<BUTTON> {
               widget.action();
             },
             child: Text(widget.text, style: TextStyle(fontSize: widget.size)))
-        : widget.type == 'ICON'
-            ? SizedBox(
-                height: 40,
-                width: 40,
-                child: Material(
-                    color: widget.colorBg,
-                    borderRadius: BorderRadius.circular(5),
-                    elevation: 2.0,
-                    child: InkWell(
-                        borderRadius: BorderRadius.circular(5),
-                        onTap: () {
-                          widget.action();
-                        },
-                        child: Icon(widget.icon,
-                            size: widget.size, color: widget.color))))
-            : ElevatedButton(
-                onPressed: () {
+        : widget.type == 'FILL'
+            ? InkWell(
+                onTap: () {
                   widget.action();
                 },
-                style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStatePropertyAll<Color>(widget.colorBg),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5)))),
-                child: Text(widget.text,
-                    style:
-                        TextStyle(fontSize: widget.size, color: widget.color)));
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: widget.colorBg,
+                      borderRadius: BorderRadius.circular(5)),
+                  width: double.maxFinite,
+                  height: 40,
+                  child: Center(
+                    child: Text(widget.text,
+                        style: TextStyle(
+                            fontSize: widget.size,
+                            color: widget.color,
+                            fontWeight: FontWeight.normal)),
+                  ),
+                ),
+              )
+            : widget.type == 'ICON'
+                ? SizedBox(
+                    height: 40,
+                    width: 40,
+                    child: Material(
+                        color: widget.colorBg,
+                        borderRadius: BorderRadius.circular(5),
+                        elevation: 0,
+                        child: InkWell(
+                            borderRadius: BorderRadius.circular(5),
+                            onTap: () {
+                              widget.action();
+                            },
+                            child: Icon(widget.icon,
+                                size: widget.size, color: widget.color))))
+                : ElevatedButton(
+                    onPressed: () {
+                      widget.action();
+                    },
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll<Color>(widget.colorBg),
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5)))),
+                    child: Text(widget.text,
+                        style: TextStyle(
+                            fontSize: widget.size, color: widget.color)));
   }
 }

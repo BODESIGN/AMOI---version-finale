@@ -20,16 +20,18 @@ class _APPBARState extends State<APPBAR> {
     return Padding(
         padding: widget.isInInit
             ? const EdgeInsets.all(0)
-            : const EdgeInsets.fromLTRB(10, 0, 10, 0),
+            : const EdgeInsets.fromLTRB(5, 0, 5, 0),
         child: SizedBox(
             width: double.maxFinite,
             child: Card(
                 surfaceTintColor: Colors.white,
-                elevation: widget.isInInit ? 0 : 5,
+                elevation: widget.isInInit ? 0 : 0,
+                shadowColor: Colors.black26,
                 child: Padding(
                     padding: widget.isInInit
                         ? const EdgeInsets.all(0)
-                        : const EdgeInsets.fromLTRB(15, 10, 15, 10),
+                        : const EdgeInsets.all(0),
+                    // : const EdgeInsets.fromLTRB(10, 10, 10, 10),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -61,16 +63,16 @@ class _APPBARState extends State<APPBAR> {
                                       children: [
                                         LABEL(
                                             text: '${widget.user['fullname']}',
-                                            size: 18,
-                                            isBold: true),
+                                            size: 20,
+                                            isBold: false),
                                         if (!widget.isInInit)
                                           Row(children: [
                                             LABEL(
                                                 text:
                                                     '${widget.user['ariary']}',
-                                                size: 18,
+                                                size: 12,
                                                 isBold: true),
-                                            LABEL(text: 'ar', size: 18),
+                                            LABEL(text: 'ar', size: 12),
                                             LABEL(text: ' (sold délivrable)')
                                           ])
                                       ]))),
@@ -79,22 +81,30 @@ class _APPBARState extends State<APPBAR> {
                               width: 30,
                               height: 30,
                               decoration: BoxDecoration(
-                                  color: Colors.black12,
+                                  color: Colors.black,
                                   borderRadius: BorderRadius.circular(25)),
-                              child: Stack(children: [
-                                CircularProgressIndicator(
-                                    value: (widget.user['exp']) /
-                                        (EXP()
-                                            .level[widget.user['level'] + 1])),
-                                SizedBox(
-                                    width: 30,
-                                    height: 30,
-                                    child: Center(
-                                        child: LABEL(
-                                            text: '${widget.user['level']}',
-                                            size: 13,
-                                            isBold: true)))
-                              ]))
+                              child: InkWell(
+                                onTap: () {
+                                  EXP().showPrivilege(context,
+                                      widget.user['level'], widget.user['exp'].round());
+                                },
+
+                                child: Stack(children: [
+                                  CircularProgressIndicator(
+                                      value: (widget.user['exp']) /
+                                          (EXP().level[
+                                              widget.user['level'] + 1])),
+                                  SizedBox(
+                                      width: 30,
+                                      height: 30,
+                                      child: Center(
+                                          child: LABEL(
+                                              color: Colors.white,
+                                              text: '${widget.user['level']}',
+                                              size: 13,
+                                              isBold: true)))
+                                ]),
+                              ))
                         ])))));
   }
 }

@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_final_fields
 
+import 'package:amoi/component/label.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,8 @@ class MODALE {
   Widget child = Container();
 
   bool isShowed = false;
+
+  bool hideBt2 = false;
 
   String title;
   String subTitle;
@@ -42,16 +45,8 @@ class MODALE {
         showCupertinoModalPopup<void>(
             context: context,
             builder: (BuildContext context) => CupertinoActionSheet(
-                    title: Text(title,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: Colors.blue)),
-                    message: Text(subTitle,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 16,
-                            color: Colors.grey)),
+                    title: LABEL(text: title, color: Colors.blue, size: 15),
+                    message: LABEL(text: subTitle),
                     actions: <CupertinoActionSheetAction>[
                       CupertinoActionSheetAction(
                           isDefaultAction: true,
@@ -64,26 +59,27 @@ class MODALE {
                                 if (icon1 != null)
                                   Icon(icon1, color: Colors.blue),
                                 if (icon1 != null) const SizedBox(width: 10),
-                                Text(labelButton1,
-                                    style: const TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold))
+                                LABEL(
+                                    text: labelButton1,
+                                    isBold: true,
+                                    color: Colors.blue)
                               ])),
-                      CupertinoActionSheetAction(
-                          onPressed: () {
-                            action2();
-                          },
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                if (icon2 != null)
-                                  Icon(icon2, color: Colors.blue),
-                                if (icon2 != null) const SizedBox(width: 10),
-                                Text(labelButton2,
-                                    style: const TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold))
-                              ])),
+                      if (!hideBt2)
+                        CupertinoActionSheetAction(
+                            onPressed: () {
+                              action2();
+                            },
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  if (icon2 != null)
+                                    Icon(icon2, color: Colors.blue),
+                                  if (icon2 != null) const SizedBox(width: 10),
+                                  LABEL(
+                                      text: labelButton2,
+                                      isBold: true,
+                                      color: Colors.blue)
+                                ])),
                       CupertinoActionSheetAction(
                           isDestructiveAction: true,
                           onPressed: () {
@@ -94,10 +90,10 @@ class MODALE {
                               children: [
                                 if (icon3 != null) Icon(icon3),
                                 if (icon3 != null) const SizedBox(width: 5),
-                                Text(labelButton3,
-                                    style: const TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold))
+                                LABEL(
+                                    text: labelButton3,
+                                    isBold: true,
+                                    color: Colors.red)
                               ]))
                     ]));
         break;

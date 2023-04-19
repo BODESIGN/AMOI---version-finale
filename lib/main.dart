@@ -12,10 +12,13 @@ import 'package:amoi/screens/admin_todo.dart';
 import 'package:amoi/screens/admin_users_all.dart';
 import 'package:amoi/screens/admin_users_tree.dart';
 import 'package:amoi/screens/dashboard.dart';
+import 'package:amoi/screens/defie_vu.dart';
+import 'package:amoi/screens/defies.dart';
 import 'package:amoi/screens/seconnect.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
 
@@ -57,6 +60,11 @@ class MAIN extends StatelessWidget {
         title: 'Amoi Groupe',
         theme: ThemeData(
             useMaterial3: true,
+            // textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
+            // textTheme: GoogleFonts.openSansTextTheme(Theme.of(context).textTheme),
+            // textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
+            textTheme:
+                GoogleFonts.nunitoSansTextTheme(Theme.of(context).textTheme),
             pageTransitionsTheme: const PageTransitionsTheme(builders: {
               TargetPlatform.android: CupertinoPageTransitionsBuilder()
             }),
@@ -73,6 +81,8 @@ class MAIN extends StatelessWidget {
           'ADMIN_TODO': (context) => const SCREEN_TODO(),
           'ADMIN_ALL_TREE': (context) => const SCREEN_ALL_TREE(),
           'ADMIN_ALL_INVESTI': (context) => const SCREEN_ALL_INVEST(),
+          'ADMIN_DEFIE': (context) => const SCREEN_DEFIES_ADMIN(),
+          'ADMIN_DEFIE_TRAITER': (context) => const SCREEN_TRAITE_DEFIE(),
         });
   }
 }
@@ -94,7 +104,7 @@ Map<String, String> table = {
 // ==================================================================
 setStatutBarTheme() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarIconBrightness: Brightness.light, statusBarColor: Colors.black));
+      statusBarIconBrightness: Brightness.dark, statusBarColor: Colors.white));
 }
 
 // ==================================================================
@@ -128,27 +138,17 @@ showProfile(BuildContext context, Map<String, dynamic> u) {
     ..type = 'PROFILE'
     ..child = Stack(children: [
       SizedBox(
-        width: MediaQuery.of(context).size.width - 50,
-        height: 100,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: u['urlPdp'].toString() == ''
-              ? Container(
+          width: MediaQuery.of(context).size.width - 50,
+          height: 100,
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Container(
                   width: double.maxFinite,
                   height: double.maxFinite,
-                  color: Colors.black)
-              : ImageFiltered(
-                  imageFilter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 5.0),
-                  child: Image.network(
-                    u['urlPdp'].toString(),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-        ),
-      ),
+                  color: Colors.white))),
       Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10), color: Colors.black45),
+              borderRadius: BorderRadius.circular(10), color: Colors.white),
           width: MediaQuery.of(context).size.width - 50,
           height: 100),
       Positioned(
@@ -161,7 +161,7 @@ showProfile(BuildContext context, Map<String, dynamic> u) {
                 decoration: BoxDecoration(
                     color: Colors.black,
                     borderRadius: BorderRadius.circular(200),
-                    border: Border.all(width: 1, color: Colors.white)),
+                    border: Border.all(width: 1, color: Colors.black)),
                 child: pdp(u['urlPdp'].toString(), () {}))),
       ),
       Positioned(
@@ -170,12 +170,12 @@ showProfile(BuildContext context, Map<String, dynamic> u) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            LABEL(text: "${u['fullname']}", color: Colors.white, size: 17),
-            LABEL(text: "#${u['login']}", isBold: true, color: Colors.white),
+            LABEL(text: "${u['fullname']}", color: Colors.black, size: 17),
+            LABEL(text: "#${u['login']}", isBold: true, color: Colors.black),
             LABEL(
                 text:
                     "⭐ Niv : ${u['level']} (${EXP().privilege['Niv. ${u['level']}']['nom']})",
-                color: Colors.white)
+                color: Colors.black)
           ],
         ),
       ),
@@ -200,7 +200,7 @@ String newCode() {
 // ==================================================================
 Widget pdp(String uri, Function clickOnpdp,
     [double iconSize = 20, String src = 'NETWORK']) {
-  return uri != ''
+  return (uri != '' && uri != 'null')
       ? src == 'NETWORK'
           ? ClipRRect(
               borderRadius: BorderRadius.circular(300),

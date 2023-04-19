@@ -1,6 +1,5 @@
 import 'package:amoi/component/button.dart';
 import 'package:amoi/component/label.dart';
-import 'package:amoi/functions/boite.dart';
 import 'package:amoi/main.dart';
 import 'package:flutter/material.dart';
 
@@ -15,24 +14,20 @@ class _SCREEN_ALL_INVESTState extends State<SCREEN_ALL_INVEST> {
   List<Widget> vuBoites = [];
   bool isConstruct = true;
 
-  int nbTotSortant = 0;
-  int miTot = 0;
+  int pourSortans = 0;
 
 // =====================================================
   getList(BuildContext context) {
     loading.show("Chargement des boites ...");
     setState(() {
       vuBoites = [];
-      nbTotSortant = 0;
-      miTot = 0;
+      pourSortans = 0;
     });
 
     base.select_Boite((boites) {
       for (var map in boites) {
         setState(() {
-          nbTotSortant += 2;
-          int m = map['montant'];
-          miTot += (2 * m);
+          pourSortans += (2 * map['montant']).round();
 
           vuBoites.add(Card(
             child: Padding(
@@ -42,8 +37,21 @@ class _SCREEN_ALL_INVESTState extends State<SCREEN_ALL_INVEST> {
                   children: [
                     LABEL(text: 'Code : ${map['code']}'),
                     LABEL(text: '${map['dateCreate']}'),
-                    LABEL(text: 'Montant : ${map['montant']}'),
-                    LABEL(text: 'Membre : ${map['membres'].length} / 14')
+                    LABEL(text: 'Membre : ${map['membres'].length} / 14'),
+                    LABEL(text: '--'),
+                    LABEL(text: 'M.I : ${map['montant']} ar'),
+                    LABEL(
+                        text:
+                            'Fond : ${map['membres'].length * map['montant']} ar'),
+                    LABEL(
+                        text: 'Preduction de fond : ${14 * map['montant']} ar'),
+                    LABEL(text: '--'),
+                    LABEL(
+                        text:
+                            'Pour sortant (sans child) : ${2 * map['montant']} ar'),
+                    LABEL(
+                        text:
+                            'Reste : ${(map['membres'].length * map['montant']) - (2 * map['montant'])} ar'),
                   ]),
             ),
           ));
@@ -101,8 +109,11 @@ class _SCREEN_ALL_INVESTState extends State<SCREEN_ALL_INVEST> {
                             padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
                             child: LABEL(text: 'Descriptions', isBold: true),
                           ),
-                          LABEL(text: 'Nbr. tot sortant : $nbTotSortant'),
-                          LABEL(text: 'M.I tot sortant : $miTot ariary')
+                          LABEL(
+                              text:
+                                  "Sold AMOI : ${administrator['net-entre'] - administrator['net-sortie']} ar"),
+                          LABEL(text: "Preduction sortant: $pourSortans ar"),
+                          LABEL(text: "Sold utilisable : 2x M.I / Personne "),
                         ],
                       ),
                     )

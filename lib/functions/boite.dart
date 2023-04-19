@@ -99,12 +99,41 @@ class BOITE {
     BuildContext context, {
     bool isModaleNew = false,
     bool isModaleSearch = false,
+    bool isCarousel = false,
   }) {
-    List<Color> colors = const [
-      Color.fromRGBO(246, 245, 254, 1),
-      Color.fromRGBO(218, 234, 218, 1),
-      Color.fromRGBO(255, 249, 242, 1),
-      Color.fromRGBO(243, 244, 246, 1),
+    List colors = const [
+      // LinearGradient(colors: [
+      //   Color.fromRGBO(254, 186, 139, 1),
+      //   Color.fromRGBO(22298, 245, 100, 1)
+      // ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+      // LinearGradient(colors: [
+      //   Color.fromRGBO(107, 158, 223, 1),
+      //   Color.fromRGBO(214, 97, 230, 1)
+      // ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+      LinearGradient(colors: [
+        Color.fromRGBO(254, 186, 138, 1),
+        Color.fromRGBO(222, 98, 100, 1),
+      ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+      LinearGradient(colors: [
+        Color.fromRGBO(0, 194, 221, 1),
+        Color.fromRGBO(0, 109, 148, 1),
+      ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+      LinearGradient(colors: [
+        Color.fromRGBO(193, 89, 233, 1),
+        Color.fromRGBO(163, 16, 213, 1),
+      ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+      LinearGradient(colors: [
+        Color.fromRGBO(43, 250, 230, 1),
+        Color.fromRGBO(74, 131, 254, 1),
+      ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+      LinearGradient(colors: [
+        Color.fromRGBO(255, 167, 0, 1),
+        Color.fromRGBO(254, 0, 0, 1),
+      ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+      LinearGradient(colors: [
+        Color.fromRGBO(239, 5, 141, 1),
+        Color.fromRGBO(254, 0, 0, 1),
+      ], begin: Alignment.centerRight, end: Alignment.topCenter),
     ];
 
     return isModaleNew
@@ -119,7 +148,7 @@ class BOITE {
                     isBold: true),
                 LABEL(text: ' / ${map['dateCreate']}')
               ]),
-              LABEL(text: 'Montant Investi : ${map['montant']} ariary'),
+              LABEL(text: 'Montant Investi : ${map['montant']} MGA'),
               const SizedBox(height: 10),
               designEtage(),
               const SizedBox(height: 10),
@@ -130,14 +159,6 @@ class BOITE {
                       "Mon code : ${CRYPTO().crypte("${map['code']}-${userActif['login']}")}",
                   color: Colors.grey),
               Row(children: [
-                // BUTTON(
-                //     text: 'Copier code',
-                //     action: () {
-                //       String code = CRYPTO()
-                //           .crypte("${map['code']}-${userActif['login']}");
-                //       copieCodeToClip(code);
-                //     }),
-                // const SizedBox(width: 10),
                 BUTTON(
                     text: 'Créer',
                     action: () {
@@ -160,7 +181,7 @@ class BOITE {
                             isBold: true),
                         LABEL(text: ' / ${map['dateCreate']}')
                       ]),
-                      LABEL(text: 'Montant Investi : ${map['montant']} ariary'),
+                      LABEL(text: 'Montant Investi : ${map['montant']} MGA'),
                       const SizedBox(height: 10),
                       designEtage(),
                       const SizedBox(height: 10),
@@ -196,67 +217,97 @@ class BOITE {
                         ]),
                       )
                     ]))
-            : Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: Container(
-                  decoration: BoxDecoration(
-                      // border: Border.all(width: 1, color: Colors.black12),
-                      color: colors[Random().nextInt(colors.length)],
-                      borderRadius: BorderRadius.circular(5)),
-                  child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: SizedBox(
-                              height: MediaQuery.of(context).size.height,
-                              // width: MediaQuery.of(context).size.width,
+            : isCarousel
+                ? Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Container(
+                        decoration: BoxDecoration(
+                            // gradient: colors[Random().nextInt(colors.length)],
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(.1),
+                                spreadRadius: 5,
+                                blurRadius: 10,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ]),
+                        child: InkWell(
+                          splashColor: Colors.blue,
+                          onTap: () {
+                            MODALE showMe = MODALE(context, 'Vu boites', '')
+                              ..type = 'CUSTOM'
+                              ..child = Container(child: vu(context));
+                            showMe.show();
+                          },
+                          child: Padding(
+                              padding: const EdgeInsets.all(20),
                               child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Row(children: [
-                                      LABEL(
-                                          text: 'Code : ${map['code']}',
-                                          color: Colors.grey,
-                                          isBold: true),
-                                      LABEL(text: ' / ${map['dateCreate']}')
-                                    ]),
                                     LABEL(
-                                        text:
-                                            'Montant Investi : ${map['montant']} ariary',
-                                        color: Colors.brown),
+                                        text: 'M.I : ${map['montant']} MGA',
+                                        color: Colors.black),
                                     const SizedBox(height: 10),
-                                    designEtage(),
+                                    designEtage(isCarousel: true),
                                     const SizedBox(height: 10),
-                                    legende(),
-                                    const SizedBox(height: 10),
-                                    if (checIamInBoite(map)) mesState(),
-                                    if (checIamInBoite(map))
-                                      const SizedBox(height: 10),
-                                    if (checIamInBoite(map))
-                                      LABEL(
-                                          text:
-                                              "Mon code : ${CRYPTO().crypte("${map['code']}-${userActif['login']}")}",
-                                          color: Colors.grey),
-                                    Row(children: [
-                                      if (checIamInBoite(map))
-                                        BUTTON(
-                                            text: 'Copier code',
-                                            action: () {
-                                              String code = CRYPTO().crypte(
-                                                  "${map['code']}-${userActif['login']}");
-                                              copieCodeToClip(code);
-                                            }),
-                                      const SizedBox(width: 10),
-                                      BUTTON(
-                                          text: 'Voir les membres',
-                                          action: () =>
-                                              showModaleMembre(context)),
-                                    ]),
-                                    const SizedBox(height: 10),
-                                    histo()
-                                  ])))),
-                ),
-              );
+                                    mesState(isCarousel: false)
+                                  ])),
+                        )))
+                : Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: SizedBox(
+                        width: double.maxFinite,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(children: [
+                                LABEL(
+                                    text: 'Code : ${map['code']}',
+                                    color: Colors.grey,
+                                    isBold: true),
+                                LABEL(text: ' / ${map['dateCreate']}')
+                              ]),
+                              LABEL(
+                                  text:
+                                      'Montant Investi : ${map['montant']} MGA',
+                                  color: Colors.brown),
+                              const SizedBox(height: 10),
+                              designEtage(),
+                              const SizedBox(height: 10),
+                              legende(),
+                              const SizedBox(height: 10),
+                              if (checIamInBoite(map)) mesState(),
+                              if (checIamInBoite(map))
+                                const SizedBox(height: 10),
+                              if (checIamInBoite(map))
+                                LABEL(
+                                    text:
+                                        "Mon code : ${CRYPTO().crypte("${map['code']}-${userActif['login']}")}",
+                                    color: Colors.grey),
+                              Row(children: [
+                                if (checIamInBoite(map))
+                                  BUTTON(
+                                      text: 'Copier code',
+                                      action: () {
+                                        String code = CRYPTO().crypte(
+                                            "${map['code']}-${userActif['login']}");
+                                        copieCodeToClip(code);
+                                      }),
+                                const SizedBox(width: 10),
+                                BUTTON(
+                                    text: 'Voir les membres',
+                                    action: () => showModaleMembre(context)),
+                              ]),
+                              const SizedBox(height: 10),
+                              histo()
+                            ]),
+                      ),
+                    ));
   }
 
   // =========================== FUNCTION
@@ -466,7 +517,7 @@ class BOITE {
 
   // =========================== VU
 
-  Widget icon(String type) {
+  Widget icon(String type, {bool isCarousel = false}) {
     double size = 20;
     if (type == 'ME') {
       return Icon(Icons.portrait, color: Colors.blue, size: size);
@@ -478,91 +529,119 @@ class BOITE {
     return Icon(Icons.check_box_outline_blank, color: Colors.black, size: size);
   }
 
-  Widget designEtage() {
+  Widget designEtage({bool isCarousel = false}) {
     return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(children: [
           Row(children: [
-            icon(userActif['login'] == map['etages']['3'][0]
-                ? 'ME'
-                : 'vide' == map['etages']['3'][0]
-                    ? 'VIDE'
-                    : 'OTHER'),
-            icon(userActif['login'] == map['etages']['3'][1]
-                ? 'ME'
-                : 'vide' == map['etages']['3'][1]
-                    ? 'VIDE'
-                    : 'OTHER'),
-            const SizedBox(width: 5),
-            LABEL(text: ' ... (2e etage)', color: Colors.grey)
+            icon(
+                userActif['login'] == map['etages']['3'][0]
+                    ? 'ME'
+                    : 'vide' == map['etages']['3'][0]
+                        ? 'VIDE'
+                        : 'OTHER',
+                isCarousel: isCarousel),
+            icon(
+                userActif['login'] == map['etages']['3'][1]
+                    ? 'ME'
+                    : 'vide' == map['etages']['3'][1]
+                        ? 'VIDE'
+                        : 'OTHER',
+                isCarousel: isCarousel),
+            if (!isCarousel) const SizedBox(width: 5),
+            if (!isCarousel) LABEL(text: ' ... (2e etage)', color: Colors.grey)
           ]),
           Row(children: [
-            icon(userActif['login'] == map['etages']['2'][0]
-                ? 'ME'
-                : 'vide' == map['etages']['2'][0]
-                    ? 'VIDE'
-                    : 'OTHER'),
-            icon(userActif['login'] == map['etages']['2'][1]
-                ? 'ME'
-                : 'vide' == map['etages']['2'][1]
-                    ? 'VIDE'
-                    : 'OTHER'),
-            icon(userActif['login'] == map['etages']['2'][2]
-                ? 'ME'
-                : 'vide' == map['etages']['2'][2]
-                    ? 'VIDE'
-                    : 'OTHER'),
-            icon(userActif['login'] == map['etages']['2'][3]
-                ? 'ME'
-                : 'vide' == map['etages']['2'][3]
-                    ? 'VIDE'
-                    : 'OTHER'),
-            const SizedBox(width: 5),
-            LABEL(text: ' ... (1er etage)', color: Colors.grey)
+            icon(
+                userActif['login'] == map['etages']['2'][0]
+                    ? 'ME'
+                    : 'vide' == map['etages']['2'][0]
+                        ? 'VIDE'
+                        : 'OTHER',
+                isCarousel: isCarousel),
+            icon(
+                userActif['login'] == map['etages']['2'][1]
+                    ? 'ME'
+                    : 'vide' == map['etages']['2'][1]
+                        ? 'VIDE'
+                        : 'OTHER',
+                isCarousel: isCarousel),
+            icon(
+                userActif['login'] == map['etages']['2'][2]
+                    ? 'ME'
+                    : 'vide' == map['etages']['2'][2]
+                        ? 'VIDE'
+                        : 'OTHER',
+                isCarousel: isCarousel),
+            icon(
+                userActif['login'] == map['etages']['2'][3]
+                    ? 'ME'
+                    : 'vide' == map['etages']['2'][3]
+                        ? 'VIDE'
+                        : 'OTHER',
+                isCarousel: isCarousel),
+            if (!isCarousel) const SizedBox(width: 5),
+            if (!isCarousel) LABEL(text: ' ... (1er etage)', color: Colors.grey)
           ]),
           Row(children: [
-            icon(userActif['login'] == map['etages']['1'][0]
-                ? 'ME'
-                : 'vide' == map['etages']['1'][0]
-                    ? 'VIDE'
-                    : 'OTHER'),
-            icon(userActif['login'] == map['etages']['1'][1]
-                ? 'ME'
-                : 'vide' == map['etages']['1'][1]
-                    ? 'VIDE'
-                    : 'OTHER'),
-            icon(userActif['login'] == map['etages']['1'][2]
-                ? 'ME'
-                : 'vide' == map['etages']['1'][2]
-                    ? 'VIDE'
-                    : 'OTHER'),
-            icon(userActif['login'] == map['etages']['1'][3]
-                ? 'ME'
-                : 'vide' == map['etages']['1'][3]
-                    ? 'VIDE'
-                    : 'OTHER'),
-            icon(userActif['login'] == map['etages']['1'][4]
-                ? 'ME'
-                : 'vide' == map['etages']['1'][4]
-                    ? 'VIDE'
-                    : 'OTHER'),
-            icon(userActif['login'] == map['etages']['1'][5]
-                ? 'ME'
-                : 'vide' == map['etages']['1'][5]
-                    ? 'VIDE'
-                    : 'OTHER'),
-            icon(userActif['login'] == map['etages']['1'][6]
-                ? 'ME'
-                : 'vide' == map['etages']['1'][6]
-                    ? 'VIDE'
-                    : 'OTHER'),
-            icon(userActif['login'] == map['etages']['1'][7]
-                ? 'ME'
-                : 'vide' == map['etages']['1'][7]
-                    ? 'VIDE'
-                    : 'OTHER'),
-            const SizedBox(width: 5),
-            LABEL(text: ' ... (Entré)', color: Colors.grey)
+            icon(
+                userActif['login'] == map['etages']['1'][0]
+                    ? 'ME'
+                    : 'vide' == map['etages']['1'][0]
+                        ? 'VIDE'
+                        : 'OTHER',
+                isCarousel: isCarousel),
+            icon(
+                userActif['login'] == map['etages']['1'][1]
+                    ? 'ME'
+                    : 'vide' == map['etages']['1'][1]
+                        ? 'VIDE'
+                        : 'OTHER',
+                isCarousel: isCarousel),
+            icon(
+                userActif['login'] == map['etages']['1'][2]
+                    ? 'ME'
+                    : 'vide' == map['etages']['1'][2]
+                        ? 'VIDE'
+                        : 'OTHER',
+                isCarousel: isCarousel),
+            icon(
+                userActif['login'] == map['etages']['1'][3]
+                    ? 'ME'
+                    : 'vide' == map['etages']['1'][3]
+                        ? 'VIDE'
+                        : 'OTHER',
+                isCarousel: isCarousel),
+            icon(
+                userActif['login'] == map['etages']['1'][4]
+                    ? 'ME'
+                    : 'vide' == map['etages']['1'][4]
+                        ? 'VIDE'
+                        : 'OTHER',
+                isCarousel: isCarousel),
+            icon(
+                userActif['login'] == map['etages']['1'][5]
+                    ? 'ME'
+                    : 'vide' == map['etages']['1'][5]
+                        ? 'VIDE'
+                        : 'OTHER',
+                isCarousel: isCarousel),
+            icon(
+                userActif['login'] == map['etages']['1'][6]
+                    ? 'ME'
+                    : 'vide' == map['etages']['1'][6]
+                        ? 'VIDE'
+                        : 'OTHER',
+                isCarousel: isCarousel),
+            icon(
+                userActif['login'] == map['etages']['1'][7]
+                    ? 'ME'
+                    : 'vide' == map['etages']['1'][7]
+                        ? 'VIDE'
+                        : 'OTHER',
+                isCarousel: isCarousel),
+            if (!isCarousel) const SizedBox(width: 5),
+            if (!isCarousel) LABEL(text: ' ... (Entré)', color: Colors.grey)
           ])
         ]));
   }
@@ -608,23 +687,30 @@ class BOITE {
     // - ticket['informations']['frais secu']
   }
 
-  Widget mesState() {
+  Widget mesState({isCarousel = false}) {
     recalculeProgression();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        LABEL(text: 'Mes statistiques ', isBold: true, color: Colors.grey),
-        LABEL(text: 'Progression : $meProgression%'),
+        LABEL(
+            text: 'Mes statistiques ',
+            isBold: true,
+            color: isCarousel ? Colors.white : Colors.grey),
         LABEL(
             text:
-                'Montant a recévoir (en sortant) : ${(map['montant'] * meProgression / 100).round()} ariary',
-            color: Colors.teal),
+                'Nb. childs : ${map['informations'][userActif['login']]['childNbr']}',
+            color: isCarousel ? Colors.white : Colors.black),
         LABEL(
             text:
-                'Nb. childs : ${map['informations'][userActif['login']]['childNbr']}'),
+                'Etage : ${map['informations'][userActif['login']]['etage'] - 1}',
+            color: isCarousel ? Colors.white : Colors.black),
+        LABEL(
+            text: 'Progression : $meProgression%',
+            color: isCarousel ? Colors.white : Colors.black),
         LABEL(
             text:
-                'Etage : ${map['informations'][userActif['login']]['etage'] - 1}'),
+                '${isCarousel ? 'A recévoir' : 'Montant a recévoir'}  : ${(map['montant'] * meProgression / 100).round()} MGA',
+            color: isCarousel ? Colors.white : Colors.teal),
       ],
     );
   }
@@ -635,7 +721,7 @@ class BOITE {
     String here = "${table['boite']}/${map['code']}/${table['histoBoite']}";
     base.selectList(here,
         haveLimit: true,
-        limit: 7,
+        limit: 2,
         haveOrder: true,
         order: 'dateTimes',
         desc: true, (res) {

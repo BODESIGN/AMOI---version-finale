@@ -110,6 +110,18 @@ class FIREBASE {
   }
 
   // ----------------------- > UPDATE ADMIN
+  newDefies(Map defies, Function actionAfter) {
+    firestore
+        .collection(table['setting']!)
+        .doc(table['admin']!)
+        .update({
+          "defies": FieldValue.arrayUnion([defies])
+        })
+        .then((value) => {actionAfter('succes', value)})
+        .catchError((error) => {actionAfter('error', error)});
+  }
+
+  // ----------------------- > UPDATE ADMIN
   void updateParent(String parent, String login, Function actionAfter) {
     firestore
         .collection(table['user']!)
@@ -332,6 +344,90 @@ class FIREBASE {
     });
   }
 
+  // ----------------------- > DEFIE NEW
+  void newDefieForUser(String login, String defieCode, Function actionAfter) {
+    firestore.collection(table['user']!).doc(login).update({
+      "defie-actif": {
+        'code': defieCode,
+        'date-start': Timestamp.now(),
+        'progression': ''
+      }
+    }).then((value) {
+      firestore.collection(table['setting']!).doc(table['admin']!).update(
+        {
+          "defie-en-cours": FieldValue.arrayUnion([
+            {
+              'defieCode': defieCode,
+              'debut': Timestamp.now(),
+              'userCode': login
+            }
+          ])
+        },
+      ).then((value) {
+        actionAfter('succes');
+      }).catchError((error) {
+        actionAfter('error');
+      });
+    }).catchError((error) {
+      print("Erreur de la mis a jour de la fiche");
+      actionAfter('error');
+    });
+  }
+
+  // ----------------------- > DEFIE NEW
+  void defieEndAttribut(
+    String login,
+    int argent,
+    int exp,
+    String defieCode,
+    Function actionAfter,
+  ) {
+    firestore.collection(table['user']!).doc(login).update(
+      {
+        "exp": FieldValue.increment(exp),
+        "ariary": FieldValue.increment(argent)
+      },
+    ).then((value) {
+      firestore
+          .collection("${table['user']}/$login/${table['ticket']}")
+          .doc(getDateNow())
+          .set({
+            'dateTime': Timestamp.now(),
+            'date': getDateNow(),
+            'login': login,
+            'code': "AMOI-TK${newCode()}-${newCode()}",
+            'vu': false,
+            'type': 'DEFI',
+            'description': "Ticket d'un défi ($defieCode)",
+            'informations': {'ariary': argent, 'exp': exp}
+          })
+          .then((value) => actionAfter('succes'))
+          .catchError((error) => actionAfter('error'));
+    }).catchError((error) {
+      actionAfter('error');
+    });
+  }
+
+  // ----------------------- > DEFIE NEW
+  void removeDefieForUser(String login, List rest_defie, Function actionAfter) {
+    firestore
+        .collection(table['user']!)
+        .doc(login)
+        .update({"defie-actif": {}}).then((value) {
+      firestore
+          .collection(table['setting']!)
+          .doc(table['admin']!)
+          .update({"defie-en-cours": rest_defie}).then((value) {
+        actionAfter('succes');
+      }).catchError((error) {
+        actionAfter('error');
+      });
+    }).catchError((error) {
+      print("Erreur de la mis a jour de la fiche");
+      actionAfter('error');
+    });
+  }
+
   // ----------------------- > REJOINDRE BOITE
   void rejoindreBoite(
     String login,
@@ -462,7 +558,7 @@ class FIREBASE {
             'vu': false,
             'type': 'CHILD DIRECT',
             'description':
-                'Ticket de child direct (boite : $boiteOld), Montant : $montant ajouté dans votre solde 💵',
+                'Ticket de child direct (login child : $login , boite : $boiteOld), Montant : $montant ajouté dans votre solde 💵',
             'informations': infos
           })
           .then((value) => {toast.show("User : $login a jour !")})
@@ -501,12 +597,9 @@ class FIREBASE {
   }
 
   // ----------------------- > SELECT BOITES - LIST
-  select_Tickets(Function actionAfter) {
-    if (kDebugMode) {
-      print("${table['user']}/${userActif['login']}/${table['ticket']}");
-    }
+  select_Tickets(String login, Function actionAfter) {
     firestore
-        .collection("${table['user']}/${userActif['login']}/${table['ticket']}")
+        .collection("${table['user']}/$login/${table['ticket']}")
         .get()
         .then((querySnapshot) {
       List<Map> tickets = [];

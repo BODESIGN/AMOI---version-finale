@@ -101,6 +101,7 @@ class METHODE {
         'exp': 0,
         'level': 1,
         'urlPdp': '',
+        'defie-actif': {},
         'dateCreate': getDateNow(),
         'boites': [],
         'childs-direct': []

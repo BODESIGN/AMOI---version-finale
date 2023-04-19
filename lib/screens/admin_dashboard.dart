@@ -63,6 +63,14 @@ class AdminDashboard extends StatelessWidget {
                         onTap: () {
                           Navigator.of(context).pushNamed('ADMIN_TODO');
                         }),
+                    _buildTile(
+                        color: Colors.redAccent,
+                        icon: Icons.generating_tokens,
+                        title: 'Les défies',
+                        subtitle: 'Gestion des défies',
+                        onTap: () {
+                          Navigator.of(context).pushNamed('ADMIN_DEFIE');
+                        }),
                   ])
             ])));
   }

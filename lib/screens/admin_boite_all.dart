@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'package:amoi/component/button.dart';
 import 'package:amoi/component/label.dart';
 import 'package:amoi/functions/boite.dart';
@@ -34,8 +36,9 @@ class _SCREEN_ALL_BOITEState extends State<SCREEN_ALL_BOITE> {
           setState(() {
             vuBoites = [];
             for (var b in listB) {
-              vuBoites.add(
-                  Padding(padding: const EdgeInsets.fromLTRB(20,20,0,20), child: b.vu(context)));
+              vuBoites.add(Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
+                  child: b.vu(context)));
             }
           });
 

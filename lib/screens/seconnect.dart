@@ -237,6 +237,16 @@ class _SECONNECTState extends State<SECONNECT> {
       conn.action = () => _conn(context);
       next.action = () => _next(context);
       prev.action = () => _prev(context);
+
+      newc.color = Colors.white;
+      newc.colorBg = Colors.black;
+      conn.color = Colors.white;
+      conn.colorBg = Colors.black;
+      next.color = Colors.white;
+      next.colorBg = Colors.black;
+      prev.color = Colors.white;
+      prev.colorBg = Colors.black;
+
       mdp.isMotDePasse = true;
       login.onChangeVal = () {
         login.getValue().runes.forEach((int rune) {

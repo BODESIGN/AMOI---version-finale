@@ -1,5 +1,9 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:amoi/component/label.dart';
+import 'package:amoi/component/modale.dart';
+import 'package:flutter/material.dart';
+
 class EXP {
   Map level = {
     1: 0, // + 1000
@@ -73,6 +77,7 @@ class EXP {
     if (privilege['Niv. $niv']['nb boite max'] == nbMyBoite) return false;
     return true;
   }
+
   bool checPrivillege_SoldMax(int niv, int sold) {
     if (privilege['Niv. $niv']['sold delivrable max'] == 0) return true;
     if (privilege['Niv. $niv']['sold delivrable max'] <= sold) return false;
@@ -111,5 +116,59 @@ class EXP {
       niv = 7;
     }
     return niv;
+  }
+
+  // -----------------------------------------------------------------
+  showPrivilege(BuildContext context, int niv, int exp) {
+    List<Widget> vu = [];
+    privilege.forEach((key, value) {
+      //
+      String exp = '';
+      //
+      if (value['id'] < 7) {
+        level.forEach((k, v) {
+          if (k == value['id'] + 1) exp = "(Exp max : $v)";
+        });
+      } else {
+        exp = "(Exp : +${level[7]})";
+      }
+      //
+      vu.add(Padding(
+          padding: const EdgeInsets.only(bottom: 5),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              LABEL(
+                  text:
+                      'Niveau ${value['id']} / ${value['nom']} ${niv == value['id'] ? '(👤)' : ''}',
+                  isBold: true),
+              LABEL(text: exp, isBold: true)
+            ]),
+            LABEL(text: 'Nombre maximum de boite : ${value['nb boite max']}'),
+            LABEL(
+                text:
+                    'Sold délivrable maximum (pour les dépot) : ${value['sold delivrable max']} MGA'),
+            LABEL(
+                text: 'Révenue actionnaire : ${value['revenue actionnaire']} %')
+          ])));
+    });
+    MODALE m = MODALE(context, 'Vu boites', '')
+      ..type = 'CUSTOM'
+      ..child = SingleChildScrollView(
+          child: Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    LABEL(
+                        text: "Niveau & Privillège",
+                        size: 15,
+                        color: Colors.blue),
+                    const SizedBox(height: 10),
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: vu)
+                  ])));
+    m.show();
   }
 }

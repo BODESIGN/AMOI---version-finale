@@ -1,4 +1,5 @@
 cmd : flutter build apk --split-per-abi
 
-TODO : 
-    crypte code 
+TODO : A FAIRE APRES
+    change Defie to défi
+    recorrection text :: fr for ALL

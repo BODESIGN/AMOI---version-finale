@@ -21,7 +21,7 @@ class MANUEL extends StatelessWidget {
     EXP().privilege.forEach((key, value) {
       vuPrivilege.add(Text("$key : ${value['nom']}", style: pB));
       vuPrivilege.add(Text(
-          "Boîte maximum : ${value['nb boite max']}, Montant maximum dans le portefeuille : ${value['sold delivrable max']} ariary, Révenue actionnaire : ${value['revenue actionnaire']}%",
+          "Boîte maximum : ${value['nb boite max']}, Montant maximum dans le portefeuille : ${value['sold delivrable max']} MGA, Révenue actionnaire : ${value['revenue actionnaire']}%",
           style: p));
     });
 

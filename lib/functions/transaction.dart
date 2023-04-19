@@ -289,7 +289,7 @@ class TRANSACTION {
     String here = "${table['user']}/$codeUser/${table['transaction']}";
     base.selectList(here,
         haveLimit: true,
-        limit: 10,
+        limit: 50,
         haveOrder: true,
         order: 'dateTimes',
         desc: true, (res) {

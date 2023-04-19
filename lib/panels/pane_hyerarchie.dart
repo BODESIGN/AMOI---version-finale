@@ -6,9 +6,7 @@ import 'package:flutter_simple_treeview/flutter_simple_treeview.dart';
 class MYHYERARCHY extends StatefulWidget {
   MYHYERARCHY({super.key});
 
-  reloadListe() {
-    
-  }
+  reloadListe() {}
 
   @override
   State<MYHYERARCHY> createState() => _MYHYERARCHYState();
@@ -40,7 +38,7 @@ class _MYHYERARCHYState extends State<MYHYERARCHY> {
                     }),
                   ),
                   const SizedBox(width: 5),
-                  LABEL(text: user['login'].toString(), isBold: true),
+                  LABEL(text: user['fullname'].toString(), isBold: true),
                 ],
               ),
               children: getChildren(user['login'], context));
@@ -60,7 +58,7 @@ class _MYHYERARCHYState extends State<MYHYERARCHY> {
                     }),
                   ),
                   const SizedBox(width: 5),
-                  LABEL(text: user['login'].toString()),
+                  LABEL(text: user['fullname'].toString()),
                 ],
               ),
               children: []);
@@ -96,7 +94,7 @@ class _MYHYERARCHYState extends State<MYHYERARCHY> {
                     }),
                   ),
                   const SizedBox(width: 5),
-                  LABEL(text: userActif['login'], isBold: true),
+                  LABEL(text: userActif['fullname'], isBold: true),
                 ],
               ),
               children: getChildren(userActif['login'], context))
@@ -116,10 +114,12 @@ class _MYHYERARCHYState extends State<MYHYERARCHY> {
       });
     }
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
+    return SizedBox(width: double.maxFinite,
       child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal, child: TreeView(nodes: vuTree)),
+        scrollDirection: Axis.vertical,
+        child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal, child:  TreeView(nodes: vuTree)),
+      ),
     );
   }
 }

@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:amoi/component/button.dart';
+import 'package:amoi/component/input.dart';
 import 'package:amoi/component/label.dart';
 import 'package:amoi/component/modale.dart';
 import 'package:amoi/functions/boitePlein.dart';
@@ -39,10 +40,6 @@ class _ADMINState extends State<ADMIN> {
   List<Widget> listDemandeVu = [];
   late MODALE vuDemande;
   Map demandeVu = {};
-
-  BUTTON btTraiteDmd = BUTTON(text: 'Traiter', action: () {}, type: 'BLEU');
-  BUTTON btVoireSold = BUTTON(text: 'Voire sold', action: () {}, type: 'BLEU');
-  BUTTON btSupprimDmd = BUTTON(text: 'Supprimer', action: () {}, type: 'BLEU');
   Map boiteVu = {};
   late MODALE vuBoite;
 
@@ -73,7 +70,7 @@ class _ADMINState extends State<ADMIN> {
 
         listOldMontant = [];
         for (var oldSold in administrator['sold des mois avant']) {
-          listOldMontant.add(LABEL(text: "$oldSold ariary"));
+          listOldMontant.add(LABEL(text: "$oldSold MGA"));
         }
         listInvestisseur = [];
         administrator['investiseurs'].forEach((key, value) {
@@ -98,11 +95,11 @@ class _ADMINState extends State<ADMIN> {
           Container(height: 1, width: double.maxFinite, color: Colors.black12),
           const SizedBox(height: 10),
           LABEL(text: "Date debut appli : $periodeDebut", isBold: true),
-          LABEL(text: "Entré : ${administrator['net-entre']} ariary"),
-          LABEL(text: "Sortie : ${administrator['net-sortie']} ariary"),
+          LABEL(text: "Entré : ${administrator['net-entre']} MGA"),
+          LABEL(text: "Sortie : ${administrator['net-sortie']} MGA"),
           LABEL(
               text:
-                  "Rest : ${administrator['net-entre'] - administrator['net-sortie']} ariary"),
+                  "Rest : ${administrator['net-entre'] - administrator['net-sortie']} MGA"),
           const SizedBox(height: 10),
           LABEL(text: "Sold des mois precédents ", isBold: true),
           Column(
@@ -110,8 +107,7 @@ class _ADMINState extends State<ADMIN> {
               children: listOldMontant),
           const SizedBox(height: 10),
           LABEL(
-              text:
-                  "Sold de ce mois : ${administrator['sold de ce mois']} ariary",
+              text: "Sold de ce mois : ${administrator['sold de ce mois']} MGA",
               isBold: true),
           LABEL(text: "(100% pour les actionnaires)", color: Colors.grey),
           const SizedBox(height: 10),
@@ -165,6 +161,9 @@ class _ADMINState extends State<ADMIN> {
 
   // ===================================================
   Widget rowDemande(Map dmd, {bool isVu = false}) {
+    INPUT montantValide = INPUT(label: 'Montant Accordé');
+    montantValide.setText(dmd['montant'].toString());
+
     return !isVu
         ? InkWell(
             onTap: () {
@@ -204,41 +203,130 @@ class _ADMINState extends State<ADMIN> {
                                       "👤 User : ${dmd['codeUser']}  | 📱 Tèl : ${dmd['tel']}  | 💵 Montant : ${dmd['montant']} Ar")
                                 ]))))),
           )
-        : Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(
-              children: [
-                const Text('Type de demande : '),
-                Text(dmd['type'].toString(),
-                    style: const TextStyle(fontWeight: FontWeight.bold))
-              ],
-            ),
-            Text(dmd['date'].toString(),
-                style: const TextStyle(fontWeight: FontWeight.w300)),
-            Container(
-                height: 1, width: double.maxFinite, color: Colors.black12),
-            Row(children: [
-              const Text("👤 User : "),
-              Text(dmd['codeUser'].toString(),
-                  style: const TextStyle(fontWeight: FontWeight.bold))
+        : Padding(
+            padding: const EdgeInsets.all(20),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const SizedBox(height: 30),
+              LABEL(text: 'Traiter demande ', size: 25),
+              Container(
+                  height: 1, width: double.maxFinite, color: Colors.black12),
+              Row(children: [
+                LABEL(text: 'Type : '),
+                LABEL(text: dmd['type'].toString(), isBold: true)
+              ]),
+              Row(children: [
+                LABEL(text: 'Date : '),
+                LABEL(text: dmd['date'].toString(), isBold: true)
+              ]),
+              Row(children: [
+                LABEL(text: '👤 User (login) : '),
+                LABEL(text: dmd['codeUser'].toString(), isBold: true)
+              ]),
+              Row(children: [
+                LABEL(text: '📱 Tèl : '),
+                LABEL(text: dmd['tel'].toString(), isBold: true)
+              ]),
+              Row(children: [
+                LABEL(text: ' 💵 Montant : '),
+                LABEL(text: "${dmd['montant'].toString()} MGA", isBold: true)
+              ]),
+              montantValide,
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      BUTTON(
+                          text: 'Traiter',
+                          action: () {
+                            int m = 0;
+                            try {
+                              m = int.parse(montantValide.getValue());
+                            } catch (e) {
+                              toast.show('Veuillez verifier votre montant !');
+                              return;
+                            }
+
+                            if (m < 2000) {
+                              toast.show('Montant trop bas');
+                              return;
+                            }
+
+                            demandeVu['montant'] = m;
+
+                            if (demandeVu['type'] == 'Depot') {
+                              transaction.traiterDepot(demandeVu, () {
+                                vuDemande.hide();
+                                toast.show("Demande traitée");
+                                _loadDemande();
+                              });
+                            } else {
+                              // RETRAIT
+                              transaction.traiterRetrait(demandeVu, () {
+                                vuDemande.hide();
+                                toast.show("Demande traitée");
+                                _loadDemande();
+                              });
+                            }
+                          })
+                        ..colorBg = Colors.green,
+                      const SizedBox(width: 10),
+                      BUTTON(
+                          text: 'Voir Sold',
+                          action: () {
+                            loading.show("Chargement ...");
+                            base.select(table['user']!,
+                                demandeVu['codeUser'].toString(),
+                                (result, value) {
+                              if (result == 'error') {
+                                loading.hide();
+                                return;
+                              }
+
+                              late Map<String, dynamic> user;
+                              user = value.data() as Map<String, Object?>;
+                              loading.hide();
+                              toast.showNotyf(
+                                  "Sold actuel : ${user['ariary']} MGA",
+                                  'PETIT INFO');
+                            });
+                          })
+                        ..colorBg = Colors.blue,
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      BUTTON(
+                          text: '',
+                          type: 'ICON',
+                          action: () {
+                            transaction.supprimerDemmande(demandeVu, () {
+                              vuDemande.hide();
+                              toast.show("Demande suppriée");
+                              _loadDemande();
+                            });
+                          })
+                        ..icon = Icons.delete
+                        ..colorBg = Colors.red,
+                      const SizedBox(width: 10),
+                      BUTTON(
+                          text: '',
+                          type: 'ICON',
+                          action: () {
+                            Navigator.pop(context);
+                          })
+                        ..icon = Icons.vertical_align_bottom
+                        ..colorBg = Colors.grey
+                    ],
+                  ),
+                ],
+              ),
             ]),
-            Row(children: [
-              const Text("📱 Tèl : "),
-              Text(dmd['tel'].toString(),
-                  style: const TextStyle(fontWeight: FontWeight.bold))
-            ]),
-            Row(children: [
-              const Text(" 💵 Montant : "),
-              Text(dmd['montant'].toString(),
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
-              const Text(" Ariary ")
-            ]),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [btTraiteDmd, btVoireSold, btSupprimDmd],
-            ),
-            const SizedBox(height: 20),
-          ]);
+          );
   }
 
   // ===================================================
@@ -282,7 +370,7 @@ class _ADMINState extends State<ADMIN> {
                                     Text(boite['montant'].toString(),
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold)),
-                                    const Text(" Ariary ")
+                                    const Text(" MGA ")
                                   ]),
                                 ]))))),
           )
@@ -298,7 +386,7 @@ class _ADMINState extends State<ADMIN> {
               const Text(" 💵 Montant : "),
               Text(boiteVu['montant'].toString(),
                   style: const TextStyle(fontWeight: FontWeight.bold)),
-              const Text(" Ariary ")
+              const Text(" MGA ")
             ]),
             const SizedBox(height: 20),
             Row(
@@ -370,44 +458,11 @@ class _ADMINState extends State<ADMIN> {
         _loadBoitePlein();
       };
       vuDemande = MODALE(context, 'Demande a traiter', '')
-        ..type = 'CUSTOM'
+        ..type = 'PLEIN'
         ..child = rowDemande(demandeVu, isVu: true);
       vuBoite = MODALE(context, 'Vu boites', '')
         ..type = 'CUSTOM'
         ..child = rowBoite(demandeVu, isVu: true);
-      //
-      btTraiteDmd.action = () {
-        if (demandeVu['type'] == 'Depot') {
-          transaction.traiterDepot(demandeVu, () {
-            vuDemande.hide();
-            toast.show("Demande traitée");
-            _loadDemande();
-          });
-        } else {
-          // RETRAIT
-          transaction.traiterRetrait(demandeVu, () {
-            vuDemande.hide();
-            toast.show("Demande traitée");
-            _loadDemande();
-          });
-        }
-      };
-      btVoireSold.action = () {
-        loading.show("Chargement ...");
-        base.select(table['user']!, demandeVu['codeUser'].toString(),
-            (result, value) {
-          if (result == 'error') {
-            loading.hide();
-            return;
-          }
-
-          late Map<String, dynamic> user;
-          user = value.data() as Map<String, Object?>;
-          loading.hide();
-          toast.showNotyf(
-              "Sold actuel : ${user['ariary']} ariary", 'PETIT INFO');
-        });
-      };
       //
       btTraiteBoite.action = () {
         traiterPassationBoite(boiteVu, () {
@@ -417,13 +472,6 @@ class _ADMINState extends State<ADMIN> {
         });
       };
       //
-      btSupprimDmd.action = () {
-        transaction.supprimerDemmande(demandeVu, () {
-          vuDemande.hide();
-          toast.show("Demande suppriée");
-          _loadDemande();
-        });
-      };
       btTraiterLaPeriode.action = () async {
         loading.show("Mise à jour de la solde ...");
         await base.passerAuPeriodeSuivant();

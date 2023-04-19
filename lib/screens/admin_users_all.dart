@@ -103,7 +103,7 @@ class _SCREEN_ALL_USERSState extends State<SCREEN_ALL_USERS> {
                                       text: '${user['fullname']} | ',
                                       isBold: true),
                                   LABEL(text: '${user['ariary']}'),
-                                  LABEL(text: ' ariary')
+                                  LABEL(text: ' MGA')
                                 ]),
                                 Row(children: [
                                   LABEL(text: 'login : '),
