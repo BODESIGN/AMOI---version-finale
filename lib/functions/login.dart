@@ -2,6 +2,7 @@
 
 import 'package:amoi/functions/exp.dart';
 import 'package:amoi/main.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:package_info/package_info.dart';
 
 class METHODE {
@@ -102,7 +103,7 @@ class METHODE {
         'level': 1,
         'urlPdp': '',
         'defie-actif': {},
-        'dateCreate': getDateNow(),
+        'dateCreate': Timestamp.now(),
         'boites': [],
         'childs-direct': []
       };

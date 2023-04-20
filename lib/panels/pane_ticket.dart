@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 // ==================================================================================
 
 class TICKET extends StatelessWidget {
-  TICKET({super.key, required this.ticket, this.forAdmin = false});
+  TICKET({Key? key, required this.ticket, this.forAdmin = false})
+      : super(key: key);
 
   Map ticket;
   bool forAdmin = false;
@@ -264,7 +265,8 @@ class TICKET extends StatelessWidget {
 
 // ignore: must_be_immutable
 class PANELTICKET extends StatefulWidget {
-  PANELTICKET({super.key, required this.user, required this.redraw});
+  PANELTICKET({Key? key, required this.user, required this.redraw})
+      : super(key: key);
 
   Map<String, dynamic> user;
   Function redraw;

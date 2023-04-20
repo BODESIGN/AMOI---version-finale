@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class BUTTON extends StatefulWidget {
   BUTTON(
-      {super.key,
+      {Key? key,
       required this.text,
-      this.size = 12,
+      this.size = 13,
       required this.action,
-      this.type = 'NORMAL'});
+      this.type = 'NORMAL'})
+      : super(key: key);
 
   String text;
   String type = 'NORMAL';
-  double size = 12;
+  double size = 13;
   Function action;
   IconData icon = Icons.add;
   Color color = Colors.white;
@@ -79,7 +80,12 @@ class _BUTTONState extends State<BUTTON> {
                     },
                     style: ButtonStyle(
                         backgroundColor:
-                            MaterialStatePropertyAll<Color>(widget.colorBg),
+                            MaterialStateProperty.resolveWith((states) {
+                          // if (states.contains(MaterialState.pressed)) {
+                          //   return Colors.green;
+                          // }
+                          return widget.colorBg;
+                        }),
                         shape: MaterialStateProperty.all(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5)))),
                     child: Text(widget.text,

@@ -1,3 +1,4 @@
+import 'dart:io';
 
 import 'package:amoi/component/panel.dart';
 import 'package:amoi/main.dart';
@@ -7,9 +8,10 @@ import 'package:amoi/panels/pane_hyerarchie.dart';
 import 'package:amoi/panels/pane_ticket.dart';
 import 'package:amoi/panels/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class DASHBOARD extends StatefulWidget {
-  const DASHBOARD({super.key});
+  const DASHBOARD({Key? key}) : super(key: key);
 
   @override
   State<DASHBOARD> createState() => _DASHBOARDState();
@@ -19,7 +21,7 @@ class _DASHBOARDState extends State<DASHBOARD> {
   @override
   Widget build(BuildContext context) {
     setStatutBarTheme();
-    
+
     List<Map> tab = [
       {
         'title': 'Acceuil',
@@ -36,22 +38,15 @@ class _DASHBOARDState extends State<DASHBOARD> {
         'panel': PANELTICKET(user: userActif, redraw: () => setState(() {})),
         'icon': Icons.receipt_rounded
       },
-      {
-        'title': 'Mon réseau',
-        'panel': MYHYERARCHY(),
-        'icon': Icons.groups
-      },
-      {
-        'title': 'Aide',
-        'panel': MANUEL(),
-        'icon': Icons.help
-      },
+      {'title': 'Mon réseau', 'panel': MYHYERARCHY(), 'icon': Icons.groups},
+      {'title': 'Aide', 'panel': MANUEL(), 'icon': Icons.help},
     ];
 
     return WillPopScope(
         onWillPop: () async {
-          Navigator.of(context).pushNamed('SECONNECT');
-          return true;
+          if (Platform.isAndroid) SystemNavigator.pop();
+          if (Platform.isIOS) exit(0);
+          return false;
         },
         child: SafeArea(child: PANEL(tab: tab)));
   }

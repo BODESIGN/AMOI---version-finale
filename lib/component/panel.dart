@@ -4,7 +4,7 @@ import 'package:amoi/main.dart';
 import 'package:flutter/material.dart';
 
 class PANEL extends StatefulWidget {
-  PANEL({super.key, required this.tab});
+  PANEL({Key? key, required this.tab}) : super(key: key);
 
   List<Map> tab;
 

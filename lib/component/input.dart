@@ -5,10 +5,11 @@ import 'package:flutter/services.dart';
 
 class INPUT extends StatefulWidget {
   INPUT(
-      {super.key,
+      {Key? key,
       this.isMotDePasse = false,
       required this.label,
-      this.isNumber = false});
+      this.isNumber = false})
+      : super(key: key);
 
   String label;
   String text = '';
@@ -55,7 +56,7 @@ class _boInput extends State<INPUT> {
         controller: widget.controller,
         obscureText: widget.isMotDePasse ? isObscur : false,
         style: const TextStyle(
-            fontSize: 12, fontWeight: FontWeight.bold, color: Colors.blue),
+            fontSize: 14, fontWeight: FontWeight.bold, color: Colors.green),
         decoration: InputDecoration(
             isDense: true,
             hintText: widget.label,

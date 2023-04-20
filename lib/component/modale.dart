@@ -45,7 +45,7 @@ class MODALE {
         showCupertinoModalPopup<void>(
             context: context,
             builder: (BuildContext context) => CupertinoActionSheet(
-                    title: LABEL(text: title, color: Colors.blue, size: 15),
+                    title: LABEL(text: title, color: Colors.green, size: 15),
                     message: LABEL(text: subTitle),
                     actions: <CupertinoActionSheetAction>[
                       CupertinoActionSheetAction(
@@ -57,12 +57,12 @@ class MODALE {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 if (icon1 != null)
-                                  Icon(icon1, color: Colors.blue),
+                                  Icon(icon1, color: Colors.green),
                                 if (icon1 != null) const SizedBox(width: 10),
                                 LABEL(
                                     text: labelButton1,
                                     isBold: true,
-                                    color: Colors.blue)
+                                    color: Colors.green)
                               ])),
                       if (!hideBt2)
                         CupertinoActionSheetAction(
@@ -73,12 +73,12 @@ class MODALE {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   if (icon2 != null)
-                                    Icon(icon2, color: Colors.blue),
+                                    Icon(icon2, color: Colors.green),
                                   if (icon2 != null) const SizedBox(width: 10),
                                   LABEL(
                                       text: labelButton2,
                                       isBold: true,
-                                      color: Colors.blue)
+                                      color: Colors.green)
                                 ])),
                       CupertinoActionSheetAction(
                           isDestructiveAction: true,
@@ -125,14 +125,11 @@ class MODALE {
             backgroundColor: Colors.transparent,
             builder: (BuildContext context) {
               return SingleChildScrollView(
-                  child: Padding(
-                padding: const EdgeInsets.all(25),
-                child: Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: child),
-              ));
+                  child: Container(
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      child: child));
             });
         break;
       default:
@@ -144,8 +141,7 @@ class MODALE {
               return SingleChildScrollView(
                   child: Container(
                       color: Colors.white,
-                      child: Padding(
-                          padding: const EdgeInsets.all(8.0), child: child)));
+                      child: child));
             });
     }
   }

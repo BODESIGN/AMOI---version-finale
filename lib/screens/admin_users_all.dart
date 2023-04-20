@@ -8,7 +8,7 @@ import 'package:amoi/main.dart';
 import 'package:flutter/material.dart';
 
 class SCREEN_ALL_USERS extends StatefulWidget {
-  const SCREEN_ALL_USERS({super.key});
+  const SCREEN_ALL_USERS({Key? key}) : super(key: key);
 
   @override
   State<SCREEN_ALL_USERS> createState() => _SCREEN_ALL_USERSState();
@@ -55,7 +55,7 @@ class _SCREEN_ALL_USERSState extends State<SCREEN_ALL_USERS> {
     return Padding(
         padding: const EdgeInsets.only(bottom: 5),
         child: Card(
-            surfaceTintColor: Colors.white,
+            color: Colors.white,
             elevation: 8,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
@@ -160,7 +160,7 @@ class _SCREEN_ALL_USERSState extends State<SCREEN_ALL_USERS> {
           title: Text('Liste des utilisateurs (${vuUsers.length} 👤)'),
           titleTextStyle: const TextStyle(
               fontSize: 13, color: Colors.black, fontWeight: FontWeight.bold),
-          surfaceTintColor: Colors.white,
+          foregroundColor: Colors.black,
           actions: [
             Padding(
               padding: const EdgeInsets.all(10),

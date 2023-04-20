@@ -169,7 +169,7 @@ updateAllUser(List<String> users, String exBoite, String newBoite) async {
 // ==========================================================================
 double cote = 48.5;
 double bonusSortant = 17.5;
-double fraisSecu = 12.5;
+double fraisSecu = 13.5;
 
 int getProgress(String u, Map map) {
   double meProgression = 0;

@@ -7,7 +7,7 @@ import 'package:amoi/main.dart';
 import 'package:flutter/material.dart';
 
 class SCREEN_ALL_BOITE extends StatefulWidget {
-  const SCREEN_ALL_BOITE({super.key});
+  const SCREEN_ALL_BOITE({Key? key}) : super(key: key);
 
   @override
   State<SCREEN_ALL_BOITE> createState() => _SCREEN_ALL_BOITEState();
@@ -38,7 +38,7 @@ class _SCREEN_ALL_BOITEState extends State<SCREEN_ALL_BOITE> {
             for (var b in listB) {
               vuBoites.add(Padding(
                   padding: const EdgeInsets.fromLTRB(20, 20, 0, 20),
-                  child: b.vu(context)));
+                  child: b.vu(context, isCarousel: true)));
             }
           });
 
@@ -65,7 +65,7 @@ class _SCREEN_ALL_BOITEState extends State<SCREEN_ALL_BOITE> {
           title: Text('Liste des boites (${vuBoites.length} 🗃️)'),
           titleTextStyle: const TextStyle(
               fontSize: 13, color: Colors.black, fontWeight: FontWeight.bold),
-          surfaceTintColor: Colors.white,
+          foregroundColor: Colors.black,
           actions: [
             Padding(
               padding: const EdgeInsets.all(10),
@@ -80,15 +80,17 @@ class _SCREEN_ALL_BOITEState extends State<SCREEN_ALL_BOITE> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Expanded(
-                  child: vuBoites.isNotEmpty
-                      ? SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: SizedBox(
-                              // width: MediaQuery.of(context).size.width,
-                              child: Row(children: vuBoites)))
-                      : Center(
-                          child:
-                              LABEL(text: 'Aucune boite', color: Colors.grey)))
+                child: vuBoites.isNotEmpty
+                    ? SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 15),
+                          child: Row(children: vuBoites),
+                        ))
+                    : Center(
+                        child:
+                            LABEL(text: 'Aucune boite', color: Colors.black)),
+              )
             ]));
   }
 }

@@ -11,11 +11,11 @@ class LOADING {
       ..loadingStyle = EasyLoadingStyle.custom
       ..indicatorSize = 45.0
       ..radius = 10.0
-      ..progressColor = Colors.blue
+      ..progressColor = Colors.green
       ..backgroundColor = Colors.amber
       ..indicatorColor = Colors.red
       ..textColor = Colors.black
-      ..maskColor = Colors.blue.withOpacity(0.5)
+      ..maskColor = Colors.green.withOpacity(0.5)
       ..userInteractions = false
       ..dismissOnTap = false;
   }

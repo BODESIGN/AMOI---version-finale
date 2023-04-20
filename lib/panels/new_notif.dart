@@ -5,7 +5,7 @@ import 'package:amoi/main.dart';
 import 'package:flutter/material.dart';
 
 class PANE_ACCEUIL extends StatefulWidget {
-  const PANE_ACCEUIL({super.key});
+  const PANE_ACCEUIL({Key? key}) : super(key: key);
 
   @override
   State<PANE_ACCEUIL> createState() => _PANE_ACCEUILState();
@@ -92,7 +92,7 @@ class _PANE_ACCEUILState extends State<PANE_ACCEUIL> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 12,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.bold),
                             )
                           ],

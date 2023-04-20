@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class LABEL extends StatelessWidget {
   LABEL({
-    super.key,
+    Key? key,
     required this.text,
-    this.size = 12,
+    this.size = 13,
     this.color = Colors.black,
     this.isBold = false,
-  });
+  }) : super(key: key);
 
   String text;
-  double size = 12;
+  double size = 13;
   Color color = Colors.black;
   bool isBold = false;
 

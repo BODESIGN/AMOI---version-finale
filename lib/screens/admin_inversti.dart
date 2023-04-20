@@ -4,7 +4,7 @@ import 'package:amoi/main.dart';
 import 'package:flutter/material.dart';
 
 class SCREEN_ALL_INVEST extends StatefulWidget {
-  const SCREEN_ALL_INVEST({super.key});
+  const SCREEN_ALL_INVEST({Key? key}) : super(key: key);
 
   @override
   State<SCREEN_ALL_INVEST> createState() => _SCREEN_ALL_INVESTState();
@@ -76,7 +76,7 @@ class _SCREEN_ALL_INVESTState extends State<SCREEN_ALL_INVEST> {
           title: Text('Totales investisement (${vuBoites.length} boites)'),
           titleTextStyle: const TextStyle(
               fontSize: 13, color: Colors.black, fontWeight: FontWeight.bold),
-          surfaceTintColor: Colors.white,
+          foregroundColor: Colors.black,
           actions: [
             Padding(
               padding: const EdgeInsets.all(10),

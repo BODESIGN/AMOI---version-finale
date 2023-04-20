@@ -13,7 +13,8 @@ import 'package:flutter/services.dart';
 
 // ignore: must_be_immutable
 class PANELBOITE extends StatefulWidget {
-  PANELBOITE({super.key, required this.user, required this.redraw});
+  PANELBOITE({Key? key, required this.user, required this.redraw})
+      : super(key: key);
 
   Map<String, dynamic> user;
   Function redraw;
@@ -30,7 +31,7 @@ class _PANELBOITEState extends State<PANELBOITE> {
   BUTTON btSearch = BUTTON(text: '', action: () {}, type: 'ICON');
   BUTTON btRefrech = BUTTON(text: '', action: () {}, type: 'ICON');
   int vuAction = 0;
-  INPUT montant = INPUT(label: 'Montant (en MGA)');
+  INPUT montant = INPUT(label: 'Montant (en MGA)',isNumber: true);
   INPUT search = INPUT(label: 'Code parenage');
 
   BUTTON btValider = BUTTON(text: '', action: () {}, type: 'ICON');
@@ -217,7 +218,7 @@ class _PANELBOITEState extends State<PANELBOITE> {
                                 const SizedBox(height: 5),
                               LABEL(
                                   text: '${defie['recomponse']} 🎁',
-                                  color: Colors.blue,
+                                  color: Colors.green,
                                   isBold: true),
                               const SizedBox(height: 5),
                               Row(
@@ -252,16 +253,16 @@ class _PANELBOITEState extends State<PANELBOITE> {
   Widget build(BuildContext context) {
     setState(() {
       btNewBoite.icon = Icons.add;
-      btNewBoite.colorBg = Colors.blue;
+      btNewBoite.colorBg = Colors.green;
       btNewBoite.action = () => setState(() => vuAction = 1);
       btSearch.icon = Icons.search;
-      btSearch.colorBg = Colors.blue;
+      btSearch.colorBg = Colors.green;
       btSearch.action = () => setState(() => vuAction = 2);
       btRefrech.icon = Icons.refresh;
-      btRefrech.colorBg = Colors.blue;
+      btRefrech.colorBg = Colors.green;
       btRefrech.action = () => reloadBoite(context);
       btPast.icon = Icons.paste;
-      btPast.colorBg = Colors.blue;
+      btPast.colorBg = Colors.green;
       btPast.action = () => paste();
       btValider.icon = Icons.check;
       btValider.colorBg = Colors.green;
@@ -367,7 +368,7 @@ class _PANELBOITEState extends State<PANELBOITE> {
                         m.show();
                       })
                     ..icon = Icons.help_center
-                    ..colorBg = Colors.blue
+                    ..colorBg = Colors.green
                     ..size = 20
                 ],
               ),

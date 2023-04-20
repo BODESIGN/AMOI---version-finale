@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class SCREEN_TODO extends StatefulWidget {
-  const SCREEN_TODO({super.key});
+  const SCREEN_TODO({Key? key}) : super(key: key);
 
   @override
   State<SCREEN_TODO> createState() => _SCREEN_TODOState();
@@ -29,7 +29,7 @@ class _SCREEN_TODOState extends State<SCREEN_TODO> {
     }
     return Scaffold(
         appBar:
-            AppBar(title: const Text('TODO'), surfaceTintColor: Colors.white),
+            AppBar(title: const Text('TODO')),
         body: ListView(children: _getItems()),
         floatingActionButton: FloatingActionButton(
             onPressed: () => _displayDialog(context),

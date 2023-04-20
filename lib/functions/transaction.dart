@@ -287,19 +287,18 @@ class TRANSACTION {
   getTransaction(String codeUser, Function pass) {
     loading.show('Chargement des transaction ...');
     String here = "${table['user']}/$codeUser/${table['transaction']}";
-    base.selectList(here,
-        haveLimit: true,
-        limit: 50,
-        haveOrder: true,
-        order: 'dateTimes',
-        desc: true, (res) {
+    base.selectList(here, (res) {
       List<Map> liste = [];
       for (var transaction in res) {
         liste.add(transaction);
       }
       loading.hide();
       pass(liste);
-    });
+    }, haveLimit: true,
+      limit: 50,
+      haveOrder: true,
+      order: 'dateTimes',
+      desc: true);
   }
 
   // get list ALL transaction FOR admin

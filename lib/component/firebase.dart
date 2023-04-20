@@ -276,7 +276,11 @@ class FIREBASE {
   // ----------------------- > SELECT USERS
   selectListUsers(Function actionAfter) {
     // LIMITE
-    firestore.collection(table['user']!).get().then((querySnapshot) {
+    firestore
+        .collection(table['user']!)
+        .orderBy('dateCreate')
+        .get()
+        .then((querySnapshot) {
       List<Map> liste = [];
       for (var result in querySnapshot.docs) {
         liste.add(result.data());

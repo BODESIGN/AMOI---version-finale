@@ -204,7 +204,7 @@ var data = {
 //       downDepth: 1,
 //       topDepth: 1,
 //       maxRadius: 25,
-//       minRadius: 12,
+//       minRadius: 13,
 //       valueField: "value",
 //       categoryField: "name",
 //       childDataField: "children",

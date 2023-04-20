@@ -235,7 +235,7 @@ class BOITE {
                               ),
                             ]),
                         child: InkWell(
-                          splashColor: Colors.blue,
+                          splashColor: Colors.green,
                           onTap: () {
                             MODALE showMe = MODALE(context, 'Vu boites', '')
                               ..type = 'CUSTOM'
@@ -520,7 +520,7 @@ class BOITE {
   Widget icon(String type, {bool isCarousel = false}) {
     double size = 20;
     if (type == 'ME') {
-      return Icon(Icons.portrait, color: Colors.blue, size: size);
+      return Icon(Icons.portrait, color: Colors.green, size: size);
     }
     if (type == 'OTHER') {
       return Icon(Icons.portrait, color: Colors.black, size: size);
@@ -696,14 +696,16 @@ class BOITE {
             text: 'Mes statistiques ',
             isBold: true,
             color: isCarousel ? Colors.white : Colors.grey),
-        LABEL(
-            text:
-                'Nb. childs : ${map['informations'][userActif['login']]['childNbr']}',
-            color: isCarousel ? Colors.white : Colors.black),
-        LABEL(
-            text:
-                'Etage : ${map['informations'][userActif['login']]['etage'] - 1}',
-            color: isCarousel ? Colors.white : Colors.black),
+        if (checIamInBoite(map))
+          LABEL(
+              text:
+                  'Nb. childs : ${map['informations'][userActif['login']]['childNbr']}',
+              color: isCarousel ? Colors.white : Colors.black),
+        if (checIamInBoite(map))
+          LABEL(
+              text:
+                  'Etage : ${map['informations'][userActif['login']]['etage'] - 1}',
+              color: isCarousel ? Colors.white : Colors.black),
         LABEL(
             text: 'Progression : $meProgression%',
             color: isCarousel ? Colors.white : Colors.black),
@@ -719,19 +721,19 @@ class BOITE {
   getHistorique(Function pass) {
     loading.show('Chargement des historiques ...');
     String here = "${table['boite']}/${map['code']}/${table['histoBoite']}";
-    base.selectList(here,
-        haveLimit: true,
-        limit: 2,
-        haveOrder: true,
-        order: 'dateTimes',
-        desc: true, (res) {
+    base.selectList(here, (res) {
       List<Map> liste = [];
       for (var historique in res) {
         liste.add(historique);
       }
       loading.hide();
       pass(liste);
-    });
+    },
+        haveLimit: true,
+        limit: 2,
+        haveOrder: true,
+        order: 'dateTimes',
+        desc: true);
   }
 
   Widget histo() {

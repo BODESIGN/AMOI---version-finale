@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class APPBAR extends StatefulWidget {
-  APPBAR({super.key, required this.user, this.isInInit = false});
+  APPBAR({Key? key, required this.user, this.isInInit = false})
+      : super(key: key);
 
   Map<String, dynamic> user;
   bool isInInit = false;
@@ -24,7 +25,7 @@ class _APPBARState extends State<APPBAR> {
         child: SizedBox(
             width: double.maxFinite,
             child: Card(
-                surfaceTintColor: Colors.white,
+                color: Colors.white,
                 elevation: widget.isInInit ? 0 : 0,
                 shadowColor: Colors.black26,
                 child: Padding(
@@ -70,9 +71,9 @@ class _APPBARState extends State<APPBAR> {
                                             LABEL(
                                                 text:
                                                     '${widget.user['ariary']}',
-                                                size: 12,
+                                                size: 13,
                                                 isBold: true),
-                                            LABEL(text: 'ar', size: 12),
+                                            LABEL(text: 'ar', size: 13),
                                             LABEL(text: ' (sold délivrable)')
                                           ])
                                       ]))),
@@ -85,10 +86,11 @@ class _APPBARState extends State<APPBAR> {
                                   borderRadius: BorderRadius.circular(25)),
                               child: InkWell(
                                 onTap: () {
-                                  EXP().showPrivilege(context,
-                                      widget.user['level'], widget.user['exp'].round());
+                                  EXP().showPrivilege(
+                                      context,
+                                      widget.user['level'],
+                                      widget.user['exp'].round());
                                 },
-
                                 child: Stack(children: [
                                   CircularProgressIndicator(
                                       value: (widget.user['exp']) /

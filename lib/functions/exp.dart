@@ -163,7 +163,7 @@ class EXP {
                     LABEL(
                         text: "Niveau & Privillège",
                         size: 15,
-                        color: Colors.blue),
+                        color: Colors.green),
                     const SizedBox(height: 10),
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

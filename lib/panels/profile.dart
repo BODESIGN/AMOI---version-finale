@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:amoi/component/appbar.dart';
 import 'package:amoi/component/button.dart';
 import 'package:amoi/component/input.dart';
 import 'package:amoi/component/label.dart';
@@ -14,7 +13,8 @@ import 'package:image_picker/image_picker.dart';
 
 // ignore: must_be_immutable
 class PANELPROFILE extends StatefulWidget {
-  PANELPROFILE({super.key, required this.user, required this.redraw});
+  PANELPROFILE({Key? key, required this.user, required this.redraw})
+      : super(key: key);
 
   Map<String, dynamic> user;
   Function redraw;
@@ -31,22 +31,22 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
   INPUT mdp3 = INPUT(label: 'Ancien mot de passe', isMotDePasse: true);
   late MODALE modalChandePdp;
 
-  bool isShowModifName = false;
-  bool isShowModifMdp = false;
-
-  INPUT montant = INPUT(label: 'Montant (Min : 2.000ar)');
+  INPUT montant = INPUT(label: 'Montant (Min : 2.000ar)', isNumber: true);
   INPUT mdp = INPUT(label: 'Mot de passe', isMotDePasse: true);
   INPUT tel = INPUT(label: 'Numéro mobile money');
 
-  INPUT montant2 = INPUT(label: 'Montant (Min : 2.000ar)');
+  INPUT montant2 = INPUT(label: 'Montant (Min : 2.000ar)', isNumber: true);
   INPUT tel2 = INPUT(label: 'Numéro mobile money');
 
   List<DataRow> transactions = [];
   TRANSACTION $ = TRANSACTION();
 
   bool isConstruct = true;
-  bool isShowRetrait = false;
-  bool isShowDepot = false;
+
+  bool isShowModifName = true;
+  bool isShowModifMdp = true;
+  bool isShowRetrait = true;
+  bool isShowDepot = true;
 
   Map<String, dynamic> userParent = {'urlPdp': '', 'fullname': ''};
 
@@ -126,8 +126,8 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
       setState(() => transactions = []);
       for (var t in liste) {
         transactions.add(DataRow(cells: <DataCell>[
-          DataCell(Text(t['date'], style: const TextStyle(fontSize: 12))),
-          DataCell(Text(t['description'], style: const TextStyle(fontSize: 12)))
+          DataCell(Text(t['date'], style: const TextStyle(fontSize: 13))),
+          DataCell(Text(t['description'], style: const TextStyle(fontSize: 13)))
         ]));
       }
     });
@@ -287,13 +287,17 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(10),
-                child: LABEL(text: "Mon parent", size: 15, color: Colors.blue),
+                child: LABEL(text: "Mon parent", size: 15, color: Colors.green),
               ),
               Row(children: [
                 const SizedBox(width: 10),
-                SizedBox(
+                Container(
                   height: 30,
                   width: 30,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(25),
+                  ),
                   child: pdp(userParent['urlPdp'].toString(), () {
                     showProfile(context, userParent);
                   }),
@@ -309,7 +313,7 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
               const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(10),
-                child: LABEL(text: "Pérsonnel", size: 15, color: Colors.blue),
+                child: LABEL(text: "Pérsonnel", size: 15, color: Colors.green),
               ),
               BUTTON(
                   text: 'Mon profile',
@@ -354,8 +358,8 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
                       action: () =>
                           setState(() => isShowModifName = !isShowModifName))
                     ..color = Colors.white
-                    ..colorBg = Colors.red
-                    ..icon = Icons.cancel,
+                    ..colorBg = Colors.grey
+                    ..icon = Icons.unfold_less,
                 ]),
               const SizedBox(height: 10),
               if (!isShowModifMdp)
@@ -396,8 +400,8 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
                             action: () => setState(
                                 () => isShowModifMdp = !isShowModifMdp))
                           ..color = Colors.white
-                          ..colorBg = Colors.red
-                          ..icon = Icons.cancel,
+                          ..colorBg = Colors.grey
+                          ..icon = Icons.unfold_less,
                       ]),
                     ],
                   )),
@@ -406,8 +410,37 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child:
-                    LABEL(text: "Porte feuille", size: 15, color: Colors.blue),
+                    LABEL(text: "Porte feuille", size: 15, color: Colors.green),
               ),
+              if (!isShowDepot)
+                BUTTON(
+                    text: "Dépôt d'argent",
+                    type: 'FILL',
+                    action: () => setState(() => isShowDepot = !isShowDepot))
+                  ..color = Colors.black
+                  ..colorBg = Colors.white60,
+              if (isShowDepot)
+                LABEL(text: "Effécter un dépot d'argent", isBold: true),
+              if (isShowDepot) tel2,
+              if (isShowDepot) const SizedBox(height: 5),
+              if (isShowDepot)
+                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  Expanded(child: montant2),
+                  const SizedBox(width: 5),
+                  BUTTON(text: '', type: 'ICON', action: () => _depot())
+                    ..color = Colors.white
+                    ..colorBg = Colors.green
+                    ..icon = Icons.send,
+                  const SizedBox(width: 5),
+                  BUTTON(
+                      text: '',
+                      type: 'ICON',
+                      action: () => setState(() => isShowDepot = !isShowDepot))
+                    ..color = Colors.white
+                    ..colorBg = Colors.grey
+                    ..icon = Icons.unfold_less,
+                ]),
+              const SizedBox(height: 10),
               if (!isShowRetrait)
                 BUTTON(
                     text: "Retrait d'argent",
@@ -429,7 +462,7 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
                   BUTTON(text: '', type: 'ICON', action: () => _retirer())
                     ..color = Colors.white
                     ..colorBg = Colors.green
-                    ..icon = Icons.save,
+                    ..icon = Icons.send,
                   const SizedBox(width: 5),
                   BUTTON(
                       text: '',
@@ -437,37 +470,8 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
                       action: () =>
                           setState(() => isShowRetrait = !isShowRetrait))
                     ..color = Colors.white
-                    ..colorBg = Colors.red
-                    ..icon = Icons.cancel,
-                ]),
-              const SizedBox(height: 10),
-              if (!isShowDepot)
-                BUTTON(
-                    text: "Dépôt d'argent",
-                    type: 'FILL',
-                    action: () => setState(() => isShowDepot = !isShowDepot))
-                  ..color = Colors.black
-                  ..colorBg = Colors.white60,
-              if (isShowDepot)
-                LABEL(text: "Effécter un dépot d'argent", isBold: true),
-              if (isShowDepot) tel2,
-              if (isShowDepot) const SizedBox(height: 5),
-              if (isShowDepot)
-                Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  Expanded(child: montant2),
-                  const SizedBox(width: 5),
-                  BUTTON(text: '', type: 'ICON', action: () => _depot())
-                    ..color = Colors.white
-                    ..colorBg = Colors.green
-                    ..icon = Icons.save,
-                  const SizedBox(width: 5),
-                  BUTTON(
-                      text: '',
-                      type: 'ICON',
-                      action: () => setState(() => isShowDepot = !isShowDepot))
-                    ..color = Colors.white
-                    ..colorBg = Colors.red
-                    ..icon = Icons.cancel,
+                    ..colorBg = Colors.grey
+                    ..icon = Icons.unfold_less,
                 ]),
               DataTable(
                   dataRowHeight: 40,
@@ -477,13 +481,14 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
                   columns: <DataColumn>[
                     DataColumn(
                         label: Expanded(
-                            child: LABEL(text: 'Date', color: Colors.blue))),
+                            child: LABEL(text: 'Date', color: Colors.green))),
                     DataColumn(
                         label: Expanded(
                             child: LABEL(
-                                text: 'Transactions', color: Colors.blue)))
+                                text: 'Transactions', color: Colors.green)))
                   ],
                   rows: transactions),
+              const SizedBox(height: 100)
             ]),
       ),
     );

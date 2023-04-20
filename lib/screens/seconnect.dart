@@ -21,7 +21,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SECONNECT extends StatefulWidget {
-  const SECONNECT({super.key});
+  const SECONNECT({Key? key}) : super(key: key);
 
   @override
   State<SECONNECT> createState() => _SECONNECTState();

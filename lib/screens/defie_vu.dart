@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import '../panels/pane_ticket.dart';
 
 class SCREEN_TRAITE_DEFIE extends StatefulWidget {
-  const SCREEN_TRAITE_DEFIE({super.key});
+  const SCREEN_TRAITE_DEFIE({Key? key}) : super(key: key);
 
   @override
   State<SCREEN_TRAITE_DEFIE> createState() => _SCREEN_TRAITE_DEFIEState();
@@ -78,9 +78,9 @@ class _SCREEN_TRAITE_DEFIEState extends State<SCREEN_TRAITE_DEFIE> {
         setState(() => transactions = []);
         for (var t in liste) {
           transactions.add(DataRow(cells: <DataCell>[
-            DataCell(Text(t['date'], style: const TextStyle(fontSize: 12))),
+            DataCell(Text(t['date'], style: const TextStyle(fontSize: 13))),
             DataCell(
-                Text(t['description'], style: const TextStyle(fontSize: 12)))
+                Text(t['description'], style: const TextStyle(fontSize: 13)))
           ]));
         }
 
@@ -144,7 +144,7 @@ class _SCREEN_TRAITE_DEFIEState extends State<SCREEN_TRAITE_DEFIE> {
                   fontSize: 13,
                   color: Colors.black,
                   fontWeight: FontWeight.bold),
-              surfaceTintColor: Colors.white,
+              foregroundColor: Colors.black,
               actions: [
                 Padding(
                   padding: const EdgeInsets.all(10),
@@ -199,7 +199,7 @@ class _SCREEN_TRAITE_DEFIEState extends State<SCREEN_TRAITE_DEFIE> {
                                     const SizedBox(height: 5),
                                     LABEL(
                                         text: '${defie['recomponse']} 🎁',
-                                        color: Colors.blue,
+                                        color: Colors.green,
                                         isBold: true),
                                     const SizedBox(height: 5),
                                     Row(
@@ -225,7 +225,7 @@ class _SCREEN_TRAITE_DEFIEState extends State<SCREEN_TRAITE_DEFIE> {
                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
                       child: LABEL(
                           text: "Récomponse a attribué : ",
-                          color: Colors.blue,
+                          color: Colors.green,
                           size: 15)),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -300,7 +300,7 @@ class _SCREEN_TRAITE_DEFIEState extends State<SCREEN_TRAITE_DEFIE> {
                       padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
                       child: LABEL(
                           text: "Réseau direct : ",
-                          color: Colors.blue,
+                          color: Colors.green,
                           size: 15)),
                   Padding(
                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
@@ -311,7 +311,7 @@ class _SCREEN_TRAITE_DEFIEState extends State<SCREEN_TRAITE_DEFIE> {
                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                       child: LABEL(
                           text: "List des tickets : ",
-                          color: Colors.blue,
+                          color: Colors.green,
                           size: 15)),
                   SizedBox(
                     height: 300,
@@ -339,7 +339,7 @@ class _SCREEN_TRAITE_DEFIEState extends State<SCREEN_TRAITE_DEFIE> {
                       padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
                       child: LABEL(
                           text: "List des transactions : ",
-                          color: Colors.blue,
+                          color: Colors.green,
                           size: 15)),
                   Padding(
                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
@@ -352,12 +352,12 @@ class _SCREEN_TRAITE_DEFIEState extends State<SCREEN_TRAITE_DEFIE> {
                             DataColumn(
                                 label: Expanded(
                                     child: LABEL(
-                                        text: 'Date', color: Colors.blue))),
+                                        text: 'Date', color: Colors.green))),
                             DataColumn(
                                 label: Expanded(
                                     child: LABEL(
                                         text: 'Transactions',
-                                        color: Colors.blue)))
+                                        color: Colors.green)))
                           ],
                           rows: transactions))
                 ]))));

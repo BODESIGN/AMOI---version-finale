@@ -51,7 +51,7 @@ class DEFIE {
 // ==================================================================================
 
 class SCREEN_DEFIES_ADMIN extends StatefulWidget {
-  const SCREEN_DEFIES_ADMIN({super.key});
+  const SCREEN_DEFIES_ADMIN({Key? key}) : super(key: key);
 
   @override
   State<SCREEN_DEFIES_ADMIN> createState() => _SCREEN_DEFIES_ADMINState();
@@ -106,7 +106,7 @@ class _SCREEN_DEFIES_ADMINState extends State<SCREEN_DEFIES_ADMIN> {
                             children: [
                               LABEL(
                                   text: '${defie['recomponse']} 🎁',
-                                  color: Colors.blue,
+                                  color: Colors.green,
                                   isBold: true),
                               const SizedBox(height: 5),
                               Row(
@@ -183,7 +183,7 @@ class _SCREEN_DEFIES_ADMINState extends State<SCREEN_DEFIES_ADMIN> {
                                 const SizedBox(height: 5),
                                 LABEL(
                                     text: '${defie['recomponse']} 🎁',
-                                    color: Colors.blue,
+                                    color: Colors.green,
                                     isBold: true),
                                 const SizedBox(height: 5),
                                 Row(

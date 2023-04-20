@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class MANUEL extends StatelessWidget {
-  MANUEL({super.key});
+  MANUEL({Key? key}) : super(key: key);
 
   TextStyle h1 = const TextStyle(fontSize: 15, fontWeight: FontWeight.bold);
   TextStyle p = const TextStyle(fontSize: 13);
@@ -35,7 +35,7 @@ class MANUEL extends StatelessWidget {
                 : key == 'gmail'
                     ? Icons.mail
                     : key == 'whatsapp'
-                        ? Icons.whatsapp
+                        ? Icons.call
                         : Icons.message),
             const SizedBox(width: 10),
             BUTTON(

@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:amoi/component/label.dart';
 import 'package:amoi/component/modale.dart';
@@ -50,7 +49,7 @@ main() async {
 }
 
 class MAIN extends StatelessWidget {
-  const MAIN({super.key});
+  const MAIN({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +67,10 @@ class MAIN extends StatelessWidget {
             pageTransitionsTheme: const PageTransitionsTheme(builders: {
               TargetPlatform.android: CupertinoPageTransitionsBuilder()
             }),
+            bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+              backgroundColor: Colors.white,
+              selectedItemColor: Colors.green
+            ),
             primaryColor: Colors.black),
         builder: EasyLoading.init(),
         initialRoute: 'SECONNECT',
@@ -152,33 +155,29 @@ showProfile(BuildContext context, Map<String, dynamic> u) {
           width: MediaQuery.of(context).size.width - 50,
           height: 100),
       Positioned(
-        left: 20,
-        top: 20,
-        child: SizedBox(
-            height: 60,
-            width: 60,
-            child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(200),
-                    border: Border.all(width: 1, color: Colors.black)),
-                child: pdp(u['urlPdp'].toString(), () {}))),
-      ),
+          left: 20,
+          top: 20,
+          child: SizedBox(
+              height: 60,
+              width: 60,
+              child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(200),
+                      border: Border.all(width: 1, color: Colors.black)),
+                  child: pdp(u['urlPdp'].toString(), () {})))),
       Positioned(
-        left: 100,
-        top: 20,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          left: 100,
+          top: 20,
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             LABEL(text: "${u['fullname']}", color: Colors.black, size: 17),
             LABEL(text: "#${u['login']}", isBold: true, color: Colors.black),
             LABEL(
                 text:
                     "⭐ Niv : ${u['level']} (${EXP().privilege['Niv. ${u['level']}']['nom']})",
                 color: Colors.black)
-          ]
-        )
-      )
+          ]))
     ]);
   m.show();
 }
