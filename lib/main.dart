@@ -176,9 +176,9 @@ showProfile(BuildContext context, Map<String, dynamic> u) {
                 text:
                     "⭐ Niv : ${u['level']} (${EXP().privilege['Niv. ${u['level']}']['nom']})",
                 color: Colors.black)
-          ],
-        ),
-      ),
+          ]
+        )
+      )
     ]);
   m.show();
 }
