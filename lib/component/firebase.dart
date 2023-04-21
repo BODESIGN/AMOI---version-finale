@@ -392,14 +392,14 @@ class FIREBASE {
         "ariary": FieldValue.increment(argent)
       },
     ).then((value) {
+      String code = "AMOI-TK${newCode(3)}-${newCode(5)}";
       firestore
           .collection("${table['user']}/$login/${table['ticket']}")
-          .doc(getDateNow())
+          .doc(code)
           .set({
             'dateTime': Timestamp.now(),
-            'date': getDateNow(),
             'login': login,
-            'code': "AMOI-TK${newCode()}-${newCode()}",
+            'code': code,
             'vu': false,
             'type': 'DEFI',
             'description': "Ticket d'un défi ($defieCode)",
@@ -519,14 +519,14 @@ class FIREBASE {
   // ----------------------- > QUIT BOITE
   sendTiquetSortant(String login, String boiteOld, int montant,
       Map<String, dynamic> infos) async {
+    String code = "AMOI-TK${newCode(3)}-${newCode(5)}";
     await firestore
         .collection("${table['user']}/$login/${table['ticket']}")
-        .doc(getDateNow())
+        .doc(code)
         .set({
           'dateTime': Timestamp.now(),
-          'date': getDateNow(),
           'login': login,
-          'code': "AMOI-TK${newCode()}-${newCode()}",
+          'code': code,
           'vu': false,
           'type': 'SORTANT',
           'description':
@@ -551,14 +551,15 @@ class FIREBASE {
 
       if (parent == 'root') return;
 
+      String code = "AMOI-TK${newCode(3)}-${newCode(5)}";
+
       await firestore
           .collection("${table['user']}/$parent/${table['ticket']}")
-          .doc(getDateNow())
+          .doc(code)
           .set({
             'dateTime': Timestamp.now(),
-            'date': getDateNow(),
             'login': parent,
-            'code': "AMOI-TK${newCode()}-${newCode()}",
+            'code': code,
             'vu': false,
             'type': 'CHILD DIRECT',
             'description':

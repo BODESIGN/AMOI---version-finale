@@ -11,6 +11,7 @@ import 'package:amoi/functions/boitePlein.dart';
 import 'package:amoi/functions/login.dart';
 import 'package:amoi/main.dart';
 import 'package:app_installer/app_installer.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +64,7 @@ class _SECONNECTState extends State<SECONNECT> {
               'exp': 0,
               'level': 1,
               'urlPdp': '',
-              'dateCreate': getDateNow(),
+              'dateCreate': Timestamp.now(),
               'boites': []
             };
           });

@@ -211,7 +211,7 @@ class _SCREEN_DEFIES_ADMINState extends State<SCREEN_DEFIES_ADMIN> {
     loading.show('Insertion ...');
 
     Map defie = {
-      'code': getDateNow(),
+      'code': newCode(35),
       'delai': newDelais.getValue(),
       'recomponse': newRecomponse.getValue(),
       'Tache': []

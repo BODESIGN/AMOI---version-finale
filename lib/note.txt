@@ -12,3 +12,8 @@ TODO : A FAIRE APRES
         |       |
         └─  -  ─┘
 
+
+ticket "AMOI-TK${newCode(3)}-${newCode(5)}"
+histo 25
+boite 7
+transaction 20

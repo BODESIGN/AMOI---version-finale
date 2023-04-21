@@ -19,9 +19,9 @@ traiterPassationBoite(Map boite, Function pass) async {
   // Create 2 MAP
   // => 1 ==============================================================
   Map<String, dynamic> map1 = {
-    'code': newCode(),
+    'code': newCode(7),
     'montant': boite['montant'],
-    'dateCreate': getDateNow(),
+    'dateCreate': boite['dateCreate'],
     'isNew': false,
     'etages': {
       '1': ['vide', 'vide', 'vide', 'vide', 'vide', 'vide', 'vide', 'vide'],
@@ -68,9 +68,9 @@ traiterPassationBoite(Map boite, Function pass) async {
 
   // => 2 ==============================================================
   Map<String, dynamic> map2 = {
-    'code': newCode(),
+    'code': newCode(7),
     'montant': boite['montant'],
-    'dateCreate': getDateNow(),
+    'dateCreate': boite['dateCreate'],
     'isNew': false,
     'etages': {
       '1': ['vide', 'vide', 'vide', 'vide', 'vide', 'vide', 'vide', 'vide'],
@@ -119,7 +119,7 @@ traiterPassationBoite(Map boite, Function pass) async {
   Map<String, dynamic> histo1 = {
     'description':
         '✅ Boite dupliquée, la code a changé (veuillez recopier votre code 😉)',
-    'date': getDateNow(),
+    'code': newCode(25),
     'dateTimes': Timestamp.now()
   };
   String here1 = "${table['boite']}/${map1['code']}/${table['histoBoite']}";
@@ -127,7 +127,7 @@ traiterPassationBoite(Map boite, Function pass) async {
   Map<String, dynamic> histo2 = {
     'description':
         '✅ Boite dupliquée, la code a changé (veuillez recopier votre code 😉)',
-    'date': getDateNow(),
+    'code': newCode(25),
     'dateTimes': Timestamp.now()
   };
   String here2 = "${table['boite']}/${map2['code']}/${table['histoBoite']}";

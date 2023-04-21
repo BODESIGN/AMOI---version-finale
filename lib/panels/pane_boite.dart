@@ -326,7 +326,10 @@ class _PANELBOITEState extends State<PANELBOITE> {
                       child: Row(children: vuBoites),
                     ))
                 : Center(
-                    child: LABEL(text: 'Aucune boite', color: Colors.black)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(100),
+                      child: LABEL(text: 'Aucune boite', color: Colors.black),
+                    )),
             const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),

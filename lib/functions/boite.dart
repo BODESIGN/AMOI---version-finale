@@ -1,6 +1,5 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
-import 'dart:math';
 
 import 'package:amoi/component/button.dart';
 import 'package:amoi/component/label.dart';
@@ -34,8 +33,8 @@ class BOITE {
   // ================================= INIT NEW
   initValueNew(int newMontant, String login) {
     map = {
-      'code': newCode(),
-      'dateCreate': getDateNow(),
+      'code': newCode(7),
+      'dateCreate': Timestamp.now(),
       'isNew': true,
       'montant': newMontant,
       'etages': {
@@ -48,7 +47,7 @@ class BOITE {
         login: {
           'childNbr': 0,
           'childs': [],
-          'dateDebut': getDateNow(),
+          'dateDebut': Timestamp.now(),
           'etage': 1
         }
       }
@@ -330,12 +329,12 @@ class BOITE {
         Map<String, dynamic> histo = {
           'description':
               '${userActif['login']} a réjoint la boite${parentCode != '' ? ', invité par $parentCode' : ''}.',
-          'date': getDateNow(),
+          'code': newCode(25),
           'dateTimes': Timestamp.now()
         };
         loading.show('Mise à jour de la tracage ...');
         String here = "${table['boite']}/${map['code']}/${table['histoBoite']}";
-        base.insert(here, histo['date'], histo, (result, value) {
+        base.insert(here, histo['code'], histo, (result, value) {
           if (result == 'error') toast.show('Une problème est survenue !');
           if (result == 'error') loading.hide();
           if (result == 'error') return;
@@ -502,7 +501,7 @@ class BOITE {
     map['informations'][userActif['login']] = {
       'childNbr': 0,
       'childs': [],
-      'dateDebut': getDateNow(),
+      'dateDebut': Timestamp.now(),
       'etage': 1
     };
 

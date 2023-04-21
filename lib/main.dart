@@ -111,11 +111,11 @@ setStatutBarTheme() {
 }
 
 // ==================================================================
-String getDateNow() {
-  return DateFormat('dd-MM-yyyy H:m:s')
-      .format(DateTime.now().toUtc().add(const Duration(hours: 3)))
-      .toString();
-}
+// String getDateNow() {
+//   return DateFormat('dd-MM-yyyy H:m:s')
+//       .format(DateTime.now().toUtc().add(const Duration(hours: 3)))
+//       .toString();
+// }
 
 // ==================================================================
 bool checIamInBoite(Map<String, dynamic> boite) {
@@ -189,8 +189,7 @@ copieCodeToClip(String text) async {
 }
 
 // ==================================================================
-String newCode() {
-  int len = 7;
+String newCode(int len) {
   var r = Random();
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
   return List.generate(len, (index) => chars[r.nextInt(chars.length)]).join();

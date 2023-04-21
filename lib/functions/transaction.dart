@@ -25,9 +25,9 @@ class TRANSACTION {
       'codeUser': codeUser,
       'tel': tel,
       'montant': montant,
-      'date': getDateNow(),
+      'date': Timestamp.now(),
       'traiter': false,
-      'traiterDate': '',
+      'traiterDate': Timestamp.now(),
       'traiteur': getTraiteur()
     };
     String code = "$codeUser - ${demande['type']}";
@@ -38,11 +38,11 @@ class TRANSACTION {
       Map<String, dynamic> transaction = {
         'description':
             'Demande de retrait envoyé (Montant : $montant / tel : $tel)',
-        'date': getDateNow(),
+        'code': newCode(20),
         'dateTimes': Timestamp.now()
       };
       String here = "${table['user']}/$codeUser/${table['transaction']}";
-      base.insert(here, transaction['date'], transaction, (result, value) {
+      base.insert(here, transaction['code'], transaction, (result, value) {
         if (result == 'error') toast.show('Une problème est survenue !');
         if (result == 'error') loading.hide();
         if (result == 'error') return;
@@ -63,9 +63,9 @@ class TRANSACTION {
       'codeUser': codeUser,
       'tel': tel,
       'montant': montant,
-      'date': getDateNow(),
+      'date': Timestamp.now(),
       'traiter': false,
-      'traiterDate': '',
+      'traiterDate': Timestamp.now(),
       'traiteur': getTraiteur()
     };
     String code = "$codeUser - ${demande['type']}";
@@ -76,11 +76,11 @@ class TRANSACTION {
       Map<String, dynamic> transaction = {
         'description':
             'Demande de dépôt envoyé (Montant : $montant / tel : $tel)',
-        'date': getDateNow(),
+        'code': newCode(20),
         'dateTimes': Timestamp.now()
       };
       String here = "${table['user']}/$codeUser/${table['transaction']}";
-      base.insert(here, transaction['date'], transaction, (result, value) {
+      base.insert(here, transaction['code'], transaction, (result, value) {
         if (result == 'error') toast.show('Une problème est survenue !');
         if (result == 'error') loading.hide();
         if (result == 'error') return;
@@ -103,7 +103,7 @@ class TRANSACTION {
       'montant': dmd['montant'],
       'date': dmd['date'],
       'traiter': true,
-      'traiterDate': getDateNow(),
+      'traiterDate': Timestamp.now(),
       'traiteur': dmd['traiteur']
     };
     // update LISTE DEMANDE - ADMIN
@@ -128,20 +128,20 @@ class TRANSACTION {
           Map<String, dynamic> transaction = {
             'description':
                 'Demande de dépôt validée avec succée (Montant : ${dmd['montant']} / tel : ${dmd['tel']})',
-            'date': getDateNow(),
+            'code': newCode(20),
             'dateTimes': Timestamp.now()
           };
           String here =
               "${table['user']}/${dmd['codeUser']}/${table['transaction']}";
           // SET TRANSACTION in HISTORIQUE
-          base.insert(here, transaction['date'], transaction, (result, value) {
+          base.insert(here, transaction['code'], transaction, (result, value) {
             if (result == 'error') {
               toast.show('Une problème est survenue ! (4)');
             }
             if (result == 'error') loading.hide();
             if (result == 'error') return;
             Map<String, dynamic> transaction2 = {
-              'date': getDateNow(),
+              'code': newCode(20),
               'admin': userActif['login'],
               'montant': dmd['montant'],
               'type': 'Entré',
@@ -150,7 +150,7 @@ class TRANSACTION {
             String here =
                 "${table['setting']}/${table['admin']}/${table['histoMoney']}";
             // SET TRANSACTION in HISTORIQUE CHIFFRE DAFFAIER
-            base.insert(here, transaction2['date'], transaction2,
+            base.insert(here, transaction2['code'], transaction2,
                 (result, value) {
               if (result == 'error') {
                 toast.show('Une problème est survenue ! (5)');
@@ -179,7 +179,7 @@ class TRANSACTION {
       'montant': dmd['montant'],
       'date': dmd['date'],
       'traiter': true,
-      'traiterDate': getDateNow(),
+      'traiterDate': Timestamp.now(),
       'traiteur': dmd['traiteur']
     };
     // update LISTE DEMANDE - ADMIN
@@ -204,20 +204,20 @@ class TRANSACTION {
           Map<String, dynamic> transaction = {
             'description':
                 'Demande de retrait validée avec succée (Montant : ${dmd['montant']} / tel : ${dmd['tel']})',
-            'date': getDateNow(),
+            'code': newCode(20),
             'dateTimes': Timestamp.now()
           };
           String here =
               "${table['user']}/${dmd['codeUser']}/${table['transaction']}";
           // SET TRANSACTION in HISTORIQUE
-          base.insert(here, transaction['date'], transaction, (result, value) {
+          base.insert(here, transaction['code'], transaction, (result, value) {
             if (result == 'error') {
               toast.show('Une problème est survenue ! (4)');
             }
             if (result == 'error') loading.hide();
             if (result == 'error') return;
             Map<String, dynamic> transaction2 = {
-              'date': getDateNow(),
+              'code': newCode(20),
               'admin': userActif['login'],
               'montant': dmd['montant'],
               'type': 'Sortie',
@@ -226,7 +226,7 @@ class TRANSACTION {
             String here =
                 "${table['setting']}/${table['admin']}/${table['histoMoney']}";
             // SET TRANSACTION in HISTORIQUE CHIFFRE DAFFAIER
-            base.insert(here, transaction2['date'], transaction2,
+            base.insert(here, transaction2['code'], transaction2,
                 (result, value) {
               if (result == 'error') {
                 toast.show('Une problème est survenue ! (5)');
@@ -255,7 +255,7 @@ class TRANSACTION {
       'montant': dmd['montant'],
       'date': dmd['date'],
       'traiter': true,
-      'traiterDate': getDateNow(),
+      'traiterDate': Timestamp.now(),
       'traiteur': dmd['traiteur']
     };
     // update LISTE DEMANDE - ADMIN
@@ -267,13 +267,13 @@ class TRANSACTION {
       Map<String, dynamic> transaction = {
         'description':
             '⚠️ Demande supprimmée (Montant : ${dmd['montant']} / Type : ${dmd['type']} / tel : ${dmd['tel']})',
-        'date': getDateNow(),
+        'code': newCode(20),
         'dateTimes': Timestamp.now()
       };
       String here =
           "${table['user']}/${dmd['codeUser']}/${table['transaction']}";
       // SET TRANSACTION in HISTORIQUE
-      base.insert(here, transaction['date'], transaction, (result, value) {
+      base.insert(here, transaction['code'], transaction, (result, value) {
         if (result == 'error') toast.show('Une problème est survenue ! (4)');
         if (result == 'error') loading.hide();
         if (result == 'error') return;
