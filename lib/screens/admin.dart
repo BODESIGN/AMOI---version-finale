@@ -135,6 +135,7 @@ class _ADMINState extends State<ADMIN> {
         listDemande = res;
         listDemandeVu = [];
       });
+      if (listDemande.isEmpty) return;
       for (var dmd in listDemande) {
         setState(() => listDemandeVu.add(rowDemande(dmd)));
       }
@@ -164,6 +165,8 @@ class _ADMINState extends State<ADMIN> {
     INPUT montantValide = INPUT(label: 'Montant Accordé');
     montantValide.setText(dmd['montant'].toString());
 
+    if (dmd['date'] == null) return const Text('');
+
     return !isVu
         ? InkWell(
             onTap: () {
@@ -191,14 +194,16 @@ class _ADMINState extends State<ADMIN> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text('Type de demande : ${dmd['type']} '),
-                                      const SizedBox(width: 30),
-                                      Text(dmd['date']),
-                                    ],
-                                  ),
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                            'Type de demande : ${dmd['type']} '),
+                                        const SizedBox(width: 30),
+                                        Text(DateFormat('dd/MM/yyyy HH:mm')
+                                            .format(dmd['date'].toDate())
+                                            .toString())
+                                      ]),
                                   Text(
                                       "👤 User : ${dmd['codeUser']}  | 📱 Tèl : ${dmd['tel']}  | 💵 Montant : ${dmd['montant']} Ar")
                                 ]))))),
@@ -211,13 +216,18 @@ class _ADMINState extends State<ADMIN> {
               LABEL(text: 'Traiter demande ', size: 25),
               Container(
                   height: 1, width: double.maxFinite, color: Colors.black12),
+              const SizedBox(height: 10),
               Row(children: [
                 LABEL(text: 'Type : '),
                 LABEL(text: dmd['type'].toString(), isBold: true)
               ]),
               Row(children: [
                 LABEL(text: 'Date : '),
-                LABEL(text: dmd['date'].toString(), isBold: true)
+                LABEL(
+                    text: DateFormat('dd/MM/yyyy HH:mm')
+                        .format(dmd['date'].toDate())
+                        .toString(),
+                    isBold: true)
               ]),
               Row(children: [
                 LABEL(text: '👤 User (login) : '),
@@ -231,6 +241,7 @@ class _ADMINState extends State<ADMIN> {
                 LABEL(text: ' 💵 Montant : '),
                 LABEL(text: "${dmd['montant'].toString()} MGA", isBold: true)
               ]),
+              const SizedBox(height: 10),
               montantValide,
               const SizedBox(height: 20),
               Row(
@@ -253,7 +264,7 @@ class _ADMINState extends State<ADMIN> {
                               toast.show('Montant trop bas');
                               return;
                             }
-                            
+
                             demandeVu['montant'] = m;
 
                             if (demandeVu['type'] == 'Depot') {

@@ -1,3 +1,4 @@
+import 'package:amoi/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
@@ -22,6 +23,9 @@ class LOADING {
 
   show(String message) async {
     vu = 1;
+    if (keyboardVisible) {
+      FocusManager.instance.primaryFocus?.unfocus();
+    }
     await EasyLoading.show(
         status: message, maskType: EasyLoadingMaskType.black);
   }

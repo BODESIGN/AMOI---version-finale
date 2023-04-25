@@ -2,6 +2,7 @@ import 'package:amoi/component/button.dart';
 import 'package:amoi/component/label.dart';
 import 'package:amoi/main.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class SCREEN_ALL_INVEST extends StatefulWidget {
   const SCREEN_ALL_INVEST({Key? key}) : super(key: key);
@@ -36,7 +37,11 @@ class _SCREEN_ALL_INVESTState extends State<SCREEN_ALL_INVEST> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     LABEL(text: 'Code : ${map['code']}'),
-                    LABEL(text: '${map['dateCreate']}'),
+                    if (map['dateCreate'] != null)
+                      LABEL(
+                          text: DateFormat('dd/MM/yyyy HH:mm')
+                              .format(map['dateCreate'].toDate())
+                              .toString()),
                     LABEL(text: 'Membre : ${map['membres'].length} / 14'),
                     LABEL(text: '--'),
                     LABEL(text: 'M.I : ${map['montant']} ar'),

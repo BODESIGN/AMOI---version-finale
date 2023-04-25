@@ -47,6 +47,15 @@ class _BUTTONState extends State<BUTTON> {
                 child: Container(
                   decoration: BoxDecoration(
                       color: widget.colorBg,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(.1),
+                          spreadRadius: 5,
+                          blurRadius: 5,
+                          offset:
+                              const Offset(0, 1), // changes position of shadow
+                        ),
+                      ],
                       borderRadius: BorderRadius.circular(5)),
                   width: double.maxFinite,
                   height: 40,

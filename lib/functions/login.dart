@@ -102,6 +102,7 @@ class METHODE {
         'exp': 0,
         'level': 1,
         'urlPdp': '',
+        'tel': '',
         'defie-actif': {},
         'dateCreate': Timestamp.now(),
         'boites': [],

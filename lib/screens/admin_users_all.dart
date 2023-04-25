@@ -6,6 +6,7 @@ import 'package:amoi/component/modale.dart';
 import 'package:amoi/functions/transaction.dart';
 import 'package:amoi/main.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class SCREEN_ALL_USERS extends StatefulWidget {
   const SCREEN_ALL_USERS({Key? key}) : super(key: key);
@@ -38,7 +39,12 @@ class _SCREEN_ALL_USERSState extends State<SCREEN_ALL_USERS> {
                 children: [
                   Row(children: [
                     const Icon(Icons.calendar_month, size: 15),
-                    LABEL(text: t['date'])
+                    if (t['dateTimes'] != null)
+                      LABEL(
+                          text: DateFormat('dd/MM/yyyy HH:mm')
+                              .format(t['dateTimes'].toDate())
+                              .toString(),
+                          color: Colors.black)
                   ]),
                   LABEL(text: t['description']),
                 ],
@@ -52,11 +58,14 @@ class _SCREEN_ALL_USERSState extends State<SCREEN_ALL_USERS> {
 
 // =====================================================
   Widget vu(Map user) {
+    String date = DateFormat('dd/MM/yyyy HH:mm')
+        .format(user['dateCreate'].toDate())
+        .toString();
     return Padding(
         padding: const EdgeInsets.only(bottom: 5),
         child: Card(
-            color: Colors.white,
-            elevation: 8,
+            surfaceTintColor: Colors.white,
+            elevation: 2,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
@@ -68,10 +77,13 @@ class _SCREEN_ALL_USERSState extends State<SCREEN_ALL_USERS> {
                     setState(() {
                       vuTransaction = MODALE(context, 'Vu transaction', '')
                         ..type = 'CUSTOM'
-                        ..child = Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: transactions);
+                        ..child = Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: transactions),
+                        );
                     });
                     Future.delayed(const Duration(seconds: 1), () {
                       vuTransaction.show();
@@ -117,7 +129,7 @@ class _SCREEN_ALL_USERSState extends State<SCREEN_ALL_USERS> {
                                 ]),
                                 LABEL(
                                     text:
-                                        'Niv. ${user['level']} / ${user['exp']} exp / ${user['dateCreate']}',
+                                        'Niv. ${user['level']} / ${user['exp']} exp / $date',
                                     color: Colors.grey),
                                 Row(children: [
                                   LABEL(text: 'parent : '),

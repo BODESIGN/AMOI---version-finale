@@ -46,7 +46,7 @@ class EXP {
     },
     'Niv. 5': {
       'id': 5,
-      'nom': 'Pré-actionnaire',
+      'nom': 'Pre actionnaire',
       'nb boite max': 0,
       'sold delivrable max': 100000, //ariary
       'revenue actionnaire': 1 //%
@@ -147,12 +147,13 @@ class EXP {
             LABEL(text: 'Nombre maximum de boite : ${value['nb boite max']}'),
             LABEL(
                 text:
-                    'Sold délivrable maximum (pour les dépot) : ${value['sold delivrable max']} MGA'),
+                    'Solde délivrable maximum (pour les dépôts) : ${value['sold delivrable max']} MGA'),
             LABEL(
-                text: 'Révenue actionnaire : ${value['revenue actionnaire']} %')
+                text:
+                    'Revenue (actionnaire) : ${value['revenue actionnaire']} %')
           ])));
     });
-    MODALE m = MODALE(context, 'Vu boites', '')
+    MODALE m = MODALE(context, '', '')
       ..type = 'CUSTOM'
       ..child = SingleChildScrollView(
           child: Padding(
@@ -161,7 +162,7 @@ class EXP {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     LABEL(
-                        text: "Niveau & Privillège",
+                        text: "Niveau & Privilège",
                         size: 15,
                         color: Colors.green),
                     const SizedBox(height: 10),

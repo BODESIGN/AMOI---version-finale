@@ -10,6 +10,7 @@ import 'package:amoi/component/modale.dart';
 import 'package:amoi/functions/boitePlein.dart';
 import 'package:amoi/functions/login.dart';
 import 'package:amoi/main.dart';
+import 'package:amoi/screens/contrat.dart';
 import 'package:app_installer/app_installer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -81,12 +82,22 @@ class _SECONNECTState extends State<SECONNECT> {
           });
           break;
         case 4:
-          $.createCompte(login.getValue(), mdp.getValue(), parent.getValue(),
-              (user) {
-            userActif = user;
-            bool isAdmin = $.isAdmin(user['login']);
-            Navigator.of(context).pushNamed(isAdmin ? 'ADMIN' : 'DASHBOARD');
-          });
+          // ignore: use_build_context_synchronously
+          MODALE m = MODALE(context, '', '')
+            ..type = 'CUSTOM'
+            ..child = CONTRAT(
+                login: login.getValue(),
+                pass: () {
+                  $.createCompte(
+                      login.getValue(), mdp.getValue(), parent.getValue(),
+                      (user) {
+                    userActif = user;
+                    bool isAdmin = $.isAdmin(user['login']);
+                    Navigator.of(context)
+                        .pushNamed(isAdmin ? 'ADMIN' : 'DASHBOARD');
+                  });
+                });
+          m.show();
           break;
       }
     } else {
@@ -122,7 +133,7 @@ class _SECONNECTState extends State<SECONNECT> {
     // chec connexion
     if (!await connectivite.checkData(toast.show)) return;
     // -- get ADMINISTRATOR
-    loading.show("Verification de l'appliction ...");
+    loading.show("Vérification de l'application ...");
     base.select(table['setting']!, table['admin']!, (result, value) async {
       administrator = value.data() as Map<String, Object?>;
       cote = administrator['cote'];
@@ -131,7 +142,7 @@ class _SECONNECTState extends State<SECONNECT> {
       if (version == administrator['version']) return;
       if (!administrator['version-obli']) return;
 
-      vuModalNewVersion = MODALE(context, 'Modale new version', '')
+      vuModalNewVersion = MODALE(context, '', '')
         ..type = 'PLEIN'
         ..child = modaleNewVersion(context);
       vuModalNewVersion.show();
@@ -172,7 +183,7 @@ class _SECONNECTState extends State<SECONNECT> {
           double percent =
               taskSnapshot.bytesTransferred / taskSnapshot.totalBytes;
           loading.showProgress(percent,
-              "(${(percent * 100).round()}%) Téléchargement cours ...");
+              "(${(percent * 100).round()}%) Téléchargement en cours ...");
           break;
         case TaskState.paused:
           break;
@@ -210,29 +221,26 @@ class _SECONNECTState extends State<SECONNECT> {
 
     if (status.isDenied) {
       // You can request multiple permissions at once.
-      Map<Permission, PermissionStatus> statuses = await [
-        Permission.storage,
-        Permission.accessMediaLocation,
-        Permission.manageExternalStorage,
-        Permission.mediaLibrary,
-        Permission.requestInstallPackages,
-      ].request();
+      try {
+        Map<Permission, PermissionStatus> statuses = await [
+          Permission.storage,
+          Permission.accessMediaLocation,
+          Permission.manageExternalStorage,
+          Permission.mediaLibrary,
+          Permission.requestInstallPackages,
+        ].request();
+        // ignore: empty_catches
+      } catch (e) {}
 
       // print(" PERMIS : ${statuses[Permission.storage]}");
     }
   }
 
   @override
-  void initState() {
-    super.initState();
-    // CHEC PERMISSION
-    _checPermission();
-  }
-
-  @override
   build(BuildContext context) {
     setStatutBarTheme();
     toast.init(context);
+    keyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
     setState(() {
       newc.action = () => _newc(context);
       conn.action = () => _conn(context);
@@ -262,29 +270,21 @@ class _SECONNECTState extends State<SECONNECT> {
       _getAdmin();
     }
 
-    return WillPopScope(
-        child: SafeArea(
-            child: Scaffold(
-                backgroundColor: Colors.white,
-                body: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Center(
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                          etape == 1
-                              ? SizedBox(
-                                  width: double.maxFinite,
-                                  child: Row(children: [
-                                    Image.asset("assets/logo/logoblack.png",
-                                        width: 40, height: 40),
-                                    const SizedBox(width: 5),
-                                    LABEL(
-                                        text: 'Bienvenue sur Amoi Groupe',
-                                        size: 15)
-                                  ]))
-                              : isnew
+    return FutureBuilder(
+      future: _checPermission(),
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        return WillPopScope(
+            child: SafeArea(
+                child: Scaffold(
+                    backgroundColor: Colors.white,
+                    body: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Center(
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                              etape == 1
                                   ? SizedBox(
                                       width: double.maxFinite,
                                       child: Row(children: [
@@ -292,37 +292,53 @@ class _SECONNECTState extends State<SECONNECT> {
                                             width: 40, height: 40),
                                         const SizedBox(width: 5),
                                         LABEL(
-                                            text:
-                                                'Nouvelle compte (login : ${$.user['login']})',
+                                            text: 'Bienvenue sur Amoi Groupe',
                                             size: 15)
                                       ]))
-                                  : APPBAR(user: $.user, isInInit: true),
-                          const SizedBox(height: 10),
-                          etape == 1
-                              ? login
-                              : etape == 4
-                                  ? parent
-                                  : mdp,
-                          if (etape == 3)
-                            SizedBox(
-                                width: double.maxFinite,
-                                child: LABEL(
-                                    text:
-                                        'Veuillez confirmer votre mot de passe')),
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              etape == 1 ? newc : prev,
-                              etape == 1 ? conn : next,
-                            ],
-                          )
-                        ]))))),
-        onWillPop: () async {
-          if (Platform.isAndroid) SystemNavigator.pop();
-          if (Platform.isIOS) exit(0);
-          return false;
-        });
+                                  : isnew
+                                      ? SizedBox(
+                                          width: double.maxFinite,
+                                          child: Row(children: [
+                                            Image.asset(
+                                                "assets/logo/logoblack.png",
+                                                width: 40,
+                                                height: 40),
+                                            const SizedBox(width: 5),
+                                            LABEL(
+                                                text:
+                                                    'Nouveau compte (login : ${$.user['login']})',
+                                                size: 15)
+                                          ]))
+                                      : APPBAR(user: $.user, isInInit: true),
+                              const SizedBox(height: 10),
+                              etape == 1
+                                  ? login
+                                  : etape == 4
+                                      ? parent
+                                      : mdp,
+                              if (etape == 3)
+                                SizedBox(
+                                    width: double.maxFinite,
+                                    child: LABEL(
+                                        text:
+                                            'Veuillez confirmer votre mot de passe')),
+                              const SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  etape == 1 ? newc : prev,
+                                  etape == 1 ? conn : next,
+                                ],
+                              )
+                            ]))))),
+            onWillPop: () async {
+              if (Platform.isAndroid) SystemNavigator.pop();
+              if (Platform.isIOS) exit(0);
+              return false;
+            });
+      },
+    );
   }
 
   Widget modaleNewVersion(BuildContext context) {
@@ -336,7 +352,7 @@ class _SECONNECTState extends State<SECONNECT> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             LABEL(
-                text: "On a une nouvelle version de l'application",
+                text: "Une nouvelle version de l'app est disponible",
                 color: Colors.white,
                 size: 18),
             const SizedBox(height: 10),
@@ -351,7 +367,7 @@ class _SECONNECTState extends State<SECONNECT> {
             ),
             const SizedBox(height: 10),
             LABEL(
-                text: "Voullez-vous le télécharger tout de suite ?",
+                text: "voulez-vous le télécharger tout de suite ?",
                 size: 14,
                 isBold: true,
                 color: Colors.white),
@@ -361,7 +377,7 @@ class _SECONNECTState extends State<SECONNECT> {
                 color: Colors.white60),
             const SizedBox(height: 10),
             BUTTON(
-                text: 'TELECHARGER et Mettre a jour',
+                text: 'Télécharger et Mettre à jour',
                 type: 'BLEU',
                 action: () => _downloadLastVersion()),
             BUTTON(

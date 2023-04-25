@@ -187,6 +187,8 @@ class FIREBASE {
         .update(
           {
             "sold de ce mois": 0,
+            "net-sortie":
+                FieldValue.increment(-administrator['sold de ce mois']),
             "sold des mois avant":
                 FieldValue.arrayUnion([administrator['sold de ce mois']])
           },
@@ -201,9 +203,9 @@ class FIREBASE {
     String table,
     Function actionAfter, {
     bool haveLimit = false,
-    int limit = 3,
+    int limit = 5,
     bool haveOrder = false,
-    String order = 'code',
+    String order = 'dateTimes',
     bool desc = false,
   }) {
     if (haveLimit == true && haveOrder == true) {
@@ -219,7 +221,11 @@ class FIREBASE {
           liste.add(result.data());
         }
         actionAfter(liste);
-      }).onError((error, stackTrace) => actionAfter([]));
+      }).onError((error, stackTrace) {
+        print("HERE 345 : ${error.toString()}");
+        print(stackTrace.toString());
+        actionAfter([]);
+      });
     } else if (haveLimit == false && haveOrder == true) {
       // LIMITE
       firestore
@@ -232,7 +238,10 @@ class FIREBASE {
           liste.add(result.data());
         }
         actionAfter(liste);
-      }).onError((error, stackTrace) => actionAfter([]));
+      }).onError((error, stackTrace) {
+        print("HERE 346 : ${error.toString()}");
+        actionAfter([]);
+      });
     } else if (haveLimit == true && haveOrder == false) {
       // LIMITE
       firestore.collection(table).limit(limit).get().then((querySnapshot) {
@@ -241,7 +250,10 @@ class FIREBASE {
           liste.add(result.data());
         }
         actionAfter(liste);
-      }).onError((error, stackTrace) => actionAfter([]));
+      }).onError((error, stackTrace) {
+        print("HERE 347 : ${error.toString()}");
+        actionAfter([]);
+      });
     } else {
       // NO LIMIT - NO ORDER
       firestore.collection(table).get().then((querySnapshot) {
@@ -250,7 +262,10 @@ class FIREBASE {
           liste.add(result.data());
         }
         actionAfter(liste);
-      }).onError((error, stackTrace) => actionAfter([]));
+      }).onError((error, stackTrace) {
+        print("HERE 348 : ${error.toString()}");
+        actionAfter([]);
+      });
     }
   }
 
@@ -278,7 +293,7 @@ class FIREBASE {
     // LIMITE
     firestore
         .collection(table['user']!)
-        .orderBy('dateCreate')
+        .orderBy('dateCreate', descending: true)
         .get()
         .then((querySnapshot) {
       List<Map> liste = [];
@@ -605,6 +620,7 @@ class FIREBASE {
   select_Tickets(String login, Function actionAfter) {
     firestore
         .collection("${table['user']}/$login/${table['ticket']}")
+        .orderBy('dateTime')
         .get()
         .then((querySnapshot) {
       List<Map> tickets = [];

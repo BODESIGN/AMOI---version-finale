@@ -74,7 +74,7 @@ class _APPBARState extends State<APPBAR> {
                                                 size: 13,
                                                 isBold: true),
                                             LABEL(text: 'ar', size: 13),
-                                            LABEL(text: ' (sold délivrable)')
+                                            LABEL(text: ' (solde délivrable)')
                                           ])
                                       ]))),
                           const SizedBox(width: 10),
@@ -85,28 +85,28 @@ class _APPBARState extends State<APPBAR> {
                                   color: Colors.black,
                                   borderRadius: BorderRadius.circular(25)),
                               child: InkWell(
-                                onTap: () {
-                                  EXP().showPrivilege(
-                                      context,
-                                      widget.user['level'],
-                                      widget.user['exp'].round());
-                                },
-                                child: Stack(children: [
-                                  CircularProgressIndicator(
-                                      value: (widget.user['exp']) /
-                                          (EXP().level[
-                                              widget.user['level'] + 1])),
-                                  SizedBox(
-                                      width: 30,
-                                      height: 30,
-                                      child: Center(
-                                          child: LABEL(
-                                              color: Colors.white,
-                                              text: '${widget.user['level']}',
-                                              size: 13,
-                                              isBold: true)))
-                                ]),
-                              ))
+                                  onTap: () {
+                                    EXP().showPrivilege(
+                                        context,
+                                        widget.user['level'],
+                                        widget.user['exp'].round());
+                                  },
+                                  child: Stack(children: [
+                                    CircularProgressIndicator(
+                                        color: Colors.lightGreen,
+                                        value: (widget.user['exp']) /
+                                            (EXP().level[
+                                                widget.user['level'] + 1])),
+                                    SizedBox(
+                                        width: 30,
+                                        height: 30,
+                                        child: Center(
+                                            child: LABEL(
+                                                color: Colors.white,
+                                                text: '${widget.user['level']}',
+                                                size: 13,
+                                                isBold: true)))
+                                  ])))
                         ])))));
   }
 }

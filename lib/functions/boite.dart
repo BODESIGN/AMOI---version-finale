@@ -1,6 +1,5 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
-
 import 'package:amoi/component/button.dart';
 import 'package:amoi/component/label.dart';
 import 'package:amoi/component/modale.dart';
@@ -10,6 +9,7 @@ import 'package:amoi/functions/exp.dart';
 import 'package:amoi/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 // ===================== DESIGN
 class BOITE {
@@ -145,7 +145,10 @@ class BOITE {
                     text: 'Code : ${map['code']}',
                     color: Colors.grey,
                     isBold: true),
-                LABEL(text: ' / ${map['dateCreate']}')
+                if (map['dateCreate'] != null)
+                  LABEL(
+                      text:
+                          ' / ${DateFormat('dd/MM/yyyy HH:mm').format(map['dateCreate'].toDate()).toString()}')
               ]),
               LABEL(text: 'Montant Investi : ${map['montant']} MGA'),
               const SizedBox(height: 10),
@@ -178,7 +181,10 @@ class BOITE {
                             text: 'Code : ${map['code']}',
                             color: Colors.grey,
                             isBold: true),
-                        LABEL(text: ' / ${map['dateCreate']}')
+                        if (map['dateCreate'] != null)
+                          LABEL(
+                              text:
+                                  ' / ${DateFormat('dd/MM/yyyy HH:mm').format(map['dateCreate'].toDate()).toString()}')
                       ]),
                       LABEL(text: 'Montant Investi : ${map['montant']} MGA'),
                       const SizedBox(height: 10),
@@ -226,12 +232,10 @@ class BOITE {
                             borderRadius: BorderRadius.circular(5),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.grey.withOpacity(.1),
-                                spreadRadius: 5,
-                                blurRadius: 10,
-                                offset: const Offset(
-                                    0, 3), // changes position of shadow
-                              ),
+                                  color: Colors.grey.withOpacity(.1),
+                                  spreadRadius: 5,
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 3))
                             ]),
                         child: InkWell(
                           splashColor: Colors.green,
@@ -269,7 +273,10 @@ class BOITE {
                                     text: 'Code : ${map['code']}',
                                     color: Colors.grey,
                                     isBold: true),
-                                LABEL(text: ' / ${map['dateCreate']}')
+                                if (map['dateCreate'] != null)
+                                  LABEL(
+                                      text:
+                                          ' / ${DateFormat('dd/MM/yyyy HH:mm').format(map['dateCreate'].toDate()).toString()}')
                               ]),
                               LABEL(
                                   text:
@@ -751,7 +758,12 @@ class BOITE {
                   children: [
                     Row(children: [
                       const Icon(Icons.calendar_month, size: 15),
-                      LABEL(text: t['date'], color: Colors.grey)
+                      if (t['date'] != null)
+                        LABEL(
+                            text: DateFormat('dd/MM/yyyy HH:mm')
+                                .format(t['date'].toDate())
+                                .toString(),
+                            color: Colors.grey)
                     ]),
                     LABEL(text: t['description'])
                   ]),

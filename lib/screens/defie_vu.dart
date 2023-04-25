@@ -8,6 +8,7 @@ import 'package:amoi/functions/transaction.dart';
 import 'package:amoi/main.dart';
 import 'package:amoi/screens/defies.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../panels/pane_ticket.dart';
 
@@ -96,8 +97,9 @@ class _SCREEN_TRAITE_DEFIEState extends State<SCREEN_TRAITE_DEFIE> {
               if (result == 'error') return;
               Map<String, dynamic> u = value.data() as Map<String, Object?>;
               setState(() {
-                vuChildDirect
-                    .add(LABEL(text: "${u['dateCreate']} => ${u['fullname']}"));
+                vuChildDirect.add(LABEL(
+                    text:
+                        "${DateFormat('dd/MM/yyyy HH:mm').format(u['dateCreate'].toDate()).toString()} => ${u['fullname']}"));
               });
             });
           }

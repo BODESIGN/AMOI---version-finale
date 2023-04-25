@@ -109,7 +109,7 @@ class MANUEL extends StatelessWidget {
                       width: 200,
                       child: Padding(
                         padding: const EdgeInsets.all(5),
-                        child: Image.asset("assets/pic1.jpg"),
+                        child: Image.asset("assets/pic1.png"),
                       ))),
               const SizedBox(height: 10),
               Text('📈 Les etages', style: pB),
@@ -168,7 +168,7 @@ class MANUEL extends StatelessWidget {
                       width: 200,
                       child: Padding(
                         padding: const EdgeInsets.all(5),
-                        child: Image.asset("assets/pic2.jpg"),
+                        child: Image.asset("assets/pic2.png"),
                       ))),
               const SizedBox(height: 10),
               const SizedBox(height: 10),

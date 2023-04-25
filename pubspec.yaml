@@ -1,7 +1,7 @@
 name: amoi
 description: Amoi groupe by Bô studio MADAGASCAR
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 0.1.2
+version: 1.0.0
 
 environment:
   sdk: '>=2.18.0-271.2.beta <3.0.0'

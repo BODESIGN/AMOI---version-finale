@@ -1,19 +1,2 @@
-cmd : flutter build apk --split-per-abi
-
-flutter upgrade
-
-TODO : A FAIRE APRES
-    change Defie to défi
-    recorrection text :: fr for ALL
 
 
-
-        ┌─  -  ─┐
-        |       |
-        └─  -  ─┘
-
-
-ticket "AMOI-TK${newCode(3)}-${newCode(5)}"
-histo 25
-boite 7
-transaction 20

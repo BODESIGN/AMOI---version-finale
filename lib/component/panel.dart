@@ -99,7 +99,7 @@ class _PANELState extends State<PANEL> {
                   }),
               items: const [
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.dashboard), label: 'Dashboard'),
+                    icon: Icon(Icons.dashboard), label: 'Amoi groupe'),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.power_settings_new),
                     label: 'Se déconnecter')

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:amoi/component/panel.dart';
 import 'package:amoi/main.dart';
 import 'package:amoi/panels/aide.dart';
+import 'package:amoi/panels/apropos.dart';
 import 'package:amoi/panels/pane_boite.dart';
 import 'package:amoi/panels/pane_hyerarchie.dart';
 import 'package:amoi/panels/pane_ticket.dart';
@@ -21,10 +22,11 @@ class _DASHBOARDState extends State<DASHBOARD> {
   @override
   Widget build(BuildContext context) {
     setStatutBarTheme();
+    keyboardVisible = MediaQuery.of(context).viewInsets.bottom != 0;
 
     List<Map> tab = [
       {
-        'title': 'Acceuil',
+        'title': 'Accueil',
         'panel': PANELBOITE(user: userActif, redraw: () => setState(() {})),
         'icon': Icons.home
       },
@@ -39,7 +41,7 @@ class _DASHBOARDState extends State<DASHBOARD> {
         'icon': Icons.receipt_rounded
       },
       {'title': 'Mon réseau', 'panel': MYHYERARCHY(), 'icon': Icons.groups},
-      {'title': 'Aide', 'panel': MANUEL(), 'icon': Icons.help},
+      {'title': 'A propos', 'panel': const APROPOS(), 'icon': Icons.help},
     ];
 
     return WillPopScope(

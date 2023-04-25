@@ -31,8 +31,8 @@ class _PANELBOITEState extends State<PANELBOITE> {
   BUTTON btSearch = BUTTON(text: '', action: () {}, type: 'ICON');
   BUTTON btRefrech = BUTTON(text: '', action: () {}, type: 'ICON');
   int vuAction = 0;
-  INPUT montant = INPUT(label: 'Montant (en MGA)',isNumber: true);
-  INPUT search = INPUT(label: 'Code parenage');
+  INPUT montant = INPUT(label: 'Montant (en MGA)', isNumber: true);
+  INPUT search = INPUT(label: 'Code parrainage');
 
   BUTTON btValider = BUTTON(text: '', action: () {}, type: 'ICON');
   BUTTON btAnnuler = BUTTON(text: '', action: () {}, type: 'ICON');
@@ -85,20 +85,20 @@ class _PANELBOITEState extends State<PANELBOITE> {
     try {
       m = int.parse(montant.getValue());
     } catch (e) {
-      toast.show("Veuillez verifier le montant");
+      toast.show("Veuillez vérifier le montant");
       return;
     }
 
     if (m < 1000) toast.show("Montant minimum : 1.000 MGA");
     if (m < 1000) return;
 
-    if (m > userActif['ariary']) toast.show("Votre sold est insuffisant");
+    if (m > userActif['ariary']) toast.show("Votre solde est insuffisante");
     if (m > userActif['ariary']) return;
 
     if (!EXP().checPrivillege_NbBoiteMaxe(userActif['level'], vuBoites.length))
       // ignore: curly_braces_in_flow_control_structures
       toast.show(
-          "Vous avez déjà attein le nombre maximum de votre boite en cours !");
+          "Vous avez déjà atteint le nombre maximum de votre boite en cours !");
     if (!EXP().checPrivillege_NbBoiteMaxe(userActif['level'], vuBoites.length))
       return;
 
@@ -157,83 +157,81 @@ class _PANELBOITEState extends State<PANELBOITE> {
           vuDefies.add(Padding(
               padding: const EdgeInsets.only(right: 10),
               child: InkWell(
-                onTap: () {
-                  if (haveDefieEnCours) {
-                    toast.show("Vous avez déjà un défie en cours ...");
-                    return;
-                  }
+                  onTap: () {
+                    if (haveDefieEnCours) {
+                      toast.show("Vous avez déjà un défi en cours ...");
+                      return;
+                    }
 
-                  MODALE m;
-                  m = MODALE(context, '${defie['recomponse']} 🎁',
-                      "Délai : ${defie['delai']}")
-                    ..labelButton1 = 'Choisir'
-                    ..action1 = () {
-                      DEFIE().newDefieForUser(userActif['login'], defie['code'],
-                          () {
-                        Navigator.pop(context);
-                        toast.showNotyf("Nouvelle défie lancée ...", 'SUCCES');
-                        setState(() {
-                          userActif["defie-actif"] = {
-                            'code': defie['code'],
-                            'date-start': Timestamp.now(),
-                            'progression': ''
-                          };
+                    MODALE m;
+                    m = MODALE(context, '${defie['recomponse']} 🎁',
+                        "Délai : ${defie['delai']}")
+                      ..labelButton1 = 'Choisir'
+                      ..action1 = () {
+                        DEFIE().newDefieForUser(
+                            userActif['login'], defie['code'], () {
+                          Navigator.pop(context);
+                          toast.showNotyf("Nouveau défi lancé ...", 'SUCCES');
+                          setState(() {
+                            userActif["defie-actif"] = {
+                              'code': defie['code'],
+                              'date-start': Timestamp.now(),
+                              'progression': ''
+                            };
+                          });
+                          reloadDefie();
                         });
-                        reloadDefie();
-                      });
-                    }
-                    ..labelButton3 = 'Annuler'
-                    ..action3 = () {
-                      Navigator.pop(context);
-                    }
-                    ..hideBt2 = true;
-                  m.show();
-                },
-                child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(.1),
-                            spreadRadius: 5,
-                            blurRadius: 10,
-                            offset: const Offset(
-                                0, 3), // changes position of shadow
-                          ),
-                        ]),
-                    child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (userActif['defie-actif']['code'] ==
-                                  defie['code'])
+                      }
+                      ..labelButton3 = 'Annuler'
+                      ..action3 = () {
+                        Navigator.pop(context);
+                      }
+                      ..hideBt2 = true;
+                    m.show();
+                  },
+                  child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.grey.withOpacity(.1),
+                                spreadRadius: 5,
+                                blurRadius: 10,
+                                offset: const Offset(0, 3))
+                          ]),
+                      child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (userActif['defie-actif']['code'] ==
+                                    defie['code'])
+                                  LABEL(
+                                      text:
+                                          'En cours ${userActif['defie-actif']['progression']} (${DateTime.now().difference(userActif['defie-actif']['date-start'].toDate())})',
+                                      color: Colors.green),
+                                if (userActif['defie-actif']['code'] ==
+                                    defie['code'])
+                                  const SizedBox(height: 5),
                                 LABEL(
-                                    text:
-                                        'En cours ${userActif['defie-actif']['progression']} (${DateTime.now().difference(userActif['defie-actif']['date-start'].toDate())})',
-                                    color: Colors.green),
-                              if (userActif['defie-actif']['code'] ==
-                                  defie['code'])
+                                    text: '${defie['recomponse']} 🎁',
+                                    color: Colors.green,
+                                    isBold: true),
                                 const SizedBox(height: 5),
-                              LABEL(
-                                  text: '${defie['recomponse']} 🎁',
-                                  color: Colors.green,
-                                  isBold: true),
-                              const SizedBox(height: 5),
-                              Row(
-                                children: [
-                                  LABEL(text: '⏱️ Delai : ', isBold: true),
-                                  LABEL(text: '${defie['delai']}'),
-                                ],
-                              ),
-                              const SizedBox(height: 5),
-                              LABEL(text: '☑️ Tache : ', isBold: true),
-                              Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: taches)
-                            ]))),
-              )));
+                                Row(
+                                  children: [
+                                    LABEL(text: '⏱️ Délai : ', isBold: true),
+                                    LABEL(text: '${defie['delai']}'),
+                                  ],
+                                ),
+                                const SizedBox(height: 5),
+                                LABEL(text: '☑️ Tache : ', isBold: true),
+                                Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: taches)
+                              ]))))));
         }
       });
 
@@ -262,7 +260,7 @@ class _PANELBOITEState extends State<PANELBOITE> {
       btRefrech.colorBg = Colors.green;
       btRefrech.action = () => reloadBoite(context);
       btPast.icon = Icons.paste;
-      btPast.colorBg = Colors.green;
+      btPast.colorBg = Colors.grey;
       btPast.action = () => paste();
       btValider.icon = Icons.check;
       btValider.colorBg = Colors.green;
@@ -282,113 +280,113 @@ class _PANELBOITEState extends State<PANELBOITE> {
     }
 
     return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                child: Row(
-                    mainAxisAlignment: vuBoites.isNotEmpty
-                        ? MainAxisAlignment.spaceBetween
-                        : MainAxisAlignment.start,
-                    children: [
-                      Expanded(
-                          child: LABEL(
-                              text: 'Mes boites : ${vuBoites.length}',
-                              color: Colors.black)),
-                      if (vuAction == 2) btPast,
-                      if (vuAction == 2) const SizedBox(width: 5),
-                      vuAction == 0 ? btNewBoite : btValider,
-                      const SizedBox(width: 5),
-                      vuAction == 0 ? btSearch : btAnnuler,
-                      if (vuAction == 0 || vuAction == 2)
-                        const SizedBox(width: 5),
-                      if (vuAction == 0) btRefrech
-                    ])),
-
-            // const SizedBox(height: 10),
-            if (vuAction == 1)
+        scrollDirection: Axis.vertical,
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
               Padding(
                   padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                  child: montant),
-            if (vuAction == 2)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                child: search,
-              ),
-            vuBoites.isNotEmpty
-                ? SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 15),
-                      child: Row(children: vuBoites),
-                    ))
-                : Center(
-                    child: Padding(
+                  child: Row(
+                      mainAxisAlignment: vuBoites.isNotEmpty
+                          ? MainAxisAlignment.spaceBetween
+                          : MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                            child: LABEL(
+                                text: 'Mes boites : ${vuBoites.length}',
+                                color: Colors.black)),
+                        if (vuAction == 2) const SizedBox(width: 5),
+                        vuAction == 0 ? btNewBoite : btAnnuler,
+                        const SizedBox(width: 5),
+                        vuAction == 0 ? btSearch : btValider,
+                        if (vuAction == 0 || vuAction == 2)
+                          const SizedBox(width: 5),
+                        if (vuAction == 0) btRefrech
+                      ])),
+
+              // const SizedBox(height: 10),
+              if (vuAction == 1)
+                Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: montant),
+              if (vuAction == 2)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  child: Row(children: [
+                    Expanded(child: search),
+                    const SizedBox(width: 5),
+                    btPast
+                  ]),
+                ),
+              vuBoites.isNotEmpty
+                  ? SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 15),
+                        child: Row(children: vuBoites),
+                      ))
+                  : Center(
+                      child: Padding(
                       padding: const EdgeInsets.all(100),
                       child: LABEL(text: 'Aucune boite', color: Colors.black),
                     )),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  LABEL(
-                      text:
-                          'Défies : ${vuDefies.length} (${haveDefieEnCours ? 'En cours 1' : 'Aucune en cours'})',
-                      color: Colors.black),
-                  BUTTON(
-                      text: '⚠️',
-                      type: 'ICON',
-                      action: () {
-                        MODALE m = MODALE(context, 'Vu boites', '')
-                          ..type = 'CUSTOM'
-                          ..child = SingleChildScrollView(
-                            child: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  LABEL(
-                                      text:
-                                          "Vous pous choisir une défie a reléver dans la liste si-dessous 😊",
-                                      isBold: true),
-                                  LABEL(text: "Attention ⚠️ : "),
-                                  LABEL(
-                                      text:
-                                          "   Vous ne pouvez pas changer de defie en cours, "),
-                                  LABEL(
-                                      text:
-                                          "   il faut attendre que le delais de ceci soit finie ⏱️"),
-                                  LABEL(text: "   pour choisir une nouvelle"),
-                                ],
-                              ),
-                            ),
-                          );
-                        m.show();
-                      })
-                    ..icon = Icons.help_center
-                    ..colorBg = Colors.green
-                    ..size = 20
-                ],
-              ),
-            ),
-            vuDefies.isNotEmpty
-                ? SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 15),
-                      child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: vuDefies),
-                    ))
-                : Center(
-                    child: LABEL(
-                        text: 'Aucune défie disponible', color: Colors.black)),
-          ]),
-    );
+              const SizedBox(height: 10),
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        LABEL(
+                            text:
+                                'Défis : ${vuDefies.length} (${haveDefieEnCours ? 'En cours 1' : 'Aucun en cours'})',
+                            color: Colors.black),
+                        BUTTON(
+                            text: '⚠️',
+                            type: 'ICON',
+                            action: () {
+                              MODALE m = MODALE(context, 'Vu boites', '')
+                                ..type = 'CUSTOM'
+                                ..child = SingleChildScrollView(
+                                    child: Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              LABEL(
+                                                  text:
+                                                      "Vous pouvez choisir un défi à relever dans la liste ci-dessous 😊",
+                                                  isBold: true),
+                                              LABEL(text: "Attention ⚠️ : "),
+                                              LABEL(
+                                                  text:
+                                                      "   Vous ne pouvez pas changer un défi en cours, "),
+                                              LABEL(
+                                                  text:
+                                                      "   il faut attendre que le délai de ceci soit finie ⏱️"),
+                                              LABEL(
+                                                  text:
+                                                      "   pour choisir un nouveau.")
+                                            ])));
+                              m.show();
+                            })
+                          ..icon = Icons.help_center
+                          ..colorBg = Colors.green
+                          ..size = 20
+                      ])),
+              vuDefies.isNotEmpty
+                  ? SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 15),
+                        child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: vuDefies),
+                      ))
+                  : Center(
+                      child: LABEL(
+                          text: 'Aucun défi disponible', color: Colors.black))
+            ]));
   }
 }

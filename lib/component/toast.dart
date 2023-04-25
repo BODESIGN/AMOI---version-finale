@@ -1,5 +1,4 @@
 import 'package:amoi/component/button.dart';
-import 'package:amoi/component/label.dart';
 import 'package:amoi/component/modale.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
@@ -44,19 +43,18 @@ class TOAST {
                                       : Icons.warning,
                           color: Colors.white))),
             ),
-            const SizedBox(height: 10),
-            LABEL(
-                text: msg,
-                size: 14,
-                isBold: true,
-                color: type == 'SUCCES'
-                    ? Colors.green
-                    : type == 'ERROR'
-                        ? Colors.red
-                        : type == 'PETIT INFO'
-                            ? Colors.black
-                            : Colors.amber),
-            const SizedBox(height: 20),
+            Padding(
+                padding: const EdgeInsets.all(20),
+                child: Text(msg,
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: type == 'SUCCES'
+                            ? Colors.green
+                            : type == 'ERROR'
+                                ? Colors.red
+                                : type == 'PETIT INFO'
+                                    ? Colors.black
+                                    : Colors.amber))),
             BUTTON(
                 text: 'OK',
                 action: () {

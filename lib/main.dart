@@ -18,7 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
 
 import 'component/connectivite.dart';
@@ -37,6 +36,7 @@ String version = '';
 // ==================================================================
 late Map<String, dynamic> userActif;
 Map<String, dynamic> administrator = {};
+bool keyboardVisible = false;
 
 // ==================================================================
 main() async {
@@ -68,9 +68,7 @@ class MAIN extends StatelessWidget {
               TargetPlatform.android: CupertinoPageTransitionsBuilder()
             }),
             bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-              backgroundColor: Colors.white,
-              selectedItemColor: Colors.green
-            ),
+                backgroundColor: Colors.white, selectedItemColor: Colors.blue),
             primaryColor: Colors.black),
         builder: EasyLoading.init(),
         initialRoute: 'SECONNECT',
@@ -109,13 +107,6 @@ setStatutBarTheme() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarIconBrightness: Brightness.dark, statusBarColor: Colors.white));
 }
-
-// ==================================================================
-// String getDateNow() {
-//   return DateFormat('dd-MM-yyyy H:m:s')
-//       .format(DateTime.now().toUtc().add(const Duration(hours: 3)))
-//       .toString();
-// }
 
 // ==================================================================
 bool checIamInBoite(Map<String, dynamic> boite) {
@@ -214,6 +205,7 @@ Widget pdp(String uri, Function clickOnpdp,
                     if (loadingProgress == null) return child;
                     return Center(
                         child: CircularProgressIndicator(
+                            color: Colors.amber,
                             value: loadingProgress.expectedTotalBytes != null
                                 ? loadingProgress.cumulativeBytesLoaded /
                                     loadingProgress.expectedTotalBytes!
