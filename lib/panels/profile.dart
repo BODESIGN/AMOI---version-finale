@@ -45,10 +45,10 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
 
   bool isConstruct = true;
 
-  bool isShowModifName = true;
-  bool isShowModifMdp = true;
-  bool isShowRetrait = true;
-  bool isShowDepot = true;
+  bool isShowModifName = false;
+  bool isShowModifMdp = false;
+  bool isShowRetrait = false;
+  bool isShowDepot = false;
 
   Map<String, dynamic> userParent = {'urlPdp': '', 'fullname': ''};
 

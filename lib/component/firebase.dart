@@ -520,7 +520,9 @@ class FIREBASE {
         Map<String, Object?> user =
             documentSnapshot.data() as Map<String, Object?>;
         String parent = user['parent'] as String;
+        int lvl = user['level'] as int;
 
+        if (lvl < 2) return;
         if (parent == 'root') return;
 
         await firestore
@@ -575,7 +577,9 @@ class FIREBASE {
       Map<String, Object?> user =
           documentSnapshot.data() as Map<String, Object?>;
       String parent = user['parent'] as String;
+      int lvl = user['level'] as int;
 
+      if (lvl < 2) return;
       if (parent == 'root') return;
 
       String code = "AMOI-TK${newCode(3)}-${newCode(5)}";
