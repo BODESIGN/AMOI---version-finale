@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:amoi/component/panel.dart';
 import 'package:amoi/main.dart';
-import 'package:amoi/panels/aide.dart';
 import 'package:amoi/panels/apropos.dart';
 import 'package:amoi/panels/pane_boite.dart';
 import 'package:amoi/panels/pane_hyerarchie.dart';
@@ -40,7 +39,11 @@ class _DASHBOARDState extends State<DASHBOARD> {
         'panel': PANELTICKET(user: userActif, redraw: () => setState(() {})),
         'icon': Icons.receipt_rounded
       },
-      {'title': 'Mon réseau', 'panel': MYHYERARCHY(), 'icon': Icons.groups},
+      {
+        'title': 'Mon réseau',
+        'panel': const MYHYERARCHY(),
+        'icon': Icons.groups
+      },
       {'title': 'A propos', 'panel': const APROPOS(), 'icon': Icons.help},
     ];
 

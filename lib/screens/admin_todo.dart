@@ -28,8 +28,7 @@ class _SCREEN_TODOState extends State<SCREEN_TODO> {
       setState(() => isConstruct = false);
     }
     return Scaffold(
-        appBar:
-            AppBar(title: const Text('TODO')),
+        appBar: AppBar(title: const Text('TODO')),
         body: ListView(children: _getItems()),
         floatingActionButton: FloatingActionButton(
             onPressed: () => _displayDialog(context),
@@ -156,10 +155,10 @@ class _SCREEN_TODOState extends State<SCREEN_TODO> {
   }
 
   List<Widget> _getItems() {
-    final List<Widget> _todoWidgets = <Widget>[];
+    final List<Widget> todoWidgets = <Widget>[];
     for (Map<String, dynamic> todo in todoList) {
-      _todoWidgets.add(_buildTodoItem(todo));
+      todoWidgets.add(_buildTodoItem(todo));
     }
-    return _todoWidgets;
+    return todoWidgets;
   }
 }

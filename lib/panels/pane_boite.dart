@@ -99,8 +99,10 @@ class _PANELBOITEState extends State<PANELBOITE> {
       // ignore: curly_braces_in_flow_control_structures
       toast.show(
           "Vous avez déjà atteint le nombre maximum de votre boite en cours !");
-    if (!EXP().checPrivillege_NbBoiteMaxe(userActif['level'], vuBoites.length))
+    if (!EXP()
+        .checPrivillege_NbBoiteMaxe(userActif['level'], vuBoites.length)) {
       return;
+    }
 
     setState(() {
       newBoite.redraw = () {

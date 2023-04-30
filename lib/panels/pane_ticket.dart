@@ -459,7 +459,6 @@ class TICKET extends StatelessWidget {
 // ==================================================================================
 // ==================================================================================
 
-// ignore: must_be_immutable
 class PANELTICKET extends StatefulWidget {
   PANELTICKET({Key? key, required this.user, required this.redraw})
       : super(key: key);

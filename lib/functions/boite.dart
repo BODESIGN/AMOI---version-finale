@@ -380,8 +380,9 @@ class BOITE {
       // ignore: curly_braces_in_flow_control_structures
       toast.show(
           "Vous avez déjà attein le nombre maximum de votre boite en cours !");
-    if (!EXP().checPrivillege_NbBoiteMaxe(userActif['level'], nbMyBoite))
+    if (!EXP().checPrivillege_NbBoiteMaxe(userActif['level'], nbMyBoite)) {
       return;
+    }
 
     bool haveSortant = true;
 

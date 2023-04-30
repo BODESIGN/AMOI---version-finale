@@ -3,6 +3,7 @@ import 'package:amoi/component/label.dart';
 import 'package:amoi/main.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class PANEL extends StatefulWidget {
   PANEL({Key? key, required this.tab}) : super(key: key);
 

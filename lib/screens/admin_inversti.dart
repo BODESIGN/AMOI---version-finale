@@ -4,6 +4,7 @@ import 'package:amoi/main.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+// ignore: camel_case_types
 class SCREEN_ALL_INVEST extends StatefulWidget {
   const SCREEN_ALL_INVEST({Key? key}) : super(key: key);
 
@@ -11,6 +12,7 @@ class SCREEN_ALL_INVEST extends StatefulWidget {
   State<SCREEN_ALL_INVEST> createState() => _SCREEN_ALL_INVESTState();
 }
 
+// ignore: camel_case_types
 class _SCREEN_ALL_INVESTState extends State<SCREEN_ALL_INVEST> {
   List<Widget> vuBoites = [];
   bool isConstruct = true;

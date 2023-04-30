@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_simple_treeview/flutter_simple_treeview.dart';
 
 class MYHYERARCHY extends StatefulWidget {
-  MYHYERARCHY({Key? key}) : super(key: key);
+  const MYHYERARCHY({Key? key}) : super(key: key);
 
   reloadListe() {}
 
@@ -114,11 +114,12 @@ class _MYHYERARCHYState extends State<MYHYERARCHY> {
       });
     }
 
-    return SizedBox(width: double.maxFinite,
+    return SizedBox(
+      width: double.maxFinite,
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal, child:  TreeView(nodes: vuTree)),
+            scrollDirection: Axis.horizontal, child: TreeView(nodes: vuTree)),
       ),
     );
   }

@@ -222,8 +222,10 @@ class FIREBASE {
         }
         actionAfter(liste);
       }).onError((error, stackTrace) {
-        print("HERE 345 : ${error.toString()}");
-        print(stackTrace.toString());
+        if (kDebugMode) {
+          print("HERE 345 : ${error.toString()}");
+          print(stackTrace.toString());
+        }
         actionAfter([]);
       });
     } else if (haveLimit == false && haveOrder == true) {
@@ -239,7 +241,9 @@ class FIREBASE {
         }
         actionAfter(liste);
       }).onError((error, stackTrace) {
-        print("HERE 346 : ${error.toString()}");
+        if (kDebugMode) {
+          print("HERE 346 : ${error.toString()}");
+        }
         actionAfter([]);
       });
     } else if (haveLimit == true && haveOrder == false) {
@@ -251,7 +255,9 @@ class FIREBASE {
         }
         actionAfter(liste);
       }).onError((error, stackTrace) {
-        print("HERE 347 : ${error.toString()}");
+        if (kDebugMode) {
+          print("HERE 347 : ${error.toString()}");
+        }
         actionAfter([]);
       });
     } else {
@@ -263,7 +269,9 @@ class FIREBASE {
         }
         actionAfter(liste);
       }).onError((error, stackTrace) {
-        print("HERE 348 : ${error.toString()}");
+        if (kDebugMode) {
+          print("HERE 348 : ${error.toString()}");
+        }
         actionAfter([]);
       });
     }
@@ -388,7 +396,9 @@ class FIREBASE {
         actionAfter('error');
       });
     }).catchError((error) {
-      print("Erreur de la mis a jour de la fiche");
+      if (kDebugMode) {
+        print("Erreur de la mis a jour de la fiche");
+      }
       actionAfter('error');
     });
   }
@@ -442,7 +452,9 @@ class FIREBASE {
         actionAfter('error');
       });
     }).catchError((error) {
-      print("Erreur de la mis a jour de la fiche");
+      if (kDebugMode) {
+        print("Erreur de la mis a jour de la fiche");
+      }
       actionAfter('error');
     });
   }
@@ -646,7 +658,7 @@ class FIREBASE {
         .then((querySnapshot) {
       List<Map<String, dynamic>> liste = [];
       for (var result in querySnapshot.docs) {
-        liste.add(result.data() as Map<String, dynamic>);
+        liste.add(result.data());
       }
       actionAfter(liste);
     }).onError((error, stackTrace) => actionAfter([]));

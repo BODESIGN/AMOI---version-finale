@@ -21,6 +21,6 @@ class _SCREEN_ALL_TREESState extends State<SCREEN_ALL_TREE> {
             titleTextStyle: const TextStyle(
                 fontSize: 13, color: Colors.black, fontWeight: FontWeight.bold),
             foregroundColor: Colors.black),
-        body: MYHYERARCHY());
+        body: const MYHYERARCHY());
   }
 }

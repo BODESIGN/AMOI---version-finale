@@ -20,7 +20,6 @@ import 'package:flutter/services.dart';
 // import 'package:package_info/package_info.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SECONNECT extends StatefulWidget {
   const SECONNECT({Key? key}) : super(key: key);
@@ -149,19 +148,19 @@ class _SECONNECTState extends State<SECONNECT> {
     });
   }
 
-  _launchFile(BuildContext context, String filePath) async {
-    final file = File(filePath);
-    final contentUri = await getUriForFile(context, file);
-    try {
-      await launchUrl(contentUri);
-    } on PlatformException catch (e) {}
-  }
+  // _launchFile(BuildContext context, String filePath) async {
+  //   final file = File(filePath);
+  //   final contentUri = await getUriForFile(context, file);
+  //   try {
+  //     await launchUrl(contentUri);
+  //   } on PlatformException catch (e) {}
+  // }
 
   Future<Uri> getUriForFile(BuildContext context, File file) async {
-    final directory = await getExternalStorageDirectory();
-    final path = '${directory?.path}';
-    final newPath = '$path/${file.path.split('/').last}';
-    final newFile = await file.copy(newPath);
+    // final directory = await getExternalStorageDirectory();
+    // final path = '${directory?.path}';
+    // final newPath = '$path/${file.path.split('/').last}';
+    // final newFile = await file.copy(newPath);
     final contentUri = Uri.parse(
         'content://${packageInfo?.packageName}.fileprovider/my_files/${file.path.split('/').last}');
     return contentUri;
@@ -222,7 +221,8 @@ class _SECONNECTState extends State<SECONNECT> {
     if (status.isDenied) {
       // You can request multiple permissions at once.
       try {
-        Map<Permission, PermissionStatus> statuses = await [
+        // Map<Permission, PermissionStatus> statuses =
+        await [
           Permission.storage,
           Permission.accessMediaLocation,
           Permission.manageExternalStorage,

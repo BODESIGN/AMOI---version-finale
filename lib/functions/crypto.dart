@@ -129,14 +129,14 @@ class CRYPTO {
   // ===========================================================
   crypte(String text) {
     String res = '';
-    text.runes.forEach((int rune) {
+    for (var rune in text.runes) {
       var character = String.fromCharCode(rune);
       String c = character;
       for (var i = 0; i < encode.length; i++) {
         if (character == encode[i]) c = to[i];
       }
       res = "$res$c";
-    });
+    }
 
     return res;
   }
@@ -144,14 +144,14 @@ class CRYPTO {
   // ===========================================================
   deCrypte(String text) {
     String res = '';
-    text.runes.forEach((int rune) {
+    for (var rune in text.runes) {
       var character = String.fromCharCode(rune);
       String c = character;
       for (var i = 0; i < to.length; i++) {
         if (character == to[i]) c = encode[i];
       }
       res = "$res$c";
-    });
+    }
     return res;
   }
 }

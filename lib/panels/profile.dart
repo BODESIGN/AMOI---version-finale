@@ -227,7 +227,7 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
   // ===========================================================
   late File imgFile;
   final imgPicker = ImagePicker();
-  final FirebaseStorage _storage = FirebaseStorage.instance;
+  // final FirebaseStorage _storage = FirebaseStorage.instance;
 
   void openCamera() async {
     // ignore: deprecated_member_use
@@ -294,8 +294,9 @@ class _PANELPROFILEState extends State<PANELPROFILE> {
 
     setState(() {
       fullname.setText(widget.user['fullname'].toString());
-      if (widget.user['tel'] != null)
+      if (widget.user['tel'] != null) {
         contact.setText(widget.user['tel'].toString());
+      }
     });
 
     return SingleChildScrollView(
